@@ -9,6 +9,8 @@ vad försöker jag göra?
 -   /backend
 -   /frontend
 
+![alt text](architecture.png)
+
 ### Analysis
 
 Flowet ska vara att en address kommer in, addressen analyseras, addressen sparas om den bedöms vara intressant. Utifrån analysen ger vi addressen labels. Exempel på saker som kan analyseras hos en address:
