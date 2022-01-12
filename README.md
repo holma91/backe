@@ -1,19 +1,26 @@
-# Root
+# Översikt
 
 vad försöker jag göra?
 
 4 olika repos
 
 -   /analysis
--   /backend
 -   /bots
+-   /backend
 -   /frontend
 
 ### Analysis
 
--   Analysera addresser
-    -   sparar addresser av intresse och sätter en label på dom
-    -   bygger upp en databas med dessa addresser och information om dem
+Flowet ska vara att en address kommer in, addressen analyseras, addressen sparas om den bedöms vara intressant. Utifrån analysen ger vi addressen labels. Exempel på saker som kan analyseras hos en address:
+
+-   profitability
+    -   totalt sedan kontot "skapades", men även under perioder. T.ex. kan det vara intressant att veta vilka konton som var lönsamma under senaste bear perioden.
+    -   hur har addressen varit lönsam? erc20-tokens? NFTs? memecoins? är det en trader? är det en developer? Finns många alternativ, givetvis intressant att veta vad detta kontots "profil" är. T.ex. följer man en adress som har varit tidig till dogecoin, shib osv så kan det vara ett tecken på att man kaaaanske borde följa efter nästa gång adressen köper ett nytt dogcoin.
+-   connections
+    -   vilka andra adresser är denna adress kopplad till? vilka tokens är den kopplad till? vilka nfts? osv.
+    -   vilka andra kedjor är denna address kopplad till? (Väldigt intressant). Alla EVM-compatible kedjor delar addresser, så om man ser att en ethereum whale "bridgear" till t.ex. avalanche kan det vara bra att följa dens rörelser.
+-   portfolio
+    -   vad har denna adress haft genom åren? vad håller den just nu?
 
 ### Bots
 
@@ -21,6 +28,7 @@ vad försöker jag göra?
     -   detta är bottarna som härjar på blockkedjorna, exempel på vad de gör/ska göra är
         -   lyssna på olika DEXes när nya par skapas
         -   analysera en token utifrån all information som är tillgänglig när den skapas
+            -   till exempel så kan skaparen av denna token hittas, och om man ser att denna address är legit kan det vara värt att köpa medan om man ser att denna adress "skapades" för 10 minuter sedan så finns det en större risk att det är en scam.
         -   lyssna på olika addresser för att se vad de köper och säljer
         -   köpa och sälja automatiskt utifrån analysen ovan (kommer endast gå i vissa fall, men målet är att automatisera så mycket som möjligt)
             -   exempelscenario: Vi har en adress som enligt våra uträkningar har dessa stats (bland annat):
@@ -45,8 +53,20 @@ vad försöker jag göra?
 
 ### backend
 
-En API som exponerar databasen med addresser
+I princip en REST API bara, som exponerar databasens innehåll. Bottarna och klienten kommer att använda sig av denna API. Denna databas är alltså den där allting från analysen hamnar. Just nu en postgressql databas och en API i python med fastAPI. Inte så mycket som kommer in i databasen här ifrån, om ens något. Kanske hjälpsamt att kunna göra saker manuellt från klienten, t.ex. lägga in en ny address man vill följa.
 
 ### frontend
 
-Först och främst en dashboard som visar vad som försiggår i databasen, men även som visar vad som försiggår on-chain rent generellt också.
+Först och främst en dashboard/trading view som visar vad som försiggår i databasen, men även som visar vad som försiggår on-chain rent generellt också. Så att denna dashboard ska visa allt som finns i databasen är givet, men den ska även annan information som går att få via olika api-tjänster t.ex.
+
+-   defillama.com för stats om defi i allmänhet
+-   dexscreener.com som har charts för mindre tokens
+-   etherscan.com, bscscan.com, ftmscan.com osv. för information om det mesta
+
+Målet är denna app ska kunna ge så mycket information som möjligt på så liten yta som möjligt. Inte UI/UX för nybörjare, det ska vara en rätt avancerad "trading view". Saker man ska kunna göra i real-time (med websockets) är bland annat:
+
+-   se vad addresser man följer gör
+-   se nya tokens
+-   se vad våra bottar gör
+
+Är en react app med nextjs.org
