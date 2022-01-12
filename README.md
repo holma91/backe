@@ -1,8 +1,9 @@
 # Översikt
 
-vad försöker jag göra?
+kolla stuff.md för läroresurser
 
-4 olika repos
+vad försöker jag göra?
+Arbetet är i princip uppdelat i 4 delar
 
 -   /analysis
 -   /bots

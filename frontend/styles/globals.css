@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* CONTENT CONTAINER */
+.content-container {
+    @apply flex flex-col m-0 h-full w-full overflow-hidden;
+}
+
+/* TOP NAVIGATION */
+.top-navigation {
+    @apply flex flex-row items-center justify-evenly bg-gray-300
+  dark:bg-gray-700 bg-opacity-90 w-full h-16 m-0 shadow-lg;
+}
+
+.top-navigation-icon {
+    @apply text-gray-500 mr-3 ml-4 transition duration-300 
+  ease-in-out hover:text-pink-400 cursor-pointer;
+}
+
+.top-navigation-icon:first {
+    @apply ml-auto mr-4;
+}
+
+.title-hashtag {
+    @apply text-lg tracking-wider font-semibold text-gray-500 ml-2 my-auto;
+}
+
+.title-text {
+    @apply text-xl text-gray-500 tracking-wider font-semibold text-opacity-80 
+  mr-auto ml-2 my-auto transition duration-300 ease-in-out;
+}
+
+.search {
+    @apply w-1/5 flex items-center justify-start bg-gray-400 dark:bg-gray-600
+  text-gray-500 px-2 h-9 ml-0 mr-0 rounded-md shadow-md transition duration-300 ease-in-out;
+}
+
+.search-input {
+    @apply w-full font-sans font-semibold bg-transparent 
+  outline-none text-gray-500  placeholder-gray-500 pl-1 rounded;
+}
+/* CHANNEL BAR */
+
+.channel-bar {
+    @apply sticky top-0 w-80 h-auto m-0 bg-gray-200 dark:bg-gray-800 overflow-hidden;
+}
+
+.channel-container {
+    @apply flex flex-col items-center justify-start p-1 m-0;
+}
+
+.channel-block {
+    @apply flex items-center justify-center h-16 m-0 p-0;
+}
+
+.channel-block-text {
+    @apply text-lg tracking-wider font-bold text-gray-600 dark:text-gray-400 
+  mr-auto ml-4 my-auto align-middle;
+}
+
+.dropdown {
+    @apply m-0 w-full px-2 pb-2 transition duration-300 ease-in-out;
+}
+
+.dropdown-header {
+    @apply flex flex-row items-start mx-0 text-gray-500 cursor-pointer;
+}
+
+.dropdown-header-text {
+    @apply text-gray-500  text-opacity-90 text-lg font-bold cursor-default;
+}
+
+.dropdown-header-text-selected {
+    @apply text-blue-500 text-opacity-90 text-lg font-bold;
+}
+
+.dropdown-selection {
+    @apply flex flex-row items-center justify-evenly mt-1 mr-auto ml-2
+    transition duration-300 ease-in-out cursor-pointer;
+}
+
+.dropdown-selection-text {
+    @apply text-gray-500 font-semibold tracking-wide mr-auto transition duration-300 ease-in-out 
+hover:text-pink-500 dark:hover:text-gray-500 cursor-pointer;
+}
+
+@tailwind utilities;
