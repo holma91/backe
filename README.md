@@ -9,22 +9,31 @@ Några nice resurser:
 -   https://a16z.com/crypto-startup-school/
 -   https://a16z.com/2019/11/08/crypto-glossary/
 
+defi
+
+-   https://ethereum.org/en/defi/
+-   https://academy.binance.com/en/articles/what-is-uniswap-and-how-does-it-work
+
 solidity
 
 -   cryptozombies.io
 -   buildspace.io
 -   https://docs.soliditylang.org/en/v0.8.11/
 
-Arbetet är i princip uppdelat i 4 delar
+projektet är i princip uppdelat i 4 delar
 
--   /analysis
+-   /analys
 -   /bots
 -   /backend
 -   /frontend
 
+mål
+![alt text](shitcoinsauron.png)
+
+arkitektur
 ![alt text](architecture.png)
 
-### Analysis
+### Analys
 
 Flowet ska vara att en address kommer in, addressen analyseras, addressen sparas om den bedöms vara intressant. Utifrån analysen ger vi addressen labels. Exempel på saker som kan analyseras hos en address:
 
@@ -82,6 +91,6 @@ Målet är denna app ska kunna ge så mycket information som möjligt på så li
 
 -   se vad addresser man följer gör
 -   se nya tokens
--   se vad våra bottar gör
+-   se vad bottarna gör
 
 Är en react app med nextjs.org

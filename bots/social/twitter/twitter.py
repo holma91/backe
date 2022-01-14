@@ -3,6 +3,7 @@ import json
 
 from twitter_env import BEARER_TOKEN_1, BEARER_TOKEN_2
 
+# "$jewel" until:2021-10-15 since:2021-09-30
 # worthy twitter accounts
 accounts = ["blknoiz06",
             "satsdart",
@@ -31,7 +32,37 @@ accounts = ["blknoiz06",
             "loomdart",
             "AndreCronjeTech",
             "jebus911",
-            "CryptoKaleo"]
+            "CryptoKaleo",
+            "gainzxbt",
+            "inversebrah",
+            "Tradermayne",
+            "CryptoCred",
+            "ledgerstatus",
+            "bitcoinpanda69",
+            "LomahCrypto",
+            "IamNomad",
+            "lightcrypto",
+            "HentaiAvenger69",
+            "MoonOverlord",
+            "KyleLDavies",
+            "_krutches",
+            "mattigags",
+            "zhusu",
+            "0xtuba",
+            "0xSisyphus",
+            "tztokchad",
+            "tz_binance",
+            "icebergy_",
+            "DaRealMilkBagz",
+            "depression2019",
+            "Sicarious_",
+            "Route2FI",
+            "fishxbt",
+            "NaniXBT",
+            "ercwl",
+            "twobitidiot",
+            "hosseeb"
+            ]
 
 client = tweepy.Client(bearer_token=BEARER_TOKEN_1, wait_on_rate_limit=True)
 
@@ -88,11 +119,5 @@ def get_tweets():
 
 
 # print(json.dumps(get_following('satsdart'), indent=2))
-for username in accounts:
-    try:
-        print(get_id_from_username(username))
-    except Exception as e:
-        print(username, ": ", e)
-
 # print(json.dumps(get_interesting_accounts(accounts), indent=2))
 # python twitter.py > accounts.json

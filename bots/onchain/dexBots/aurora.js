@@ -1,6 +1,6 @@
 import ethers from 'ethers';
 import { MNEMONIC, AURORA_HTTP } from '../env.js';
-import { uniV2Factory } from '../utils/utils.js';
+import { uniV2Factory, onPairCreated } from '../utils/utils.js';
 
 const addresses = {
     WBNB: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
