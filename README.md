@@ -1,8 +1,20 @@
 # Översikt
 
-kolla stuff.md för läroresurser
+Några nice resurser:
 
-vad försöker jag göra?
+-   ethereum whitepaper - https://ethereum.org/en/whitepaper/
+-   ethereum docs - https://ethereum.org/en/developers/docs/
+-   mastering ethereum - https://github.com/ethereumbook/ethereumbook
+-   https://danromero.org/crypto-reading/
+-   https://a16z.com/crypto-startup-school/
+-   https://a16z.com/2019/11/08/crypto-glossary/
+
+solidity
+
+-   cryptozombies.io
+-   buildspace.io
+-   https://docs.soliditylang.org/en/v0.8.11/
+
 Arbetet är i princip uppdelat i 4 delar
 
 -   /analysis

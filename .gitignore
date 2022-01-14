@@ -1,0 +1,28 @@
+### ANALYSIS ###
+
+### BACKEND ###
+
+### BOTS ###
+
+bots/onchain/env.js
+bots/onchain/node_modules
+bots/social/twitter/twitter_env.py
+bots/social/twitter/env
+bots/social/twitter/__pycache__
+
+###### FRONTEND #######
+frontend/node_modules
+
+# next.js
+frontend/.next/
+frontend/out/
+
+# production
+frontend/build
+
+# misc
+.DS_Store
+*.pem
+
+# vercel
+.vercel

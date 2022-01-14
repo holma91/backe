@@ -24,7 +24,7 @@ accounts = ["blknoiz06",
             "cmsholdings",
             "GiganticRebirth",
             "ZeMariaMacedo",
-            "danielesest",
+            "danielesesta",
             "AlgodTrading",
             "CryptoMessiah",
             "AltcoinPsycho",
@@ -88,6 +88,11 @@ def get_tweets():
 
 
 # print(json.dumps(get_following('satsdart'), indent=2))
-# print(get_id_from_username('blknoiz06'))
+for username in accounts:
+    try:
+        print(get_id_from_username(username))
+    except Exception as e:
+        print(username, ": ", e)
+
 # print(json.dumps(get_interesting_accounts(accounts), indent=2))
 # python twitter.py > accounts.json
