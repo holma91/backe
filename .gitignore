@@ -1,11 +1,15 @@
-### ANALYSIS ###
+### ANALYS ###
+analys/env
+
 
 ### BACKEND ###
+backend/node_modules
 
 ### BOTS ###
 
 bots/onchain/env.js
 bots/onchain/node_modules
+bots/onchain/discord/config.js
 bots/social/twitter/twitter_env.py
 bots/social/twitter/env
 bots/social/twitter/__pycache__

@@ -1,0 +1,2367 @@
+[
+    {
+        "address": "0x4dc98c79a52968a6c20ce9a7a08d5e8d1c2d5605",
+        "label": "no label",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x05f51aab068caa6ab7eeb672f88c180f67f17ec7",
+        "label": "ABCC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2ddd202174a72514ed522e77972b461b03155525",
+        "label": "Alcumex Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xaecbe94703df39b49ac440feb177c7f1f782c064",
+        "label": "APROBIT",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xf0c80fb9fb22bef8269cb6feb9a51130288a671f",
+        "label": "Artis Turba Exchange 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x94597850916a49b3b152ee374e97260b99249f5b",
+        "label": "Artis Turba Exchange 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x82a403c14483931b2ff6e4440c8373ccfee698b8",
+        "label": "ArzPaya.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x03bdf69b1322d623836afbd27679a1c0afa067e9",
+        "label": "AscendEX 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4b1a99467a284cc690e3237bc69105956816f762",
+        "label": "AscendEX 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x986a2fca9eda0e06fbf7839b89bfc006ee2a23dd",
+        "label": "AscendEX 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4df5f3610e2471095a130d7d934d551f3dde01ed",
+        "label": "ATAIX",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x92dbd8e0a46edd62aa42d1f7902d0e496bddc15a",
+        "label": "Azbit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xadb72986ead16bdbc99208086bd431c1aa38938e",
+        "label": "Beaxy",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x258b7b9a1ba92f47f5f4f5e733293477620a82cb",
+        "label": "Beldex",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7a10ec7d68a048bdae36a70e93532d31423170fa",
+        "label": "Bgogo 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xce1bf8e51f8b39e51c6184e059786d1c0eaf360f",
+        "label": "Bgogo 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf73c3c65bde10bf26c2e1763104e609a41702efe",
+        "label": "Bibox",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0bb5de248dbbd31ee6c402c3c4a70293024acf74",
+        "label": "Bidesk 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xed5cdb0d02152046e6f234ad578613831b9184d4",
+        "label": "Bidesk 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa30d8157911ef23c46c0eb71889efe6a648a41f7",
+        "label": "BigONE",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6eff3372fa352b239bb24ff91b423a572347000d",
+        "label": "BIKI.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf7793d27a1b76cdf14db7c83e82c772cf7c92910",
+        "label": "Bilaxy 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xcce8d59affdd93be338fc77fa0a298c2cb65da59",
+        "label": "Bilaxy 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be",
+        "label": "Binance",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x85b931a32a0725be14285b66f1a22178c672d69b",
+        "label": "Binance 10",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x708396f17127c42383e3b9014072679b2f60b82f",
+        "label": "Binance 11",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe0f0cfde7ee664943906f17f7f14342e76a5cec7",
+        "label": "Binance 12",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8f22f2063d253846b53609231ed80fa571bc0c8f",
+        "label": "Binance 13",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x28c6c06298d514db089934071355e5743bf21d60",
+        "label": "Binance 14",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x21a31ee1afc51d94c2efccaa2092ad1028285549",
+        "label": "Binance 15",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xdfd5293d8e347dfe59e90efd55b2956a1343963d",
+        "label": "Binance 16",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x56eddb7aa87536c09ccc2793473599fd21a8b17f",
+        "label": "Binance 17",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9696f59e4d72e237be84ffd425dcad154bf96976",
+        "label": "Binance 18",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4d9ff50ef4da947364bb9650892b2554e7be5e2b",
+        "label": "Binance 19",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd551234ae421e3bcba99a0da6d736074f22192ff",
+        "label": "Binance 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4976a4a02f38326660d17bf34b431dc6e2eb2327",
+        "label": "Binance 20",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd88b55467f58af508dbfdc597e8ebd2ad2de49b3",
+        "label": "Binance 21",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7dfe9a368b6cf0c0309b763bb8d16da326e8f46e",
+        "label": "Binance 22",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x345d8e3a1f62ee6b1d483890976fd66168e390f2",
+        "label": "Binance 23",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc3c8e0a39769e2308869f7461364ca48155d1d9e",
+        "label": "Binance 24",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2e581a5ae722207aa59acd3939771e7c7052dd3d",
+        "label": "Binance 25",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x44592b81c05b4c35efb8424eb9d62538b949ebbf",
+        "label": "Binance 26",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd5fd1bc99d5801278345e9d29be2225d06c26e93",
+        "label": "Binance 27",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xbb3fd383d1c5540e52ef0a7bcb9433375793aeaf",
+        "label": "Binance 28",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x06a0048079ec6571cd1b537418869cde6191d42d",
+        "label": "Binance 29",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x564286362092d8e7936f0549571a803b203aaced",
+        "label": "Binance 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x892e9e24aea3f27f4c6e9360e312cce93cc98ebe",
+        "label": "Binance 30",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x00799bbc833d5b168f0410312d2a8fd9e0e3079c",
+        "label": "Binance 31",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x141fef8cd8397a390afe94846c8bd6f4ab981c48",
+        "label": "Binance 32",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0681d8db095565fe8a346fa0277bffde9c0edbbf",
+        "label": "Binance 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfe9e8709d3215310075d67e3ed32a380ccf451c8",
+        "label": "Binance 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4e9ce36e442e55ecd9025b9a6e0d88485d628a67",
+        "label": "Binance 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xbe0eb53f46cd790cd13851d5eff43d12404d33e8",
+        "label": "Binance 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf977814e90da44bfa03b6295a0616a897441acec",
+        "label": "Binance 8",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x001866ae5b3de6caa5a51543fd9fb64f524f5478",
+        "label": "Binance 9",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xab83d182f3485cf1d6ccdd34c7cfef95b4c08da4",
+        "label": "Binance JEX",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4b729cf402cfcffd057e254924b32241aedc1795",
+        "label": "Bit-Z",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7c49e1c0e33f3efb57d64b7690fa287c8d15b90a",
+        "label": "Bit2C",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2b49ce21ad2004cfb3d0b51b2e8ec0406d632513",
+        "label": "Bitbee",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5d375281582791a38e0348915fa9cbc6139e9c2a",
+        "label": "BitBlinx",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7a91a362d4f2c9c4627688d5b7090bbb12e5715f",
+        "label": "Bitci",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x28ebe764b8f9a853509840645216d3c2c0fd774b",
+        "label": "BiteBTC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7217d64f77041ce320c356d1a2185bcb89798a0a",
+        "label": "Bitexlive",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x57a47cfe647306a406118b6cf36459a1756823d0",
+        "label": "Bitexlive 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1151314c646ce4e0efd76d1af4760ae66a9fe30f",
+        "label": "Bitfinex 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x36a85757645e8e8aec062a1dee289c7d615901ca",
+        "label": "Bitfinex 10",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc56fefd1028b0534bfadcdb580d3519b5586246e",
+        "label": "Bitfinex 11",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0b73f67a49273fc4b9a65dbd25d7d0918e734e63",
+        "label": "Bitfinex 12",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x482f02e8bc15b5eabc52c6497b425b3ca3c821e8",
+        "label": "Bitfinex 13",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x742d35cc6634c0532925a3b844bc454e4438f44e",
+        "label": "Bitfinex 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x876eabf441b2ee5b5b0554fd502a8e0600950cfa",
+        "label": "Bitfinex 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xdcd0272462140d0a3ced6c4bf970c7641f08cd2c",
+        "label": "Bitfinex 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4fdd5eb2fb260149a3903859043e962ab89d8ed4",
+        "label": "Bitfinex 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1b29dd8ff0eb3240238bf97cafd6edea05d5ba82",
+        "label": "Bitfinex 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x30a2ebf10f34c6c4874b0bdd5740690fd2f3b70c",
+        "label": "Bitfinex 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3f7e77b627676763997344a1ad71acb765fc8ac5",
+        "label": "Bitfinex 8",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x59448fe20378357f206880c58068f095ae63d5a5",
+        "label": "Bitfinex 9",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xab7c74abc0c4d48d1bdad5dcb26153fc8780f83e",
+        "label": "Bitfinex: MultiSig 1",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xc6cde7c39eb2f0f0095f41570af89efc2c1ea828",
+        "label": "Bitfinex: MultiSig 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xc61b9bb3a7a0767e3179713f3a5c7a9aedce193c",
+        "label": "Bitfinex: MultiSig 3",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x111cff45948819988857bbf1966a0399e0d1141e",
+        "label": "bitFlyer",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xdf5021a4c1401f1125cd347e394d977630e17cf7",
+        "label": "BITFRONT",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x88d34944cf554e9cccf4a24292d891f620e9c94f",
+        "label": "Bithumb 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x186549a4ae594fc1f70ba4cffdac714b405be3f9",
+        "label": "Bithumb 10",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd273bd546b11bd60214a2f9d71f22a088aafe31b",
+        "label": "Bithumb 11",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x558553d54183a8542f7832742e7b4ba9c33aa1e6",
+        "label": "Bithumb 12",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3052cd6bf951449a984fe4b5a38b46aef9455c8e",
+        "label": "Bithumb 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2140efd7ba31169c69dfff6cdc66c542f0211825",
+        "label": "Bithumb 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa0ff1e0f30b5dda2dc01e7e828290bc72b71e57d",
+        "label": "Bithumb 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc1da8f69e4881efe341600620268934ef01a3e63",
+        "label": "Bithumb 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb4460b75254ce0563bb68ec219208344c7ea838c",
+        "label": "Bithumb 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x15878e87c685f866edfaf454be6dc06fa517b35b",
+        "label": "Bithumb 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x31d03f07178bcd74f9099afebd23b0ae30184ab5",
+        "label": "Bithumb 8",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xed48dc0628789c2956b1e41726d062a86ec45bff",
+        "label": "Bithumb 9",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3fbe1f8fc5ddb27d428aa60f661eaaab0d2000ce",
+        "label": "Bithumb: Contract 1",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xe79eef9b9388a4ff70ed7ec5bccd5b928ebb8bd1",
+        "label": "BitMart",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x68b22215ff74e3606bd5e6c1de8c2d68180c85f7",
+        "label": "BitMart 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x00bdb5699745f5b860228c8f939abf1b9ae374ed",
+        "label": "Bitstamp 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1522900b6dafac587d499a862861c0869be6e428",
+        "label": "Bitstamp 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x9a9bed3eb03e386d66f8a29dc67dc29bbb1ccb72",
+        "label": "Bitstamp 3",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x059799f2261d37b829c2850cee67b5b975432271",
+        "label": "Bitstamp 4",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x4c766def136f59f6494f0969b1355882080cf8e0",
+        "label": "Bitstamp 5",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xc5b611f502a0dcf6c3188fd494061ae29b2baa4f",
+        "label": "Bitstamp 6",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x964771f6df31eea2d927fa71d7bd78e81bcdce05",
+        "label": "Bitstamp: Contract 1",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x1b8a38ea02ceda9440e00c1aeba26ee2dc570423",
+        "label": "BITStorage",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98",
+        "label": "Bittrex",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe94b04a0fed112f3664e45adb2b8915693dd5ff3",
+        "label": "Bittrex 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x66f820a414680b5bcda5eeca5dea238543f42054",
+        "label": "Bittrex 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xaa90b4aae74cee41e004bc45e45a427406c4dcae",
+        "label": "BitUN.io 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf8d04a720520d0bcbc722b1d21ca194aa22699f2",
+        "label": "BitUN.io 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfb9f7f41319157ac5c5dccae308a63a4337ad5d9",
+        "label": "Bity.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x00cdc153aa8894d08207719fe921fff964f28ba3",
+        "label": "Bitzlato",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x007174732705604bbbf77038332dc52fd5a5000c",
+        "label": "BlockTrades Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xdf8752caa319668006580ddf48db25a23728b926",
+        "label": "Bololex.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1c00d840ccaa67c494109f46e55cfeb2d8562f5c",
+        "label": "BTC-Alpha Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x73957709695e73fd175582105c44743cf0fb6f2f",
+        "label": "Bw.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd7c866d0d536937bf9123e02f7c052446588189f",
+        "label": "C2CX: Hot Wallet",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x88988d6ef12d7084e34814b9edafa01ae0d05082",
+        "label": "CamboChanger 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x72bcfa6932feacd91cb2ea44b0731ed8ae04d0d3",
+        "label": "Cashierest",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7a56f645dcb513d0326cbaa048e9106ff6d4cd5f",
+        "label": "Catex Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfd648cc72f1b4e71cbdda7a0a91fe34d32abd656",
+        "label": "ChainX",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x96fc4553a00c117c5b0bed950dd625d1c16dc894",
+        "label": "Changelly",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8958618332df62af93053cb9c535e26462c959b0",
+        "label": "Cobinhood 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb726da4fbdc3e4dbda97bb20998cf899b0e727e0",
+        "label": "Cobinhood 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x71660c4005ba85c37ccec55d0c4493e66fe775d3",
+        "label": "Coinbase 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x503828976d22510aad0201ac7ec88293211d23da",
+        "label": "Coinbase 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xddfabcdc4d8ffc6d5beaf154f18b778f892a0740",
+        "label": "Coinbase 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3cd751e6b0078be393132286c442345e5dc49699",
+        "label": "Coinbase 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb5d85cbf7cb3ee0d56b3bb207d5fc4b82f43f511",
+        "label": "Coinbase 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xeb2629a2734e272bcc07bda959863f316f4bd4cf",
+        "label": "Coinbase 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9539e0b14021a43cde41d9d45dc34969be9c7cb0",
+        "label": "Coinbene",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x33683b94334eebc9bd3ea85ddbda4a86fb461405",
+        "label": "Coinbene: Cold Wallet",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb6ba1931e4e74fd080587688f6db10e830f810d5",
+        "label": "Coindelta",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb9ee1e551f538a464e8f8c41e9904498505b49b0",
+        "label": "Coinex",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4b01721f0244e7c5b5f63c20942850e447f5a5ee",
+        "label": "CoinExchange.io",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd4bddf5e3d0435d7a6214a0b949c7bb58621f37c",
+        "label": "Coinhako",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf2d4766ad705e3a5c9ba5b0436b473085f82f82f",
+        "label": "Coinhako: Warm Wallet",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xa270f3ad1a7a82e6a3157f12a900f1e25bc4fbfd",
+        "label": "CoinMetro Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x167a9333bf582556f35bd4d16a7e80e191aa6476",
+        "label": "Coinone",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1e2fcfd26d36183f1a5d90f0e6296915b02bcb40",
+        "label": "Coinone 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd0808da05cc71a9f308d330bc9c5c81bbc26fc59",
+        "label": "Coinswitch",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8705ccfd8a6df3785217c307cbebf9b793310b94",
+        "label": "CoinW",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xcb243bf48fb443082fae7db47ec96cb120cd6801",
+        "label": "CoinW 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x429bf8ec3330e02401d72beade86000d9a2e19eb",
+        "label": "CoinW 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6f31d347457962c9811ff953742870ef5a755de3",
+        "label": "CoinW 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0d6b5a54f940bf3d52e438cab785981aaefdf40c",
+        "label": "COSS.io 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd1560b3984b7481cd9a8f40435a53c860187174d",
+        "label": "COSS.io: Old Warm Wallet",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x43f07efe28e092a0fe4ec5b5662022b461ffac80",
+        "label": "COSS.io: Warm Wallet",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x521db06bf657ed1d6c98553a70319a8ddbac75a3",
+        "label": "CREX24",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6262998ced04146fa42253a5c0af90ca02dfd2a3",
+        "label": "Crypto.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x46340b20830761efd32832a74d7169b29feb9758",
+        "label": "Crypto.com 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5baeac0a0417a05733884852aa068b706967e790",
+        "label": "Cryptopia 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2984581ece53a4390d1f568673cf693139c97049",
+        "label": "Cryptopia 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe17ee7b3c676701c66b395a35f0df4c2276a344e",
+        "label": "DigiFinex",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2101e480e22c953b37b9d0fe6551c1354fe705e6",
+        "label": "DMEX",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xf1c525a488a848b58b95d79da48c21ce434290f7",
+        "label": "Eidoo",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x608f94df1c1d89ea13e5984d7bf107df137a6541",
+        "label": "Eigen Fx",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xeb9ebf2c624ebee42e0853da6443ddc6c8020de7",
+        "label": "Eigen Fx 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8d76166c22658a144c0211d87abf152e6a2d9d95",
+        "label": "Eterbase",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd3808c5d48903be1490989f3fce2a2b3890e8eb6",
+        "label": "Exchange A",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1fd6267f0d86f62d88172b998390afee2a1f54b6",
+        "label": "Exmo 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd7b9a9b2f665849c4071ad5af77d8c76aa30fb32",
+        "label": "Exmo 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x94fe3ad91dacba8ec4b82f56ff7c122181f1535d",
+        "label": "Faa.st",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x915d7915f2b469bb654a7d903a5d4417cb8ea7df",
+        "label": "FCoin",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4e5b2e1dc63f6b91cb6cd759936495434c7e972f",
+        "label": "FixedFloat",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x14301566b9669b672878d86ff0b1d18dd58054e9",
+        "label": "Flata.Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x91e18ee76483fa2ec5cfe2959df46673c2565be0",
+        "label": "Flybit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0021845f4c2604c58f9ba5b7bff58d16a2ab372c",
+        "label": "Folgory Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2faf487a4414fe77e2327f0bf4ae2a264a776ad2",
+        "label": "FTX Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc098b2a3aa256d2140208c3de6543aaef5cd3a94",
+        "label": "FTX Exchange 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0d0707963952f2fba59dd06f2b425ace40b492fe",
+        "label": "Gate.io",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7793cd85c11a924478d358d49b05b37e91b5810f",
+        "label": "Gate.io 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1c4b70a3968436b9a0a9cf5205c787eb81bb558c",
+        "label": "Gate.io 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd793281182a0e3e023116004778f45c29fc14f19",
+        "label": "Gate.io: Contract",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x9f5ca0012b9b72e8f3db57092a6f26bf4f13dc69",
+        "label": "GBX",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd24400ae8bfebb18ca49be86258a3c749cf46853",
+        "label": "Gemini",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6fc82a5fe25a5cdb58bc74600a40a69c065263f8",
+        "label": "Gemini 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x61edcdf5bb737adffe5043706e7c5bb1f1a56eea",
+        "label": "Gemini 3",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x5f65f7b609678448494de4c87521cdf6cef1e932",
+        "label": "Gemini 4",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xb302bfe9c246c6e150af70b1caaa5e3df60dac05",
+        "label": "Gemini 5",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x8d6f396d210d385033b348bcae9e4f9ea4e045bd",
+        "label": "Gemini 6",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xd69b0089d9ca950640f5dc9931a41a5965f00303",
+        "label": "Gemini 7",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x07ee55aa48bb72dcc6e9d78256648910de513eca",
+        "label": "Gemini: Contract 1",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x9fb01a2584aac5aae3fab1ed25f86c5269b32999",
+        "label": "GGBTC.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9c67e141c0472115aa1b98bd0088418be68fd249",
+        "label": "HitBTC 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x59a5208b32e627891c389ebafc644145224006e8",
+        "label": "HitBTC 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa12431d0b9db640034b0cdfceef9cce161e62be4",
+        "label": "HitBTC 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x980a4732c8855ffc8112e6746bd62095b4c2228f",
+        "label": "Hoo.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd0ec209ad2134899148bec8aef905a6e9997456a",
+        "label": "Hoo.com 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x993b7fcba51d8f75c2dfaec0d17b6649ee0c9068",
+        "label": "Hoo.com 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xec293b9c56f06c8f71392269313d7e2da681d9ac",
+        "label": "Hoo.com 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0093e5f2a850268c0ca3093c7ea53731296487eb",
+        "label": "Hoo.com 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x008932be50098089c6a075d35f4b5182ee549f8a",
+        "label": "Hoo.com 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x274f3c32c90517975e29dfc209a23f315c1e5fc7",
+        "label": "Hotbit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8533a0bd9310eb63e7cc8e1116c18a3d67b1976a",
+        "label": "Hotbit 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x562680a4dc50ed2f14d75bf31f494cfe0b8d10a1",
+        "label": "Hotbit 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xab5c66752a9e8167967685f1450532fb96d5d24f",
+        "label": "Huobi 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe93381fb4c4f14bda253907b18fad305d799241a",
+        "label": "Huobi 10",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfa4b5be3f2f84f56703c42eb22142744e95a2c58",
+        "label": "Huobi 11",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x46705dfff24256421a05d056c29e81bdc09723b8",
+        "label": "Huobi 12",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x32598293906b5b17c27d657db3ad2c9b3f3e4265",
+        "label": "Huobi 13",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5861b8446a2f6e19a067874c133f04c578928727",
+        "label": "Huobi 14",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x926fc576b7facf6ae2d08ee2d4734c134a743988",
+        "label": "Huobi 15",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xeec606a66edb6f497662ea31b5eb1610da87ab5f",
+        "label": "Huobi 16",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7ef35bb398e0416b81b019fea395219b65c52164",
+        "label": "Huobi 17",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x229b5c097f9b35009ca1321ad2034d4b3d5070f6",
+        "label": "Huobi 18",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd8a83b72377476d0a66683cde20a8aad0b628713",
+        "label": "Huobi 19",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6748f50f686bfbca6fe8ad62b22228b87f31ff2b",
+        "label": "Huobi 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x90e9ddd9d8d5ae4e3763d0cf856c97594dea7325",
+        "label": "Huobi 20",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x18916e1a2933cb349145a280473a5de8eb6630cb",
+        "label": "Huobi 21",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6f48a3e70f0251d1e83a989e62aaa2281a6d5380",
+        "label": "Huobi 22",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf056f435ba0cc4fcd2f1b17e3766549ffc404b94",
+        "label": "Huobi 23",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x137ad9c4777e1d36e4b605e745e8f37b2b62e9c5",
+        "label": "Huobi 24",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5401dbf7da53e1c9dbf484e3d69505815f2f5e6e",
+        "label": "Huobi 25",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x034f854b44d28e26386c1bc37ff9b20c6380b00d",
+        "label": "Huobi 26",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0577a79cfc63bbc0df38833ff4c4a3bf2095b404",
+        "label": "Huobi 27",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0c6c34cdd915845376fb5407e0895196c9dd4eec",
+        "label": "Huobi 28",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x794d28ac31bcb136294761a556b68d2634094153",
+        "label": "Huobi 29",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfdb16996831753d5331ff813c29a93c76834a0ad",
+        "label": "Huobi 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfd54078badd5653571726c3370afb127351a6f26",
+        "label": "Huobi 30",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb4cd0386d2db86f30c1a11c2b8c4f4185c1dade9",
+        "label": "Huobi 31",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4d77a1144dc74f26838b69391a6d3b1e403d0990",
+        "label": "Huobi 32",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x28ffe35688ffffd0659aee2e34778b0ae4e193ad",
+        "label": "Huobi 33",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xcac725bef4f114f728cbcfd744a731c2a463c3fc",
+        "label": "Huobi 34",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x73f8fc2e74302eb2efda125a326655acf0dc2d1b",
+        "label": "Huobi 35",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0a98fb70939162725ae66e626fe4b52cff62c2e5",
+        "label": "Huobi 36",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf66852bc122fd40bfecc63cd48217e88bda12109",
+        "label": "Huobi 37",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x49517ca7b7a50f592886d4c74175f4c07d460a70",
+        "label": "Huobi 38",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x58c2cb4a6bee98c309215d0d2a38d7f8aa71211c",
+        "label": "Huobi 39",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xeee28d484628d41a82d01e21d12e2e78d69920da",
+        "label": "Huobi 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5c985e89dde482efe97ea9f1950ad149eb73829b",
+        "label": "Huobi 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xdc76cd25977e0a5ae17155770273ad58648900d3",
+        "label": "Huobi 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xadb2b42f6bd96f5c65920b9ac88619dce4166f94",
+        "label": "Huobi 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa8660c8ffd6d578f657b72c0c811284aef0b735e",
+        "label": "Huobi 8",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1062a747393198f70f71ec65a582423dba7e5ab3",
+        "label": "Huobi 9",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3c11c3025ce387d76c2eddf1493ec55a8cc2a0f7",
+        "label": "Idax.global",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x51836a753e344257b361519e948ffcaf5fb8d521",
+        "label": "Indodax 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9cbadd5ce7e14742f70414a6dcbd4e7bb8712719",
+        "label": "Indodax 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb1a34309af7f29b4195a6b589737f86e14597ddc",
+        "label": "IndoEx LTD",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x352bdabe484499e4c25c3536cc3eda1edbc5ad29",
+        "label": "KickEX",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2910543af39aba0cd09dbb2d50200b3e800a63d2",
+        "label": "Kraken",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xae2d4617c862309a3d75a0ffb358c7a5009c673f",
+        "label": "Kraken 10",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x43984d578803891dfa9706bdeee6078d80cfc79e",
+        "label": "Kraken 11",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x66c57bf505a85a74609d2c83e94aabb26d691e1f",
+        "label": "Kraken 12",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xda9dfa130df4de4673b89022ee50ff26f6ea73cf",
+        "label": "Kraken 13",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0a869d79a7052c7f1b55a8ebabbea3420f0d1e13",
+        "label": "Kraken 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe853c56864a2ebe4576a807d26fdc4a0ada51919",
+        "label": "Kraken 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x267be1c1d684f78cb4f6a176c4911b741e4ffdc0",
+        "label": "Kraken 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfa52274dd61e1643d2205169732f29114bc240b3",
+        "label": "Kraken 5",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x89e51fa8ca5d66cd220baed62ed01e8951aa7c40",
+        "label": "Kraken 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc6bed363b30df7f35b601a5547fe56cd31ec63da",
+        "label": "Kraken 8",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x29728d0efd284d85187362faa2d4d76c2cfc2612",
+        "label": "Kraken 9",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe8a0e282e6a3e8023465accd47fae39dd5db010b",
+        "label": "Kryptono 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x629a7144235259336ea2694167f3c8b856edd7dc",
+        "label": "Kryptono 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x30b71d015f60e2f959743038ce0aaec9b4c1ea44",
+        "label": "Kryptono 3",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x2b5634c42055806a59e9107ed44d43c426e58258",
+        "label": "KuCoin",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x689c56aef474df92d44a1b70850f808488f9769c",
+        "label": "KuCoin 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa1d8d972560c2f8144af871db508f0b0b10a3fbf",
+        "label": "KuCoin 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4ad64983349c49defe8d7a4686202d24b25d0ce8",
+        "label": "KuCoin 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1692e170361cefd1eb7240ec13d048fd9af6d667",
+        "label": "KuCoin 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd6216fc19db775df9774a6e33526131da7d19a2c",
+        "label": "KuCoin 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe59cd29be3be4461d79c0881d238cbe87d64595a",
+        "label": "Kucoin 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x899b5d52671830f567bf43a14684eb14e1f945fe",
+        "label": "KuCoin 8",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xea81ce54a0afa10a027f65503bd52fba83d745b8",
+        "label": "Kuna.io",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0861fca546225fbf8806986d211c8398f7457734",
+        "label": "LAToken",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7891b20c690605f4e370d6944c8a5dbfac5a451c",
+        "label": "LAToken 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1b6c1a0e20af81b922cb454c3e52408496ee7201",
+        "label": "LAToken 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8271b2e8cbe29396e9563229030c89679b9470db",
+        "label": "Liqui.io 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5e575279bf9f4acf0a130c186861454247394c06",
+        "label": "Liqui.io 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xedbb72e6b3cf66a792bff7faac5ea769fe810517",
+        "label": "Liquid 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xdf4b6fb700c428476bd3c02e6fa83e110741145b",
+        "label": "Liquid 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xdb2cad4f306b47c9b35541988c7656f1bb092e15",
+        "label": "Liquid 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9cc2dce817093ceea82bb67a4cf43131fa354c06",
+        "label": "Liquid 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x243bec9256c9a3469da22103891465b47583d9f1",
+        "label": "Livecoin.net",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe03c23519e18d64f144d2800e30e81b0065c48b5",
+        "label": "Mercatox",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xac338d9faac562df26d702880c796e1024e2698a",
+        "label": "MinedTrade.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x75e89d5979e4f6fba9f97c104c2f0afb3f1dcb88",
+        "label": "MXC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0211f3cedbef3143223d3acf0e589747933e8527",
+        "label": "MXC 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xae7006588d03bd15d6954e3084a7e644596bc251",
+        "label": "NEXBIT Pro",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6cc5f688a315f3dc28a7781717a9a798a59fda7b",
+        "label": "OKEx",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x236f9f97e0e62388479bf9e5ba4889e46b0273c3",
+        "label": "OKEx 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa7efae728d2936e78bda97dc267687568dd593f3",
+        "label": "OKEx 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2c8fbb630289363ac80705a1a61273f76fd5a161",
+        "label": "OKEx 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x59fae149a8f8ec74d5bc038f8b76d25b136b9573",
+        "label": "OKEx 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x98ec059dc3adfbdd63429454aeb0c990fba4a128",
+        "label": "OKEx 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5041ed759dd4afc3a72b8192c143f72f4724081a",
+        "label": "OKEx 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x03e3ff995863828554282e80870b489cc31dc8bc",
+        "label": "OMGFIN Exchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xaeec6f5aca72f3a005af1b3420ab8c8c7009bac8",
+        "label": "OTCBTC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xcacc694840ecebadd9b4c419e5b7f1d73fedf999",
+        "label": "Panda.Exchange 1: Hot Wallet",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xb709d82f0706476457ae6bad7c3534fbf424382c",
+        "label": "Panda.Exchange 2: Hot Wallet",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xbd8ef191caa1571e8ad4619ae894e07a75de0c35",
+        "label": "Paribu 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2bb97b6cf6ffe53576032c11711d59bd056830ee",
+        "label": "Paribu 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfb90501083a3b6af766c8da35d3dde01eb0d2a68",
+        "label": "Paribu 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xabc74170f3cb8ab352820c39cc1d1e05ce9e41d3",
+        "label": "Paribu 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9acbb72cf67103a30333a32cd203459c6a9c3311",
+        "label": "Paribu 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd4dcd2459bb78d7a645aa7e196857d421b10d93f",
+        "label": "Peatio",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x32be343b94f860124dc4fee278fdcbd38c102d88",
+        "label": "Poloniex",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x209c4784ab1e8183cf58ca33cb740efbf3fc18ef",
+        "label": "Poloniex 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xb794f5ea0ba39494ce839613fffba74279579268",
+        "label": "Poloniex 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa910f92acdaf488fa6ef02174fb86208ad7722ba",
+        "label": "Poloniex 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xaa9fa73dfe17ecaa2c89b39f0bb2779613c5fc3b",
+        "label": "Poloniex: BAT",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2fa2bc2ce6a4f92952921a4caa46b3727d24a1ec",
+        "label": "Poloniex: BNT",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x31a2feb9b5d3b5f4e76c71d6c92fc46ebb3cb1c1",
+        "label": "Poloniex: CVC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6b71834d65c5c4d8ed158d54b47e6ea4ff4e5437",
+        "label": "Poloniex: FOAM",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x48d466b7c0d32b61e8a82cd2bcf060f7c3f966df",
+        "label": "Poloniex: GNO",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0536806df512d6cdde913cf95c9886f65b1d3462",
+        "label": "Poloniex: GNT",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8d451ae5ee8f557a9ce7a9d7be8a8cb40002d5cb",
+        "label": "Poloniex: KNC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xbd2ec7c608a06fe975dbdca729e84dedb34ecc21",
+        "label": "Poloniex: LOOM",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc0e30823e5e628df8bc9bf2636a347e1512f0ecb",
+        "label": "Poloniex: MANA",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x65f9b2e4d7aaeb40ffea8c6f5844d5ad7da257e0",
+        "label": "Poloniex: NXC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x36b01066b7fa4a0fdb2968ea0256c848e9135674",
+        "label": "Poloniex: OMG",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xab11204cfeaccffa63c2d23aef2ea9accdb0a0d5",
+        "label": "Poloniex: REP",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6795cf8eb25585eadc356ae32ac6641016c550f2",
+        "label": "Poloniex: SNT",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfbf2173154f7625713be22e0504404ebfe021eae",
+        "label": "Poloniex: STORJ",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6f803466bcd17f44fa18975bf7c509ba64bf3825",
+        "label": "Poloniex: USDC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xead6be34ce315940264519f250d8160f369fa5cd",
+        "label": "Poloniex: ZRX",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd344539efe31f8b6de983a0cab4fb721fc69c547",
+        "label": "QuantaEx 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5ca39c42f4dee3a5ba8fec3ad4902157d48700bf",
+        "label": "QuantaEx 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2a048d9a8ffdd239f063b09854976c3049ae659c",
+        "label": "QuantaEx 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb8cf411b956b3f9013c1d0ac8c909b086218207c",
+        "label": "Remitano 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2819c144d5946404c0516b6f817a960db37d4929",
+        "label": "Remitano 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x120a270bbc009644e35f0bb6ab13f95b8199c4ad",
+        "label": "ShapeShift 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9e6316f44baeeee5d41a1070516cc5fa47baf227",
+        "label": "ShapeShift 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x70faa28a6b8d6829a4b1e649d26ec9a2a39ba413",
+        "label": "ShapeShift 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x563b377a956c80d77a7c613a9343699ad6123911",
+        "label": "ShapeShift 4",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd3273eba07248020bf98a8b560ec1576a612102f",
+        "label": "ShapeShift 5",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3b0bc51ab9de1e5b7b6e34e5b960285805c41736",
+        "label": "ShapeShift 6",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xeed16856d551569d134530ee3967ec79995e2051",
+        "label": "ShapeShift 7",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x324cc2c9fb379ea7a0d1c0862c3b48ca28d174a4",
+        "label": "SouthXchange",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x91f6d99b232153cb655ad3e0d05e13ef505f6cd5",
+        "label": "Sparrow Exchange 1",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xe855283086fbee485aecf2084345a91424c23954",
+        "label": "Sparrow Exchange 2",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x9bf25700727d10a857099d1033ce2cc493c3b61a",
+        "label": "Streamity: StreamDesk",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xa96b536eef496e21f5432fd258b6f78cf3673f74",
+        "label": "Switchain",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xea3a46bd1dbd0620d80037f70d0bf7c7dc5a837c",
+        "label": "TAGZ 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xed8204345a0cf4639d2db61a4877128fe5cf7599",
+        "label": "TAGZ 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3613ef1125a078ef96ffc898c4ec28d73c5b8c52",
+        "label": "Tidex 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0a73573cf2903d2d8305b1ecb9e9730186a312ae",
+        "label": "Tidex 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x0068eb681ec52dbd9944517d785727310b494575",
+        "label": "Tokocrypto",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb2cc3cdd53fc9a1aeaf3a68edeba2736238ddc5d",
+        "label": "TopBTC",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1119aaefb02bf12b84d28a5d8ea48ec3c90ef1db",
+        "label": "Trade.io",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2f1233ec3a4930fd95874291db7da9e90dfb2f03",
+        "label": "Uex",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x390de26d772d2e2005c6d1d24afc902bae37a4bb",
+        "label": "Upbit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xba826fec90cefdf6706858e5fbafcb27a290fbe0",
+        "label": "Upbit 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5e032243d507c743b061ef021e2ec7fcc6d3ab89",
+        "label": "Upbit 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb436c96c6de1f50a160ed307317c275424dbe4f2",
+        "label": "Vinex",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x39f6a6c85d39d5abad8a398310c52e7c374f2ba3",
+        "label": "WhiteBIT",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf5bec430576ff1b82e44ddb5a1c93f6f9d0884f3",
+        "label": "Yobit.net",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd94c9ff168dc6aebf9b6cc86deff54f3fb0afc33",
+        "label": "Yunbi 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x42da8a05cb7ed9a43572b5ba1b8f82a0a6e263dc",
+        "label": "Yunbi 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x700f6912e5753e91ea3fae877a2374a2db1245d7",
+        "label": "Yunbi 3",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x60d0cc2ae15859f69bf74dadb8ae3bd58434976b",
+        "label": "ZB.com",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x40fab72e01525b72f2542b567123e544d5347d30",
+        "label": "\ud83c\udfe6 OKEx Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x773fe56f90ff668a26df14286b091c95e744a783",
+        "label": "\ud83c\udfe6 Bitfinex Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x297b573a6ae5f1929edcb3484238fc27a437f8a9",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4c251973f7c24ed98efe36a7773fd35f0468262e",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xbc90f6cc21d99424d23050323998b59469972e32",
+        "label": "\ud83c\udfe6 ProBit Exchange Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x74de14dac95b4e6715247b32249fdd1330e025c1",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x32d4703e5834f1b474b17dfdb0ac32cc22575145",
+        "label": "\ud83c\udfe6 Wintermute Trading: Crypto.com Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x4af4b5e633c4686b9283575f7f858e9dee5b965a",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6d40e69dada6e79ccd92e91d0249120ddd6c0c99",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x40879ce5375e02ecd40bc378792112ef8c465491",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x66efa2b912282d0814187b08d708d4ac018f437f",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xa86854676b4e544d9e49ead0aae6641168e30850",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x436488f180937849eb62c9b6418fffbffb4205cf",
+        "label": "\ud83c\udfe6 KuCoin Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc6b03f5953625591583247755815295f86863c44",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x04063607814c27b4305d8f6d93bd9b15bd453c63",
+        "label": "\ud83c\udfe6 Kraken Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xed6b63983cd2281349367cf67dcb74129bc8b4f0",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x21077c80971716faa403060a6d209274754a609d",
+        "label": "\ud83c\udfe6 BlockFi Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb515dba4ca487157e9d1dac6e83bbe4e044bc44b",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5e25ebf33c29cc1ae21193b31c51bdba0eb8dfe5",
+        "label": "\ud83c\udfe6 Huobi Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9213222f63f966e9c2d9b0bf0d8e3581e97524ee",
+        "label": "\ud83c\udfe6 OKEx Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x32726586328665439c504604cd17540f58d68030",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9a56612abff09e83cfd06eb634c5eee2af0b2680",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6af6222209870a98e4f51a829b322f04e4a12e96",
+        "label": "\ud83c\udfe6 KuCoin Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe94dedcc44f2289ae23f82615e9b7ec2b4236238",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe5394d4dfbbcc981b1357bafc2e428e3b1dde627",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x95b25227a103bb8e92fadcd45863e0ae25ad3b18",
+        "label": "\ud83c\udfe6 Jump Trading: FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9f4153e4c36ff7fb15b89098657f316927de3ec0",
+        "label": "\ud83c\udfe6 Kraken Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x561999cc74e28f24a3a9b006519baedc6a4e77cc",
+        "label": "\ud83c\udfe6 Wintermute: FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x59def08800496ba3be30b29ac2f0e426e3e9a535",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x54c1dcbdb0cc653cf0ee26dc8460b3e7fd700b17",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x03ae1a796dfe0400439211133d065bda774b9d3e",
+        "label": "\ud83c\udfe6 \ud83e\udd13 Wintermute Trading: OKEx Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd28e8213a5481e33297dfd75a16db70017c5dd87",
+        "label": "\ud83c\udfe6 KuCoin Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x085af684acdb1220d111fee971b733c5e5ae6ccd",
+        "label": "\ud83c\udfe6 Three Arrows Capital: Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd1175627d5583a7c16d5285d5fe49d8d252f7618",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xd2e0bd64b3e6fbc4d09f9a11e5852bf9a46a6731",
+        "label": "\ud83e\udd16 MockOlympusBondDepository",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x3993d34e7e99abf6b6f367309975d1360222d446",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Curve.fi: Tricrypto Liquidity Deposit (USD-BTC-ETH)",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x6b06eb7aef2d2515cc2385f141154fc266057fb8",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Gemini Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xa79828df1850e8a3a3064576f380d90aecdd3359",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Curve.fi: 3pool Zap Depositer",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x3c8caee4e09296800f8d29a68fa3837e2dae4940",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Curve.fi: Zap Depositer for Curve pool",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x094d12e5b541784701fd8d65f11fc0598fbc6332",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Curve.fi: USDN Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xece0f34dcc2fa05f8f3705a064ce8e3ccd03471e",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Gemini Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x1d2b955bb073cfca819c7886e4aab9b568623f1e",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x18cd818fac572bf03c12c3f4a0fd86853de2c57a",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x6a929d8c78a27733e15efbc71742eceaf1c55272",
+        "label": "\ud83c\udfe6 Huobi Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9b8282dffdba2d344e656ac8ec2557eac6435945",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7915a1690223d5b6ffd3a932a88e8deba569b295",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xee400aec42dc686d87ce0866e901e74cc917ab49",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x6455327f820edd69c4cd665b995e0fec679d7f9e",
+        "label": "\ud83c\udfe6 Gate.io Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xebbd4296e62031f512775c456aa9bd1c299e55f3",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xbde01138cae3540519f91c2f972e1a536f21ae4d",
+        "label": "\ud83c\udfe6 \ud83e\udd13 1kx: Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x9062e516bb04aa39c2833b61c6fbfcc373caa1b3",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Gemini Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x339de32b30f48825672d48c66cbc9b7b5ce25af0",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xa4bb2a3cd508d927e1acda9ba1545e31698dfed1",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x73eb7fee841ea9ff4d6f78adb2ccb4fd46733ee5",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x644f25bf70e2a727420a94164f3c50db45b4f96b",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x49298ab30ee1874548455b016226dd502afd3379",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x6c5e1df7351356d60b7ba512817b9958949131ac",
+        "label": "\ud83c\udfe6 Wintermute: Huobi Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x8c00dda00f9e2aabde88a4d17f9ef9fce265592f",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc4ebe9c12816f9351423a8cb3d4681de3c98488c",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x858d20408986e2bdfd83133fafe144cc51ae1584",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xe1a9c76e762e91a73cac937f049e5fea912732f0",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xc3ab16efcc045bca68506e18063a0dc17d5d54de",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x426ccb13e53217a5602bb6c08ae206c67545257b",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x83a127952d266a6ea306c40ac62a4a70668fe3bd",
+        "label": "\ud83c\udfe6 Alameda: FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb3f923eabaf178fc1bd8e13902fc5c61d3ddef5b",
+        "label": "\ud83c\udfe6 Wintermute: Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc0ddd24dae5e36d3f28eb55972e4fc5ca825d22e",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6e7706b25ae547a0ed62b4bf477eaaecd080930e",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Poloniex Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xf08663810a1574291c76e99edc97583e64fb8a65",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x5ec572250b7942094309443f47b040dabb211f12",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc68c17e6eec0fde3605c595c9b98de5c1a4cc3e4",
+        "label": "\ud83c\udfe6 OKEx Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xab061ea97a9c30cf4a2002534a64f3e19a488268",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x4b936d82780ce361e310d6b1fca6aa2533a8773e",
+        "label": "\ud83c\udfe6 \ud83e\udd16 BlockFi Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xdedab6ba07c76dd512d8ffba9a9515c2563d4635",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xf05e2a70346560d3228c7002194bb7c5dc8fe100",
+        "label": "\ud83c\udfe6 Jump Trading: Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2bc2eb52996393f6bf08413fb952e645fbff05cc",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x8defd586b5b311291780eaf362021b6603218137",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x2c054feea3a75dc902eabd98b915d4d72df3c4cb",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x977716329d049bac205eda8e786c4afd7cc12e38",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xb9aed25c2d6cd4b77e27c16fc668e9c0c6595fd7",
+        "label": "\ud83c\udfe6 Huobi Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x44d3bc41be25b1548ef949a64da6c901d4e3103c",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x348e1b8b898dd8fd11ff08eafdc5370f4a464565",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x925e53dfdc93c822573b4803c99f10284b1f6e43",
+        "label": "\ud83c\udfe6 Gate.io Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5080ddf23ac37af99e5d6f734499b68c5e0b1611",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x16ef96114671a1906db00ac483ed0648b00945a7",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x91db9e27e750c43a96926b2e04d795c24f13f67b",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Wintermute: Bitstamp Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x3f2af072689f177f0aad54f69b6ef484cb681a16",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xff11f6eac027f8088cfcef73b24363e430353b9b",
+        "label": "\ud83c\udfe6 Wintermute Trading: OKEx Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1c44891f923bf8da78d1681bb25780b67f5956dc",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x478171f07df0293cbc1c88f4c3e20d309e57a95f",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1c430d059efc3ca3c279644ed19a92e305230478",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x23f145cc7befc673a9663cb483915824a27df5d3",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x55b26dbe4fa64c84053e43ef93a86e8ee0d22aa6",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x399f18611c75c0aead588c56c3121a45de609d16",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x66827bcd635f2bb1779d68c46aeb16541bca6ba8",
+        "label": "\ud83e\udd13 ETH 2 Depositor: PieDAO 0x66",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc98f0e6e391a485176a238320111705f3eb82471",
+        "label": "\ud83c\udfe6 Huobi Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xf2c961803630f21e283185e710e0ee46f40e588e",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x3d6fa643f6c498d466c8e97f917cdd98f78837c7",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Bitstamp Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xaa87d5dad4bf3d482f52fdaa4e376b46be2cccf1",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x78b8faba179747a2d244da27026ea26c4935305f",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x5753be38a36c066e2793bbbbbe4d6951ecadf6eb",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0xc5f03c3365ffe9a0aaf209706ebd39a6418efdf3",
+        "label": "\ud83c\udfe6 FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x092dc39b02f0798bab75dc026f9160ce258a6f14",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x18da28e506161cea1a4be1405dcca590dfdc87d3",
+        "label": "\ud83c\udfe6 Gate.io Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xb6c057591e073249f2d9d88ba59a46cfc9b59edb",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Curve.fi: BUSD Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x2753edcc13a5bcc4a7c061201c6a582c0867af63",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x2c6a2b41f21c1897c6d6522fb0dfe601a99f832c",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xca13251956df59416fe2ce8a4cb14532c308eea1",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x1763f1a93815ee6e6bc3c4475d31cc9570716db2",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc6890719fc01eac93c7b122b7bea04b050f80889",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x1423d80cecac000045515e702d4f84ae60bdab67",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6aa5ab837452e613c16b02c55bf196c4800d2765",
+        "label": "\ud83c\udfe6 KuCoin Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x7f3c9f7810b4c0cdf0ff6e804039ddd6bfe4960a",
+        "label": "\ud83c\udfe6 Crypto.com Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xc62a44a5cdf585c7c72e7df13daccef7f0adfd21",
+        "label": "\ud83c\udfe6 Binance Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x5004e795c1d6f681e870822eafd8f83a3e2618b2",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x8025504c05b146ae25a84c82a73f447a88b8ae9a",
+        "label": "\ud83c\udfe6 Wintermute: FTX Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xab16ddb94debb8d9a8ef8111edb46c8d3ef116e6",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x769621d3f7c3dc030f30eca958a9fdca86fb0db0",
+        "label": "\ud83c\udfe6 MXC Deposit",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x99b2795abec905f2677780a2e4ab115a321059e1",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x802ae6b720d460967aeb5e131e1c207ab3207d46",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Kraken Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x820fd501392d87295e5cadf8ef09e26f4c2155c2",
+        "label": "\ud83c\udfe6 \ud83e\udd16 Bittrex Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x9e7b5b4e5dd75baa6bb972e1bb4f2226fbc37473",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    },
+    {
+        "address": "0x2d45f3423929de922504b6e7aa3eadbad0f17d8e",
+        "label": "\ud83e\udd16 Nexo Deposit",
+        "account_type": "CA"
+    }
+]

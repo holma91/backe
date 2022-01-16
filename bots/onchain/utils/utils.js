@@ -1,6 +1,7 @@
 import { APIKEY_BSCSCAN, APIKEY_FTMSCAN } from '../env.js';
 import ethers from 'ethers';
 import fetch from 'node-fetch';
+import { MessageEmbed } from 'discord.js';
 
 const FgRed = '\x1b[31m';
 const FgGreen = '\x1b[32m';
@@ -104,7 +105,7 @@ const displayPairOld = (token0, token1, addressPair, tokenDeployerAddress, dex) 
     console.table(pair);
 };
 
-const displayPair = (token0, token1, addressPair, chain, dex, knownTokens) => {
+const displayPair = (token0, token1, addressPair, chain, dex, knownTokens, webhookClient) => {
     let liquidity = 0;
     let liquidityUSD = 0;
     let addressNewToken = '';
@@ -131,9 +132,9 @@ const displayPair = (token0, token1, addressPair, chain, dex, knownTokens) => {
     }
 
     let color = '';
-    if (liquidityUSD > 1000.0) {
+    if (liquidityUSD >= 5000.0) {
         color = FgGreen;
-    } else if (liquidityUSD > 500.0) {
+    } else if (liquidityUSD >= 1000.0) {
         color = FgYellow;
     } else {
         color = FgRed;
@@ -145,6 +146,41 @@ const displayPair = (token0, token1, addressPair, chain, dex, knownTokens) => {
             2
         )}, $${liquidityUSD.toFixed(2)}\n${symbolNewToken} address: ${addressNewToken}\npair: ${addressPair}\n${dex}\n`
     );
+};
+
+const sendDiscordMessage = (
+    symbolOldToken,
+    symbolNewToken,
+    nameNewToken,
+    liquidity,
+    liquidityUSD,
+    addressNewToken,
+    addressPair
+) => {
+    const embed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Some title')
+        .setURL('https://discord.js.org/')
+        .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
+        .setDescription('Some description here')
+        .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+        .addFields(
+            { name: 'Regular field title', value: 'Some value here' },
+            { name: '\u200B', value: '\u200B' },
+            { name: 'Inline field title', value: 'Some value here', inline: true },
+            { name: 'Inline field title', value: 'Some value here', inline: true }
+        )
+        .addField('Inline field title', 'Some value here', true)
+        .setImage('https://i.imgur.com/AfFp7pu.png')
+        .setTimestamp()
+        .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+
+    webhookClient.send({
+        content: 'Webhook test',
+        username: 'some-username',
+        avatarURL: 'https://i.imgur.com/AfFp7pu.png',
+        embeds: [embed],
+    });
 };
 
 // not in use currently
@@ -220,7 +256,16 @@ const getInternalTransactions = async (address) => {
     return internalTxs['result'];
 };
 
-const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
+const onPairCreated = async (
+    account,
+    token0Address,
+    token1Address,
+    addressPair,
+    chain,
+    dex,
+    knownTokens,
+    webhookClient
+) => {
     let token0 = await getTokenMetadata(token0Address, account);
     let token1 = await getTokenMetadata(token1Address, account);
 
@@ -228,7 +273,7 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
     token0.liq = liq0;
     token1.liq = liq1;
 
-    displayPair(token0, token1, addressPair, chain, dex, knownTokens);
+    displayPair(token0, token1, addressPair, chain, dex, knownTokens, webhookClient);
 };
 
 export { getTokenMetadata, getPairLiquidity, displayPair, getContractDeployerInfo, onPairCreated };
