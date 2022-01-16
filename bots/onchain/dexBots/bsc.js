@@ -1,14 +1,20 @@
 import ethers from 'ethers';
 import { MNEMONIC, BSC_WEBSOCKET } from '../env.js';
-import { onPairCreated, uniV2Factory } from '../utils/utils.js';
+import { onPairCreated, uniV2Factory, uniV2Pair } from '../utils/utils.js';
 
 const addresses = {
     pancakeSwapFactory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
 };
 
-const established_tokenAddresses = {
-    WBNB: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+const knownTokens = {
+    WBNB: {
+        address: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+        inUSD: 500.0,
+    },
+    BUSD: {
+        address: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+        inUSD: 1.0,
+    },
 };
 
 const provider = new ethers.providers.WebSocketProvider(BSC_WEBSOCKET);
@@ -19,20 +25,30 @@ const pancakeSwapFactory = new ethers.Contract(addresses.pancakeSwapFactory, uni
 
 console.log('binance smart chain DEX sync started\nsupported dexes: PancakeSwap');
 
-let receivedPairs = 0;
-let displayedPairs = 0;
+let pairs = [];
+
 pancakeSwapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'BSC',
-        'pancakeswap',
-        established_tokenAddresses
-    );
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
+    await onPairCreated(account, token0Address, token1Address, addressPair, 'BSC', 'pancakeswap', knownTokens);
+
+    // const pancakeSwapPair = new ethers.Contract(addressPair, uniV2Pair, account);
+    // pairs.push(pancakeSwapPair);
+    // setUpPair(pancakeSwapPair, pairs.length);
 });
+
+// listen to transactions
+const setUpPair = (pair, i) => {
+    console.log(`setting up pair no ${i} with address ${pair.address}`);
+    pair.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
+        // are sender and/or to interesting?
+        console.log(`
+            pair: ${pair.address}
+            pairNumber: ${i}
+            sender: ${sender}
+            amount0In: ${amount0In}
+            amount1In: ${amount1In}
+            amount0Out: ${amount0Out}
+            amount1Out: ${amount1Out}
+            to: ${to}
+        `);
+    });
+};

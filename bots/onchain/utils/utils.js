@@ -2,9 +2,16 @@ import { APIKEY_BSCSCAN, APIKEY_FTMSCAN } from '../env.js';
 import ethers from 'ethers';
 import fetch from 'node-fetch';
 
+const FgRed = '\x1b[31m';
+const FgGreen = '\x1b[32m';
+const FgYellow = '\x1b[33m';
+
 export const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
 export const uniV3Factory = [
     'event PoolCreated(address token0, address token1, uint24 fee, int24 tickSpacing, address pool)',
+];
+export const uniV2Pair = [
+    'event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)',
 ];
 
 const getTokenMetadata = async (tokenAddress, account) => {
@@ -80,7 +87,7 @@ function sleep(ms) {
     });
 }
 
-const displayPair = (token0, token1, addressPair, tokenDeployerAddress, dex) => {
+const displayPairOld = (token0, token1, addressPair, tokenDeployerAddress, dex) => {
     const pair = {
         'token #0': `${token0.name} (${token0.symbol})`,
         'token #0 decimals': token0.decimals,
@@ -97,6 +104,50 @@ const displayPair = (token0, token1, addressPair, tokenDeployerAddress, dex) => 
     console.table(pair);
 };
 
+const displayPair = (token0, token1, addressPair, chain, dex, knownTokens) => {
+    let liquidity = 0;
+    let liquidityUSD = 0;
+    let addressNewToken = '';
+    let symbolNewToken = '';
+    let symbolOldToken = '';
+    let nameNewToken = '';
+
+    let knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
+
+    if (knownAddresses.includes(token0.address.toLowerCase())) {
+        liquidity = parseFloat(token0.liq);
+        liquidityUSD = parseFloat(liquidity) * knownTokens[token0.symbol]['inUSD'];
+        symbolOldToken = token0.symbol;
+        addressNewToken = token1.address;
+        symbolNewToken = token1.symbol;
+        nameNewToken = token1.name;
+    } else if (knownAddresses.includes(token1.address.toLowerCase())) {
+        liquidity = parseFloat(token1.liq);
+        liquidityUSD = parseFloat(liquidity) * knownTokens[token1.symbol]['inUSD'];
+        symbolOldToken = token1.symbol;
+        addressNewToken = token0.address;
+        symbolNewToken = token0.symbol;
+        nameNewToken = token0.name;
+    }
+
+    let color = '';
+    if (liquidityUSD > 1000.0) {
+        color = FgGreen;
+    } else if (liquidityUSD > 500.0) {
+        color = FgYellow;
+    } else {
+        color = FgRed;
+    }
+
+    console.log(color, `${color}`);
+    console.log(
+        `${symbolOldToken}/${symbolNewToken}\n${nameNewToken}\nliq (${symbolOldToken}, USD): ${liquidity.toFixed(
+            2
+        )}, $${liquidityUSD.toFixed(2)}\n${symbolNewToken} address: ${addressNewToken}\npair: ${addressPair}\n${dex}\n`
+    );
+};
+
+// not in use currently
 const getContractDeployerInfo = async (contractAddress, chain) => {
     // this functionality is only implemented for bsc at the moment
     if (chain !== 'BSC') {
@@ -169,15 +220,7 @@ const getInternalTransactions = async (address) => {
     return internalTxs['result'];
 };
 
-const onPairCreated = async (
-    account,
-    token0Address,
-    token1Address,
-    addressPair,
-    chain,
-    dex,
-    established_tokenAddresses
-) => {
+const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
     let token0 = await getTokenMetadata(token0Address, account);
     let token1 = await getTokenMetadata(token1Address, account);
 
@@ -185,20 +228,16 @@ const onPairCreated = async (
     token0.liq = liq0;
     token1.liq = liq1;
 
-    let tokenDeployerAddress = '';
-    if (!Object.values(established_tokenAddresses).includes(token0Address)) {
-        tokenDeployerAddress = await getContractDeployerInfo(token0Address, chain);
-    } else if (!Object.values(established_tokenAddresses).includes(token1Address)) {
-        tokenDeployerAddress = await getContractDeployerInfo(token1Address, chain);
-    }
-
-    displayPair(token0, token1, addressPair, tokenDeployerAddress, dex);
+    displayPair(token0, token1, addressPair, chain, dex, knownTokens);
 };
 
 export { getTokenMetadata, getPairLiquidity, displayPair, getContractDeployerInfo, onPairCreated };
 
-// if (txs['status'] === '0') {
-//     if (txs['message'] !== 'No transactions found') {
-//         throw txs['message'];
-//     }
+// think about casing here
+// let tokenDeployerAddress = '';
+// let knownAddresses = Object.values(established_tokenAddresses).map((token) => token.address);
+// if (!knownAddresses.includes(token0Address)) {
+//     tokenDeployerAddress = await getContractDeployerInfo(token0Address, chain);
+// } else if (!knownAddresses.includes(token1Address)) {
+//     tokenDeployerAddress = await getContractDeployerInfo(token1Address, chain);
 // }

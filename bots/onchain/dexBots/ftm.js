@@ -7,9 +7,13 @@ const addresses = {
     spiritswapFactory: '0x152eE697f2E276fA89E96742e9bB9aB1F2E61bE3',
 };
 
-const established_tokenAddresses = {
-    WFTM: '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
-    USDC: '0x04068da6c83afcfa0e13ba15a6696662335d5b75',
+const knownTokens = {
+    WFTM: { address: '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83', inUSD: 3.2 },
+    USDC: { address: '0x04068da6c83afcfa0e13ba15a6696662335d5b75', inUSD: 1.0 },
+    fETH: { address: '0x658b0c7613e890ee50b8c4bc6a3f41ef411208ad', inUSD: 3330 },
+    fBTC: { address: '0xe1146b9ac456fcbb60644c36fd3f868a9072fc6e', inUSD: 43100 },
+    DAI: { address: '0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e', inUSD: 1.0 },
+    MIM: { address: '0x82f0b8b456c1a451378467398982d4834b6829c1', inUSD: 1.0 },
 };
 
 const provider = new ethers.providers.WebSocketProvider(FTM_WEBSOCKET);
@@ -26,15 +30,7 @@ let displayedPairs = 0;
 spookyswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
     receivedPairs++;
     console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'FTM',
-        'spookyswap',
-        established_tokenAddresses
-    );
+    await onPairCreated(account, token0Address, token1Address, addressPair, 'FTM', 'spookyswap', knownTokens);
     displayedPairs++;
     console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
 });
@@ -42,15 +38,7 @@ spookyswapFactory.on('PairCreated', async (token0Address, token1Address, address
 spiritswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
     receivedPairs++;
     console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'FTM',
-        'spiritswap',
-        established_tokenAddresses
-    );
+    await onPairCreated(account, token0Address, token1Address, addressPair, 'FTM', 'spiritswap', knownTokens);
     displayedPairs++;
     console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
 });

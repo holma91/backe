@@ -8,12 +8,27 @@ const addresses = {
     wannaswapFactory: '0x7928D4FeA7b2c90C732c10aFF59cf403f0C38246',
 };
 
-const established_tokenAddresses = {
-    WNEAR: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d',
-    USDC: '0xB12BFcA5A55806AaF64E99521918A4bf0fC40802',
-    USDT: '0x4988a896b1227218e4A686fdE5EabdcAbd91571f',
-    AURORA: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79',
-    TRI: '0xFa94348467f64D5A457F75F8bc40495D33c65aBB',
+const knownTokens = {
+    WNEAR: {
+        address: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d',
+        inUSD: 20,
+    },
+    USDC: {
+        address: '0xB12BFcA5A55806AaF64E99521918A4bf0fC40802',
+        inUSD: 1.0,
+    },
+    USDT: {
+        address: '0x4988a896b1227218e4A686fdE5EabdcAbd91571f',
+        inUSD: 1.0,
+    },
+    AURORA: {
+        address: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79',
+        inUSD: 33,
+    },
+    TRI: {
+        address: '0xFa94348467f64D5A457F75F8bc40495D33c65aBB',
+        inUSD: 3,
+    },
 };
 
 const provider = new ethers.providers.JsonRpcProvider(AURORA_HTTP);
@@ -31,15 +46,7 @@ let displayedPairs = 0;
 trisolarisFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
     receivedPairs++;
     console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'AURORA',
-        'trisolaris',
-        established_tokenAddresses
-    );
+    await onPairCreated(account, token0Address, token1Address, addressPair, 'AURORA', 'trisolaris', knownTokens);
     displayedPairs++;
     console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
 });
