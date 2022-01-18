@@ -9,7 +9,7 @@ const addresses = {
 };
 
 const knownTokens = {
-    WNEAR: {
+    NEAR: {
         address: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d',
         inUSD: 20,
     },
@@ -28,6 +28,10 @@ const knownTokens = {
     TRI: {
         address: '0xFa94348467f64D5A457F75F8bc40495D33c65aBB',
         inUSD: 3,
+    },
+    WETH: {
+        address: '0xC9BdeEd33CD01541e1eeD10f90519d2C06Fe3feB',
+        inUSD: 3200,
     },
 };
 
@@ -54,15 +58,7 @@ trisolarisFactory.on('PairCreated', async (token0Address, token1Address, address
 wannaswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
     receivedPairs++;
     console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'AURORA',
-        'wannaswap',
-        established_tokenAddresses
-    );
+    await onPairCreated(account, token0Address, token1Address, addressPair, 'AURORA', 'wannaswap', knownTokens);
     displayedPairs++;
     console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
 });

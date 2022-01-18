@@ -1,9 +1,6 @@
 import ethers from 'ethers';
 import { MNEMONIC, BSC_WEBSOCKET } from '../env.js';
 import { onPairCreated, uniV2Factory, uniV2Pair } from '../utils/utils.js';
-import { WebhookClient } from 'discord.js';
-import { config } from '../discord/config.js';
-const { bscHookId, bscHookToken } = config;
 
 const addresses = {
     pancakeSwapFactory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
@@ -26,28 +23,12 @@ const account = wallet.connect(provider);
 
 const pancakeSwapFactory = new ethers.Contract(addresses.pancakeSwapFactory, uniV2Factory, account);
 
-const webhookClient = new WebhookClient({ id: bscHookId, token: bscHookToken });
-
 console.log('binance smart chain DEX sync started\nsupported dexes: PancakeSwap');
 
 let pairs = [];
 
 pancakeSwapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    webhookClient.send({
-        content: 'pair created',
-        username: 'some-username',
-        avatarURL: 'https://i.imgur.com/AfFp7pu.png',
-    });
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'BSC',
-        'pancakeswap',
-        knownTokens,
-        webhookClient
-    );
+    await onPairCreated(account, token0Address, token1Address, addressPair, 'BSC', 'pancakeswap', knownTokens);
 
     // const pancakeSwapPair = new ethers.Contract(addressPair, uniV2Pair, account);
     // pairs.push(pancakeSwapPair);

@@ -21,19 +21,11 @@ const sushiswapFactory = new ethers.Contract(addresses.sushiswapFactory, uniV2Fa
 
 console.log('ethereum DEX sync started\nsupported dexes: UniSwap, SushiSwap');
 
-let receivedPairs = 0;
-let displayedPairs = 0;
 uniswapFactory.on('PoolCreated', async (token0Address, token1Address, fee, tickSpacing, pool) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${pool}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(account, token0Address, token1Address, pool, 'BSC', 'pancakeswap', established_tokenAddresses);
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${pool}, displayedPairs = ${displayedPairs}`);
+    await onPairCreated(account, token0Address, token1Address, pool, 'ETH', 'uniswap', established_tokenAddresses);
 });
 
 sushiswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
     await onPairCreated(
         account,
         token0Address,
@@ -43,6 +35,4 @@ sushiswapFactory.on('PairCreated', async (token0Address, token1Address, addressP
         'sushiswap',
         established_tokenAddresses
     );
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
 });

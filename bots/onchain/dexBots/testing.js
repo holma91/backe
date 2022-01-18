@@ -1,39 +1,12 @@
-import ethers from 'ethers';
-import { SEED, BSC_WEBSOCKET } from '../env.js';
-import { onPairCreated, uniV2Factory } from '../utils/utils.js';
+import { MessageEmbed, WebhookClient } from 'discord.js';
+import { config } from '../discord/config.js';
 
-const addresses = {
-    pancakeSwapFactory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
-};
-
-const established_tokenAddresses = {
-    WBNB: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-};
-
-const mnemonic = SEED;
-const provider = new ethers.providers.WebSocketProvider(BSC_WEBSOCKET);
-const wallet = ethers.Wallet.fromMnemonic(mnemonic);
-const account = wallet.connect(provider);
-
-const pancakeSwapFactory = new ethers.Contract(addresses.pancakeSwapFactory, uniV2Factory, account);
-
-console.log('binance smart chain DEX sync started\nsupported dexes: PancakeSwap');
-
-let receivedPairs = 0;
-let displayedPairs = 0;
-pancakeSwapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'BSC',
-        'pancakeswap',
-        established_tokenAddresses
-    );
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
+console.log(config.newPairHookUrl);
+let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
+console.log(webhookNotificationClient);
+webhookNotificationClient.send({
+    username: 'liquidity pair bot',
+    avatarURL: 'https://i.imgur.com/AfFp7pu.png',
+    content: 'some content',
+    // embeds: [embed],
 });

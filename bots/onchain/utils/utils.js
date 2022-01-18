@@ -1,7 +1,8 @@
 import { APIKEY_BSCSCAN, APIKEY_FTMSCAN } from '../env.js';
 import ethers from 'ethers';
 import fetch from 'node-fetch';
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, WebhookClient } from 'discord.js';
+import { config } from '../discord/config.js';
 
 const FgRed = '\x1b[31m';
 const FgGreen = '\x1b[32m';
@@ -88,24 +89,7 @@ function sleep(ms) {
     });
 }
 
-const displayPairOld = (token0, token1, addressPair, tokenDeployerAddress, dex) => {
-    const pair = {
-        'token #0': `${token0.name} (${token0.symbol})`,
-        'token #0 decimals': token0.decimals,
-        'token #0 address': token0.address,
-        'token #0 liquidity': token0.liq,
-        'token #1': `${token1.name} (${token1.symbol})`,
-        'token #1 decimals': token1.decimals,
-        'token #1 address': token1.address,
-        'token #1 liquidity': token1.liq,
-        'token deployer address': tokenDeployerAddress,
-        'pair address': addressPair,
-        DEX: dex,
-    };
-    console.table(pair);
-};
-
-const displayPair = (token0, token1, addressPair, chain, dex, knownTokens, webhookClient) => {
+const displayPair = (token0, token1, addressPair, chain, dex, knownTokens) => {
     let liquidity = 0;
     let liquidityUSD = 0;
     let addressNewToken = '';
@@ -115,20 +99,29 @@ const displayPair = (token0, token1, addressPair, chain, dex, knownTokens, webho
 
     let knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
 
-    if (knownAddresses.includes(token0.address.toLowerCase())) {
-        liquidity = parseFloat(token0.liq);
-        liquidityUSD = parseFloat(liquidity) * knownTokens[token0.symbol]['inUSD'];
-        symbolOldToken = token0.symbol;
-        addressNewToken = token1.address;
-        symbolNewToken = token1.symbol;
-        nameNewToken = token1.name;
-    } else if (knownAddresses.includes(token1.address.toLowerCase())) {
-        liquidity = parseFloat(token1.liq);
-        liquidityUSD = parseFloat(liquidity) * knownTokens[token1.symbol]['inUSD'];
-        symbolOldToken = token1.symbol;
-        addressNewToken = token0.address;
-        symbolNewToken = token0.symbol;
-        nameNewToken = token0.name;
+    try {
+        if (knownAddresses.includes(token0.address.toLowerCase())) {
+            liquidity = parseFloat(token0.liq);
+            liquidityUSD = parseFloat(liquidity) * knownTokens[token0.symbol]['inUSD'];
+            symbolOldToken = token0.symbol;
+            addressNewToken = token1.address;
+            symbolNewToken = token1.symbol;
+            nameNewToken = token1.name;
+        } else if (knownAddresses.includes(token1.address.toLowerCase())) {
+            liquidity = parseFloat(token1.liq);
+            liquidityUSD = parseFloat(liquidity) * knownTokens[token1.symbol]['inUSD'];
+            symbolOldToken = token1.symbol;
+            addressNewToken = token0.address;
+            symbolNewToken = token0.symbol;
+            nameNewToken = token0.name;
+        } else {
+            // none of the addresses in the pair are known... liq is basically 0?
+            // do nothing
+        }
+    } catch (e) {
+        console.log(`token0: ${token0.address}`);
+        console.log(`token1: ${token1.address}`);
+        console.error(e);
     }
 
     let color = '';
@@ -146,6 +139,18 @@ const displayPair = (token0, token1, addressPair, chain, dex, knownTokens, webho
             2
         )}, $${liquidityUSD.toFixed(2)}\n${symbolNewToken} address: ${addressNewToken}\npair: ${addressPair}\n${dex}\n`
     );
+
+    sendDiscordMessage(
+        symbolOldToken,
+        symbolNewToken,
+        nameNewToken,
+        liquidity,
+        liquidityUSD,
+        addressNewToken,
+        addressPair,
+        chain,
+        dex
+    );
 };
 
 const sendDiscordMessage = (
@@ -155,32 +160,111 @@ const sendDiscordMessage = (
     liquidity,
     liquidityUSD,
     addressNewToken,
-    addressPair
+    addressPair,
+    chain,
+    dex
 ) => {
+    let webhookClient = '';
+
+    const hook = getHookInfo(chain, dex);
+
+    let color = '';
+    if (liquidityUSD >= 5000.0) {
+        color = '#00ff00';
+        webhookClient = new WebhookClient({
+            url: hook.greenUrl,
+        });
+    } else if (liquidityUSD >= 1000.0) {
+        color = '#ffff00';
+        webhookClient = new WebhookClient({
+            url: hook.yellowUrl,
+        });
+    } else {
+        color = '#ff0000';
+        webhookClient = new WebhookClient({
+            url: hook.redUrl,
+        });
+    }
+
     const embed = new MessageEmbed()
-        .setColor('#0099ff')
-        .setTitle('Some title')
-        .setURL('https://discord.js.org/')
-        .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-        .setDescription('Some description here')
-        .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+        .setColor(color)
+        .setTitle(`${symbolOldToken}/${symbolNewToken}`)
+        .setURL(hook.dexUrl)
+        .setAuthor({ name: `${chain}-BOT`, iconURL: hook.img, url: 'https://discord.js.org' })
         .addFields(
-            { name: 'Regular field title', value: 'Some value here' },
-            { name: '\u200B', value: '\u200B' },
-            { name: 'Inline field title', value: 'Some value here', inline: true },
-            { name: 'Inline field title', value: 'Some value here', inline: true }
+            {
+                name: 'Pair information',
+                value: `${symbolOldToken}/${symbolNewToken}, ${addressPair}, ${hook.explorerUrl}${addressPair}`,
+            },
+            {
+                name: 'Token information',
+                value: `${nameNewToken} (${symbolNewToken}), ${addressNewToken}, ${hook.explorerUrl}${addressNewToken}`,
+            },
+            {
+                name: 'Liquidity information',
+                value: `liquidity (${symbolOldToken}, USD): ${liquidity.toFixed(2)}, $${liquidityUSD.toFixed(2)}`,
+            }
         )
-        .addField('Inline field title', 'Some value here', true)
-        .setImage('https://i.imgur.com/AfFp7pu.png')
-        .setTimestamp()
-        .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+        .setTimestamp();
 
     webhookClient.send({
-        content: 'Webhook test',
-        username: 'some-username',
+        username: 'liquidity pair bot',
         avatarURL: 'https://i.imgur.com/AfFp7pu.png',
         embeds: [embed],
     });
+
+    if (notificationWorthy(liquidityUSD, chain)) {
+        let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
+        webhookNotificationClient.send({
+            username: 'liquidity pair bot',
+            avatarURL: 'https://i.imgur.com/AfFp7pu.png',
+            embeds: [embed],
+        });
+    }
+};
+
+const notificationWorthy = (liquidityUSD, chain) => {
+    // do research here to determine
+    let worthy = false;
+    switch (chain) {
+        case 'BSC': {
+            if (liquidityUSD >= 50000) {
+                worthy = true;
+            }
+            break;
+        }
+        case 'ETH': {
+            if (liquidityUSD >= 50000) {
+                worthy = true;
+            }
+            break;
+        }
+        case 'FTM': {
+            if (liquidityUSD >= 10000) {
+                worthy = true;
+            }
+            break;
+        }
+        case 'AURORA': {
+            if (liquidityUSD >= 5000) {
+                worthy = true;
+            }
+            break;
+        }
+        case 'FUSE': {
+            if (liquidityUSD >= 3000) {
+                worthy = true;
+            }
+            break;
+        }
+        case 'METIS': {
+            if (liquidityUSD >= 5000) {
+                worthy = true;
+            }
+            break;
+        }
+    }
+    return worthy;
 };
 
 // not in use currently
@@ -256,16 +340,81 @@ const getInternalTransactions = async (address) => {
     return internalTxs['result'];
 };
 
-const onPairCreated = async (
-    account,
-    token0Address,
-    token1Address,
-    addressPair,
-    chain,
-    dex,
-    knownTokens,
-    webhookClient
-) => {
+const getHookInfo = (chain, dex) => {
+    let hook = {};
+
+    switch (chain) {
+        case 'BSC': {
+            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png';
+            hook.greenUrl = config.bscHookUrlGreen;
+            hook.yellowUrl = config.bscHookUrlYellow;
+            hook.redUrl = config.bscHookUrlRed;
+            hook.explorerUrl = 'https://bscscan.com/token/';
+            if (dex === 'pancakeswap') {
+                hook.dexUrl = 'https://pancakeswap.finance/swap/';
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
+        case 'FTM': {
+            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/3513.png';
+            hook.greenUrl = config.ftmHookUrlGreen;
+            hook.yellowUrl = config.ftmHookUrlYellow;
+            hook.redUrl = config.ftmHookUrlRed;
+            hook.explorerUrl = 'https://ftmscan.com/token/';
+            if (dex === 'spookyswap') {
+                hook.dexUrl = 'https://spookyswap.finance/swap';
+            } else if (dex === 'spiritswap') {
+                hook.dexUrl = 'https://swap.spiritswap.finance/#/exchange/swap/';
+            }
+            break;
+        }
+        case 'AURORA': {
+            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png';
+            hook.greenUrl = config.auroraHookUrlGreen;
+            hook.yellowUrl = config.auroraHookUrlYellow;
+            hook.redUrl = config.auroraHookUrlRed;
+            hook.explorerUrl = 'https://explorer.mainnet.aurora.dev/token/';
+            if (dex === 'trisolaris') {
+                hook.dexUrl = 'https://www.trisolaris.io/#/swap';
+            } else if (dex == 'wannaswap') {
+                hook.dexUrl = 'https://wannaswap.finance/exchange/swap';
+            }
+            break;
+        }
+        case 'FUSE': {
+            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/5634.png';
+            hook.greenUrl = config.fuseHookUrlGreen;
+            hook.yellowUrl = config.fuseHookUrlYellow;
+            hook.redUrl = config.fuseHookUrlRed;
+            hook.explorerUrl = 'https://explorer.fuse.io/token/';
+            if (dex === 'fuse.fi') {
+                hook.dexUrl = 'https://app.fuse.fi/#/swap';
+            }
+            break;
+        }
+        case 'METIS': {
+            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/9640.png';
+            hook.greenUrl = config.metisHookUrlGreen;
+            hook.yellowUrl = config.metisHookUrlYellow;
+            hook.redUrl = config.metisHookUrlRed;
+            hook.explorerUrl = 'https://andromeda-explorer.metis.io/token/';
+            if (dex === 'netswap') {
+                hook.dexUrl = 'https://netswap.io/#/swap';
+            } else if (dex === 'tethys') {
+                hook.dexUrl = 'https://tethys.finance/swap';
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+    return hook;
+};
+
+const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
     let token0 = await getTokenMetadata(token0Address, account);
     let token1 = await getTokenMetadata(token1Address, account);
 
@@ -273,7 +422,7 @@ const onPairCreated = async (
     token0.liq = liq0;
     token1.liq = liq1;
 
-    displayPair(token0, token1, addressPair, chain, dex, knownTokens, webhookClient);
+    displayPair(token0, token1, addressPair, chain, dex, knownTokens);
 };
 
 export { getTokenMetadata, getPairLiquidity, displayPair, getContractDeployerInfo, onPairCreated };

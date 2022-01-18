@@ -1,0 +1,25 @@
+
+
+analys pivot
+
+- analysera kontons performance 2021
+- analyze as many accounts as possible on ethereum
+    - if account has has more than 10k txs or 10k ttes during the last year, take data from public bigquery DB
+
+- then do the same on bsc, avalanche, polygon, fantom, harmony on the same addresses
+
+- label the accounts with the results
+
+- start tracking the accounts
+- set up discord channels
+
+
+example notifications:
+    - a tracked account buys a token not on coingecko
+    - multiple tracked accounts buys a token below 50m mc
+    - multiple tracked accounts bridged to a certain chain
+    
+
+
+
+

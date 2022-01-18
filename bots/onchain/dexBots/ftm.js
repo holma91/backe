@@ -25,20 +25,10 @@ const spiritswapFactory = new ethers.Contract(addresses.spiritswapFactory, uniV2
 
 console.log('fantom DEX sync started\nsupported dexes: SpookySwap, SpiritSwap');
 
-let receivedPairs = 0;
-let displayedPairs = 0;
 spookyswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
     await onPairCreated(account, token0Address, token1Address, addressPair, 'FTM', 'spookyswap', knownTokens);
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
 });
 
 spiritswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
     await onPairCreated(account, token0Address, token1Address, addressPair, 'FTM', 'spiritswap', knownTokens);
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
 });
