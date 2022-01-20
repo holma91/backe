@@ -1,12 +1,25 @@
-import { MessageEmbed, WebhookClient } from 'discord.js';
-import { config } from '../discord/config.js';
+const getDate = () => {
+    return new Date();
+};
 
-console.log(config.newPairHookUrl);
-let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
-console.log(webhookNotificationClient);
-webhookNotificationClient.send({
-    username: 'liquidity pair bot',
-    avatarURL: 'https://i.imgur.com/AfFp7pu.png',
-    content: 'some content',
-    // embeds: [embed],
-});
+// liq after a while function
+
+const main = async () => {
+    const intervals = [1000, 5000, 10000];
+    for (const interval of intervals) {
+        console.log('interval: ', interval);
+        const x = async () => {
+            var promise = new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    resolve(getDate());
+                }, interval);
+            });
+            return promise;
+        };
+
+        let res = await x();
+        console.log(res);
+    }
+};
+
+main();
