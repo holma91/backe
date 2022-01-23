@@ -2363,5 +2363,60 @@
         "address": "0x2d45f3423929de922504b6e7aa3eadbad0f17d8e",
         "label": "\ud83e\udd16 Nexo Deposit",
         "account_type": "CA"
+    },
+    {
+        "address": "0x0e5069514a3dd613350bab01b58fd850058e5ca4",
+        "label": "Wintermute",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x77ab999d1e9f152156b4411e1f3e2a42dab8cd6d",
+        "label": "Kuna.io 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xaf1931c20ee0c11bea17a41bfbbad299b2763bc0",
+        "label": "Luno 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x416299aade6443e6f6e8ab67126e65a7f606eef5",
+        "label": "Luno 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x6cc8dcbca746a6e4fdefb98e1d0df903b107fd21",
+        "label": "Bitrue",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x25eaff5b179f209cf186b1cdcbfa463a69df4c45",
+        "label": "Blockfolio",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xbf1a97d8d4229d61b031214d5bbe9a5cb1e737f9",
+        "label": "CoinDhan",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x33ddd548fe3a082d753e5fe721a26e1ab43e3598",
+        "label": "Coinex 2",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0x47ac0fb4f2d84898e4d9e7b4dab3c24507a6d503",
+        "label": "Binance: Binance-Peg Tokens",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xeea81c4416d71cef071224611359f6f99a4c4294",
+        "label": "BitMEX 1",
+        "account_type": "EOA"
+    },
+    {
+        "address": "0xfb8131c260749c7835a08ccbdb64728de432858e",
+        "label": "BitMEX 2",
+        "account_type": "EOA"
     }
 ]

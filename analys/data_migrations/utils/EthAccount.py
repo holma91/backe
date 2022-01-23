@@ -1,6 +1,7 @@
-import requests
-from lib.helper import wei_to_eth, fix_address
 from operator import itemgetter
+import time
+from .helpers import fix_address
+import requests
 
 URL = "https://etherscan.io/accounts/label/exchange"
 WRAPPED_ETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
@@ -12,9 +13,15 @@ class EthAccount:
         self.api_key = api_key
 
     def get_transactions(self) -> list:
-        transactions = requests.get(
+        response = requests.get(
             f'https://api.etherscan.io/api?module=account&action=txlist&address={self.address}&page=1&offset=10000&sort=asc&apikey={self.api_key}')
-        return transactions.json()['result']
+        count = 0
+        while response.status_code == 429 and count < 50:
+            print(count)
+            count += 1
+            time.sleep(10)
+            response = requests.get(f'https://api.etherscan.io/api?module=account&action=txlist&address={self.address}&page=1&offset=10000&sort=asc&apikey={self.api_key}')
+        return response.json()['result']
 
     def get_balance(self) -> str:
         balance = requests.get(
@@ -27,9 +34,15 @@ class EthAccount:
         return internal_txs.json()['result']
 
     def get_ERC20_token_transfer_events(self) -> list:
-        token_transfer_events = requests.get(
+        response = requests.get(
             f'https://api.etherscan.io/api?module=account&action=tokentx&address={self.address}&startblock=0&endblock=27025780&sort=asc&apikey={self.api_key}')
-        return token_transfer_events.json()['result']
+        count = 0
+        while response.status_code == 429 and count < 50:
+            count += 1
+            time.sleep(10)
+            response = requests.get(
+                f'https://api.etherscan.io/api?module=account&action=tokentx&address={self.address}&startblock=0&endblock=27025780&sort=asc&apikey={self.api_key}')
+        return response.json()['result']
 
     def get_token_contracts(self) -> list:
         contracts = set()

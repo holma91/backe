@@ -1,9 +1,14 @@
-import os
+import json
+import time
+from datetime import datetime
 
-cur_path = os.path.dirname(__file__)
-print(cur_path)
+import psycopg2
+import requests
 
-new_path = os.path.relpath('..\\subfldr1\\testfile.txt', cur_path)
-print(new_path)
-# with open(new_path, 'w') as f:
-# f.write(data)
+
+response = requests.post(f'https://eth-mainnet.alchemyapi.io/v2/{ALCHEMY_KEY}', json={
+    "jsonrpc": "2.0",
+    "method": "eth_getCode",
+    "params": [f"{address}", "latest"],
+    "id": 0
+})

@@ -1,11 +1,11 @@
 const express = require('express');
-// const usersRouter = require('./routes/users');
+const accountsRouter = require('./routes/accounts');
 
 module.exports = () => {
     const app = express();
 
     app.use(express.json());
-    // app.use(usersRouter);
+    app.use(accountsRouter);
 
     return app;
 };

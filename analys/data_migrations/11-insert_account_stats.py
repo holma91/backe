@@ -6,17 +6,30 @@ import psycopg2
 import requests
 
 from utils.EthAccount import EthAccount
+from utils.env import APIKEY_ETHERSCAN, ALCHEMY_KEY
+from utils.helpers import fix_address, get_account_type
 
 weird_one_address = '0xd5cd84d6f044abe314ee7e414d37cae8773ef9d3'
 one_address = '0x799a4202c12ca952cb311598a024c80ed371a41e'
 WRAPPED_ETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
-
-
-def fix_address(address):
-    return address.lower()
-
+START_TIMESTAMP = 1609459200
+END_TIMESTAMP = 1640995200
 
 wrapped_eth = fix_address(WRAPPED_ETH)
+
+STATS = {
+    'address': '',
+    'start_value_usd': 0,
+    'start_value_eth': 0,
+    'end_value_usd': 0,
+    'end_value_eth': 0,
+    'profit_usd': 0,
+    'profit_eth': 0,
+    'against_usd': 0,
+    'against_eth': 0,
+    'tx_count': 0,
+    'year': 0,
+}
 
 
 def floor_date(timestamp):
@@ -44,12 +57,17 @@ def to_correct_unit(value, token_decimals):
     return str(value * 10 ** -token_decimals)
 
 
+def is_in2021(timestamp) -> bool:
+    return timestamp >= START_TIMESTAMP and timestamp <= END_TIMESTAMP
+
+
 def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
     con = psycopg2.connect(
         host="localhost",
-        database="jocke",
+        database="lasse",
         user="alexander",
         password="")
+    con.autocommit = True
 
     cur = con.cursor()
     account_value_usd = 0
@@ -62,7 +80,7 @@ def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
         rows = cur.fetchall()
         if len(rows) != 1:
             # too bad, no price data for this token at this timestamp
-            print(f"no data for {token} at {timestamp}")
+            # print(f"no data for {token} at {timestamp}")
             continue
         price = float(rows[0][0])
         decimals = int(rows[0][1])
@@ -120,14 +138,43 @@ def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
 
     snapshot['timestamp'] = datetime.utcfromtimestamp(snapshot['timestamp']).astimezone()
 
-    cur.execute("""insert into account_snapshot (address, account_value_usd, account_value_eth, profit_usd, 
-                profit_eth, inflow_value_usd, inflow_value_eth, outflow_value_usd, outflow_value_eth, 
-                snapshot_timestamp) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
-                (snapshot['address'], snapshot['account_value_usd'], snapshot['account_value_eth'], snapshot['profit_usd'],
-                 snapshot['profit_eth'], snapshot['inflow_value_usd'], snapshot['inflow_value_eth'], snapshot['outflow_value_usd'], snapshot['outflow_value_eth'],
-                 snapshot['timestamp']))
+    if timestamp == START_TIMESTAMP:
+        STATS['address'] = snapshot['address']
+        STATS['start_value_usd'] = snapshot['account_value_usd']
+        STATS['start_value_eth'] = snapshot['account_value_eth']
+        STATS['year'] = 2021
+        STATS['inflow_before2021_usd'] = snapshot['inflow_value_usd']
+        STATS['inflow_before2021_eth'] = snapshot['inflow_value_eth']
+        STATS['outflow_before2021_usd'] = snapshot['outflow_value_usd']
+        STATS['outflow_before2021_eth'] = snapshot['outflow_value_eth']
 
-    con.commit()
+    if timestamp == END_TIMESTAMP:
+
+        inflow2021_usd = snapshot['inflow_value_usd'] - STATS['inflow_before2021_usd']
+        inflow2021_eth = snapshot['inflow_value_eth'] - STATS['inflow_before2021_eth']
+        outflow2021_usd = snapshot['outflow_value_usd'] - STATS['outflow_before2021_usd']
+        outflow2021_eth = snapshot['outflow_value_eth'] - STATS['outflow_before2021_eth']
+
+        STATS['start_value_usd'] += inflow2021_usd
+        STATS['start_value_eth'] += inflow2021_eth
+        STATS['end_value_usd'] = snapshot['account_value_usd'] + outflow2021_usd
+        STATS['end_value_eth'] = snapshot['account_value_eth'] + outflow2021_eth
+        STATS['profit_usd'] = STATS['end_value_usd'] - STATS['start_value_usd']
+        STATS['profit_eth'] = STATS['end_value_eth'] - STATS['start_value_eth']
+        if (STATS['start_value_usd'] != 0 and STATS['start_value_eth'] != 0):
+            STATS['against_usd'] = STATS['end_value_usd'] / STATS['start_value_usd']
+            STATS['against_eth'] = STATS['end_value_eth'] / STATS['start_value_eth']
+        else:
+            STATS['against_usd'] = 1
+            STATS['against_eth'] = 1
+
+        cur.execute("""insert into account_stats (address, start_value_usd, start_value_eth, end_value_usd, 
+                    end_value_eth, profit_usd, profit_eth, against_usd, against_eth, tx_count, year) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
+                    (STATS['address'], STATS['start_value_usd'], STATS['start_value_eth'], STATS['end_value_usd'],
+                     STATS['end_value_eth'], STATS['profit_usd'], STATS['profit_eth'], STATS['against_usd'], STATS['against_eth'],
+                     STATS['tx_count'], STATS['year']))
+
+    # con.commit()
     cur.close()
     con.close()
 
@@ -135,6 +182,8 @@ def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
 
 
 def get_timestamps(sorted_txs) -> list:
+    START_TIMESTAMP = 1609459200
+    END_TIMESTAMP = 1640995200
     last_tx_tuple = datetime.utcfromtimestamp(
         int(sorted_txs[-1]['timeStamp'])).timetuple()
     last_tx = datetime(last_tx_tuple[0], last_tx_tuple[1],
@@ -149,45 +198,31 @@ def get_timestamps(sorted_txs) -> list:
     timestamps = [int(datetime.timestamp(last_tx + timedelta(days=1) - timedelta(days=a)))
                   for a in range(diff.days+2)]
 
-    return timestamps[::-1]
+    relevant_timestamps = list(filter(lambda timestamp: (timestamp <= END_TIMESTAMP), timestamps))
+
+    if START_TIMESTAMP not in relevant_timestamps:
+        relevant_timestamps.append(START_TIMESTAMP)
+
+    relevant_timestamps.sort()
+
+    return relevant_timestamps
 
 
-def get_account_type(address):
-    account_code = requests.post(f'https://eth-mainnet.alchemyapi.io/v2/{ALCHEMY_KEY}', json={
-        "jsonrpc": "2.0",
-        "method": "eth_getCode",
-        "params": [f"{address}", "latest"],
-        "id": 0
-    }).json()
-    if account_code['result'] == '0x':
-        return 'EOA'
-    else:
-        return 'CA'
+def account_is_organic(address):
 
+    # Check if it is a exchange owned CA
+    if address in exchanges:
+        return False
 
-def is_organic(address):
+    if address in bridges:
+        return False
+
+    if address == fix_address(WRAPPED_ETH):
+        return False
 
     # Check if it account is EOA or CA
     account_type = get_account_type(address)
     if account_type == 'EOA':
-        return False
-
-    # Check if it is a exchange owned CA
-    with open('all_exchanges.json', 'r') as exchanges_file:
-        data = exchanges_file.read()
-    exchanges = json.loads(data)
-
-    if address in exchanges.keys():
-        return False
-
-    with open('all_bridges.json', 'r') as bridges_file:
-        data = bridges_file.read()
-    bridges = json.loads(data)
-
-    if address in bridges.keys():
-        return False
-
-    if address == fix_address(WRAPPED_ETH):
         return False
 
     return True
@@ -196,7 +231,7 @@ def is_organic(address):
 def get_flow(tx, flow_type):
     con = psycopg2.connect(
         host="localhost",
-        database="jocke",
+        database="lasse",
         user="alexander",
         password="")
 
@@ -224,7 +259,7 @@ def get_flow(tx, flow_type):
 
     if len(rows) != 1:
         # too bad, no price data for this token at this timestamp
-        print(f"no data for {identifier} at {timestamp}")
+        print(f"no data for {identifier} ({identifier[-42]}) at {timestamp}")
         return {
             identifier: int(tx['value']),
             'value_usd': 0,
@@ -279,17 +314,18 @@ def get_snapshots(acc):
     outflows = []
 
     for tx in sorted_txs:
-        if len(timestamps) > count and int(tx['timeStamp']) > timestamps[count]:
+
+        if len(timestamps) <= count:
+            return snapshots
+
+        if int(tx['timeStamp']) > timestamps[count]:
             snapshot = take_snapshot(acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
             snapshots.append(snapshot)
             count += 1
             while len(timestamps) > count and int(tx['timeStamp']) > timestamps[count]:
                 snapshot = take_snapshot(acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
-                # print(json.dumps(snapshot, indent=2))
                 snapshots.append(snapshot)
                 count += 1
-
-        # print(json.dumps(tx, indent=2))
 
         if 'tokenName' in tx.keys():
             # its a TTE
@@ -305,7 +341,7 @@ def get_snapshots(acc):
 
             if tx['to'] == acc.address:
                 # is tx['from'] == EOA or EXC?
-                if not is_organic(tx['from']):
+                if not account_is_organic(tx['from']):
                     if f"{tx['tokenSymbol']} {tx['contractAddress']}" not in inflow_from_eoa:
                         inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] = int(tx['value'])
                     else:
@@ -315,7 +351,7 @@ def get_snapshots(acc):
 
                 holdings[f"{tx['tokenSymbol']} {tx['contractAddress']}"] += int(tx['value'])
             elif tx['from'] == acc.address:
-                if not is_organic(tx['to']):
+                if not account_is_organic(tx['to']):
                     if f"{tx['tokenSymbol']} {tx['contractAddress']}" not in inflow_from_eoa:
                         inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] = int(tx['value']) * (-1)
                     else:
@@ -329,6 +365,8 @@ def get_snapshots(acc):
 
         else:
             # its a TX
+            if is_in2021(int(tx['timeStamp'])):
+                STATS['tx_count'] += 1
             if tx['from'] == acc.address and tx['to'] == acc.address:
                 holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] -= int(tx['gasPrice']) * int(tx['gasUsed'])
             elif tx['from'] == acc.address:
@@ -348,7 +386,7 @@ def get_snapshots(acc):
                         inflow = get_flow(tx, 'tx weth')
                         inflows.append(inflow)
 
-                    if not is_organic(tx['to']):
+                    if tx['to'] != "" and not account_is_organic(tx['to']):
                         inflow_from_eoa[f"eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"] -= int(tx['value'])
                         outflow = get_flow(tx, 'tx')
                         outflows.append(outflow)
@@ -360,7 +398,7 @@ def get_snapshots(acc):
 
             else:
                 # is tx['from'] an EOA?
-                if not is_organic(tx['from']):
+                if not account_is_organic(tx['from']):
                     inflow_from_eoa[f"eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"] += int(tx['value'])
                     inflow = get_flow(tx, 'tx')
                     inflows.append(inflow)
@@ -379,7 +417,46 @@ def get_snapshots(acc):
     return snapshots
 
 
-# for acc in accs
-acc1 = EthAccount(ACCOUNT1, APIKEY_ETHERSCAN)
+with open('./initial_data/exchanges.json', 'r') as exchanges_file:
+    data = exchanges_file.read()
 
-snapshots = get_snapshots(acc1)
+exchanges = json.loads(data)
+# get a list of the exchange addresses
+exchanges = [exchange['address'] for exchange in exchanges]
+
+with open('./initial_data/bridges.json', 'r') as bridges_file:
+    data = bridges_file.read()
+
+bridges = json.loads(data)
+# get a list of the bridge addresses
+bridges = [bridge['address'] for bridge in bridges]
+
+
+def get_addresses():
+    con = psycopg2.connect(
+        host="localhost",
+        database="lasse",
+        user="alexander",
+        password="")
+
+    cur = con.cursor()
+
+    cur.execute("select address from account;")
+    rows = cur.fetchall()
+
+    con.commit()
+    cur.close()
+    con.close()
+
+    addresses = [row[0] for row in rows]
+    return addresses
+
+
+addresses = get_addresses()
+# for acc in accs
+# only using accounts with less than 10k tx and or 10k ttes.
+for address in addresses[14:]:
+    print(f"currently with {address}")
+    acc1 = EthAccount(address, APIKEY_ETHERSCAN)
+    snapshots = get_snapshots(acc1)
+    print(f"done with {address}")

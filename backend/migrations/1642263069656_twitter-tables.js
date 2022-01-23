@@ -13,8 +13,8 @@ exports.up = (pgm) => {
 
         create table twitter_connection (
             id serial primary key,
-            follower varchar(200) not null REFERENCES twitter_account(username) ON DELETE CASCADE,
-            followee varchar(200) not null REFERENCES twitter_account(username) ON DELETE CASCADE
+            follower_id varchar(200) not null REFERENCES twitter_account(twitter_id) ON DELETE CASCADE,
+            followee_id varchar(200) not null REFERENCES twitter_account(twitter_id) ON DELETE CASCADE
         );
 
         create table ticker_mention (
