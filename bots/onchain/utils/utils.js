@@ -1,15 +1,14 @@
 import connections from '../connections.js';
-const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 import ethers from 'ethers';
-import fetch from 'node-fetch';
+import clientInitializer from 'twilio';
+const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import { config } from '../wh_discord.js';
+import twilio from '../twilio_env.js';
 
-export const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
-export const uniV3Factory = [
-    'event PoolCreated(address token0, address token1, uint24 fee, int24 tickSpacing, address pool)',
-];
-export const uniV2Pair = [
+const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
+const uniV3Factory = ['event PoolCreated(address token0, address token1, uint24 fee, int24 tickSpacing, address pool)'];
+const uniV2Pair = [
     'event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)',
 ];
 
@@ -24,7 +23,7 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
     try {
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         displayPair(pairInfo);
-        sendDiscordMessage(pairInfo);
+        sendDiscordMessages(pairInfo);
     } catch (e) {
         console.log(e);
     }
@@ -164,7 +163,7 @@ const displayPair = (pairInfo) => {
     );
 };
 
-const sendDiscordMessage = (pairInfo) => {
+const sendDiscordMessages = async (pairInfo) => {
     const hook = getHookInfo(pairInfo.chain, pairInfo.dex);
 
     const webhookClient = new WebhookClient({
@@ -216,6 +215,14 @@ const sendDiscordMessage = (pairInfo) => {
             avatarURL: 'https://i.imgur.com/AfFp7pu.png',
             embeds: [embed],
         });
+
+        // phone call here lol. wake the fuck up
+        const client = clientInitializer(twilio.accountSid, twilio.authToken);
+        await client.calls.create({
+            url: 'http://demo.twilio.com/docs/voice.xml',
+            from: twilio.fromNumber,
+            to: twilio.toNumber,
+        });
     }
 };
 
@@ -223,74 +230,38 @@ const notificationWorthy = (liquidityUSD, chain) => {
     // do research here to determine
     let worthy = false;
     switch (chain) {
-        case 'BSC': {
-            if (liquidityUSD >= 50000) {
-                worthy = true;
-            }
-            break;
-        }
         case 'ETH': {
-            if (liquidityUSD >= 50000) {
-                worthy = true;
-            }
-            break;
-        }
-        case 'FTM': {
-            if (liquidityUSD >= 10000) {
+            if (liquidityUSD >= 500000) {
                 worthy = true;
             }
             break;
         }
         case 'AURORA': {
-            if (liquidityUSD >= 5000) {
+            if (liquidityUSD >= 15000) {
                 worthy = true;
             }
             break;
         }
         case 'FUSE': {
-            if (liquidityUSD >= 3000) {
+            if (liquidityUSD >= 15000) {
                 worthy = true;
             }
             break;
         }
         case 'METIS': {
-            if (liquidityUSD >= 5000) {
+            if (liquidityUSD >= 15000) {
                 worthy = true;
             }
             break;
         }
         case 'OPTIMISM': {
-            if (liquidityUSD >= 5000) {
+            if (liquidityUSD >= 15000) {
                 worthy = true;
             }
             break;
         }
     }
     return worthy;
-};
-
-const getTransactions = async (address, chain) => {
-    let res;
-    if (chain === 'BSC') {
-        res = await fetch(
-            `https://api.bscscan.com/api?module=account&action=txlist&address=${address}&page=1&offset=10000&sort=asc&apikey=${BSC.EXPLORER_APIKEY}`
-        );
-    } else if (chain === 'FTM') {
-        res = await fetch(
-            `https://api.ftmscan.com/api?module=account&action=txlist&address=${address}&sort=asc&apikey=${FTM.EXPLORER_APIKEY}`
-        );
-    }
-
-    const txs = await res.json();
-    return txs['result'];
-};
-const getInternalTransactions = async (address) => {
-    const res = await fetch(
-        `https://api.bscscan.com/api?module=account&action=txlistinternal&address=${address}&page=1&offset=10&sort=asc&apikey=${APIKEY_BSCSCAN}`
-    );
-    const internalTxs = await res.json();
-
-    return internalTxs['result'];
 };
 
 const getHookInfo = (chain, dex) => {
@@ -392,68 +363,10 @@ const getHookInfo = (chain, dex) => {
     return hook;
 };
 
-// not in use currently
-const getContractDeployerInfo = async (contractAddress, chain) => {
-    // this functionality is only implemented for bsc at the moment
-    if (chain !== 'BSC') {
-        return '';
-    }
-    let contractCreator = '';
-    let success = false;
-    let count = 0;
-
-    while (!success) {
-        try {
-            count++;
-            const txs = await getTransactions(contractAddress, chain);
-
-            if (txs.length > 0 && txs[0]['to'] === '') {
-                contractCreator = txs[0]['from'];
-            } else {
-                // contract was deployed via an internal transaction
-                const internalTxs = await getInternalTransactions(contractAddress);
-                if (internalTxs.length < 1) {
-                    // no normal txs and no internal txs => etherscan not updated
-                    throw 'block explorer not updated';
-                }
-                if (internalTxs.length < 1) {
-                    console.log('AFTER THROW');
-                }
-
-                if (internalTxs[0]['to'] === '') {
-                    contractAddress = internalTxs[0]['from'];
-                }
-
-                // recurses until inital EOA account is found
-                contractCreator = getContractDeployerInfo(contractAddress);
-            }
-            success = true;
-        } catch (err) {
-            if (count === 1 || count === 100) {
-                // only log the first and last error
-                //console.error(err, `, can't find creator for ${contractAddress} on try ${count}`);
-            }
-            sleep(500);
-            if (count > 100) break;
-        }
-    }
-
-    return contractCreator;
-};
-
 const sleep = (ms) => {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
     });
 };
 
-export { getTokenMetadata, getPairLiquidity, displayPair, getContractDeployerInfo, onPairCreated };
-
-// think about casing here
-// let tokenDeployerAddress = '';
-// let knownAddresses = Object.values(established_tokenAddresses).map((token) => token.address);
-// if (!knownAddresses.includes(token0Address)) {
-//     tokenDeployerAddress = await getContractDeployerInfo(token0Address, chain);
-// } else if (!knownAddresses.includes(token1Address)) {
-//     tokenDeployerAddress = await getContractDeployerInfo(token1Address, chain);
-// }
+export { getTokenMetadata, getPairLiquidity, displayPair, onPairCreated, uniV2Factory, uniV3Factory, uniV2Pair };
