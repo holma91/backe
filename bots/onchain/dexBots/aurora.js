@@ -1,6 +1,8 @@
 import ethers from 'ethers';
-import { MNEMONIC, AURORA_HTTP } from '../env.js';
-import { uniV2Factory, onPairCreated } from '../utils/utils.js';
+import { MNEMONIC } from '../env.js';
+import connections from '../connections.js';
+const { AURORA } = connections;
+import { uniV2Factory } from '../utils/utils.js';
 
 const addresses = {
     WBNB: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
@@ -11,7 +13,7 @@ const addresses = {
 const knownTokens = {
     NEAR: {
         address: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d',
-        inUSD: 20,
+        inUSD: 12,
     },
     USDC: {
         address: '0xB12BFcA5A55806AaF64E99521918A4bf0fC40802',
@@ -23,42 +25,36 @@ const knownTokens = {
     },
     AURORA: {
         address: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79',
-        inUSD: 33,
+        inUSD: 14,
     },
     TRI: {
         address: '0xFa94348467f64D5A457F75F8bc40495D33c65aBB',
-        inUSD: 3,
+        inUSD: 1.1,
     },
     WETH: {
         address: '0xC9BdeEd33CD01541e1eeD10f90519d2C06Fe3feB',
-        inUSD: 3200,
+        inUSD: 2500,
     },
 };
 
-const provider = new ethers.providers.JsonRpcProvider(AURORA_HTTP);
+const provider = new ethers.providers.JsonRpcProvider(AURORA.http);
 const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
 const account = wallet.connect(provider);
 
-const trisolarisFactory = new ethers.Contract(addresses.trisolarisFactory, uniV2Factory, account);
+const trisolaris = {
+    factory: new ethers.Contract(addresses.trisolarisFactory, uniV2Factory, account),
+    account: account,
+    knownTokens: knownTokens,
+    dexName: 'trisolaris',
+    chainName: 'AURORA',
+};
 
-const wannaswapFactory = new ethers.Contract(addresses.wannaswapFactory, uniV2Factory, account);
+const wannaswap = {
+    factory: new ethers.Contract(addresses.wannaswapFactory, uniV2Factory, account),
+    account: account,
+    knownTokens: knownTokens,
+    dexName: 'wannaswap',
+    chainName: 'AURORA',
+};
 
-console.log('aurora DEX sync started\nsupported dexes: trisolaris, wannaswap');
-
-let receivedPairs = 0;
-let displayedPairs = 0;
-trisolarisFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(account, token0Address, token1Address, addressPair, 'AURORA', 'trisolaris', knownTokens);
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
-});
-
-wannaswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(account, token0Address, token1Address, addressPair, 'AURORA', 'wannaswap', knownTokens);
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
-});
+export { trisolaris, wannaswap };

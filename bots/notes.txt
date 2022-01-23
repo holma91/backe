@@ -20,6 +20,7 @@ example notifications:
     - multiple tracked accounts bridged to a certain chain
     
 
+snapshot on 1 jan 00:00 2021
 
 
 

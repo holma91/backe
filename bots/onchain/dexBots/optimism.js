@@ -1,34 +1,32 @@
 import ethers from 'ethers';
-import { MNEMONIC, OPTIMISM_HTTP } from '../env.js';
-import { uniV2Factory, onPairCreated } from '../utils/utils.js';
+import { MNEMONIC } from '../env.js';
+import connections from '../connections.js';
+const { OPTIMISM } = connections;
+import { uniV2Factory } from '../utils/utils.js';
 
 const addresses = {
     zipswapFactory: '0x8BCeDD62DD46F1A76F8A1633d4f5B76e0CDa521E',
 };
 
 const knownTokens = {
-    WETH: { address: '0x4200000000000000000000000000000000000006', inUSD: 3350 },
-    ZIP: { address: '0xFA436399d0458Dbe8aB890c3441256E3E09022a8', inUSD: 0.13 },
+    WETH: { address: '0x4200000000000000000000000000000000000006', inUSD: 2500 },
+    ZIP: { address: '0xFA436399d0458Dbe8aB890c3441256E3E09022a8', inUSD: 0.12 },
     USDT: { address: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58', inUSD: 1.0 },
     USDC: { address: '0x7f5c764cbc14f9669b88837ca1490cca17c31607', inUSD: 1.0 },
-    WBTC: { address: '0x68f180fcce6836688e9084f035309e29bf0a2095', inUSD: 42000 },
+    WBTC: { address: '0x68f180fcce6836688e9084f035309e29bf0a2095', inUSD: 3600 },
     DAI: { address: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1', inUSD: 1.0 },
 };
 
-const provider = new ethers.providers.JsonRpcProvider(OPTIMISM_HTTP);
+const provider = new ethers.providers.JsonRpcProvider(OPTIMISM.http);
 const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
 const account = wallet.connect(provider);
 
-const zipswapFactory = new ethers.Contract(addresses.zipswapFactory, uniV2Factory, account);
+const zipswap = {
+    factory: new ethers.Contract(addresses.zipswapFactory, uniV2Factory, account),
+    account: account,
+    knownTokens: knownTokens,
+    dexName: 'zipswap',
+    chainName: 'OPTIMISM',
+};
 
-console.log('optimism DEX sync started\nsupported dexes: zipswap');
-
-let receivedPairs = 0;
-let displayedPairs = 0;
-zipswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    receivedPairs++;
-    console.log(`NEW PAIR ${addressPair}, receivedPairs = ${receivedPairs}`);
-    await onPairCreated(account, token0Address, token1Address, addressPair, 'OPTIMISM', 'zipswap', knownTokens);
-    displayedPairs++;
-    console.log(`DISPLAYED PAIR ${addressPair}, displayedPairs = ${displayedPairs}`);
-});
+export { zipswap };

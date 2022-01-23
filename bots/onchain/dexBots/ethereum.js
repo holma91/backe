@@ -1,38 +1,51 @@
 import ethers from 'ethers';
-import { MNEMONIC, ETH_WEBSOCKET } from '../env.js';
-import { onPairCreated, uniV2Factory, uniV3Factory } from '../utils/utils.js';
+import { MNEMONIC } from '../env.js';
+import connections from '../connections.js';
+const { ETH } = connections;
+import { uniV2Factory, uniV3Factory } from '../utils/utils.js';
 
 const addresses = {
     uniswapFactory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
     sushiswapFactory: '0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac',
 };
 
-const established_tokenAddresses = {
-    WETH: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-    USDC: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+const knownTokens = {
+    WETH: {
+        address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+        inUSD: 2500,
+    },
+    USDC: {
+        address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+        inUSD: 1.0,
+    },
+    USDT: {
+        address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+        inUSD: 1.0,
+    },
+    DAI: {
+        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        inUSD: 1.0,
+    },
 };
 
-const provider = new ethers.providers.WebSocketProvider(ETH_WEBSOCKET);
+const provider = new ethers.providers.WebSocketProvider(ETH.ws);
 const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
 const account = wallet.connect(provider);
 
-const uniswapFactory = new ethers.Contract(addresses.uniswapFactory, uniV3Factory, account);
-const sushiswapFactory = new ethers.Contract(addresses.sushiswapFactory, uniV2Factory, account);
+const uniswap = {
+    factory: new ethers.Contract(addresses.uniswapFactory, uniV3Factory, account),
+    account: account,
+    knownTokens: knownTokens,
+    dexName: 'uniswap',
+    chainName: 'ETH',
+};
 
-console.log('ethereum DEX sync started\nsupported dexes: UniSwap, SushiSwap');
+const sushiswap = {
+    factory: new ethers.Contract(addresses.sushiswapFactory, uniV2Factory, account),
+    account: account,
+    knownTokens: knownTokens,
+    dexName: 'sushiswap',
+    chainName: 'ETH',
+};
 
-uniswapFactory.on('PoolCreated', async (token0Address, token1Address, fee, tickSpacing, pool) => {
-    await onPairCreated(account, token0Address, token1Address, pool, 'ETH', 'uniswap', established_tokenAddresses);
-});
-
-sushiswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    await onPairCreated(
-        account,
-        token0Address,
-        token1Address,
-        addressPair,
-        'ETH',
-        'sushiswap',
-        established_tokenAddresses
-    );
-});
+export { uniswap, sushiswap };

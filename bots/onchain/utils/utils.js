@@ -1,12 +1,9 @@
-import { APIKEY_BSCSCAN, APIKEY_FTMSCAN } from '../env.js';
+import connections from '../connections.js';
+const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 import ethers from 'ethers';
 import fetch from 'node-fetch';
 import { MessageEmbed, WebhookClient } from 'discord.js';
-import { config } from '../discord/config.js';
-
-const FgRed = '\x1b[31m';
-const FgGreen = '\x1b[32m';
-const FgYellow = '\x1b[33m';
+import { config } from '../wh_discord.js';
 
 export const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
 export const uniV3Factory = [
@@ -15,6 +12,28 @@ export const uniV3Factory = [
 export const uniV2Pair = [
     'event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)',
 ];
+
+const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
+    let token0 = await getTokenMetadata(token0Address, account);
+    let token1 = await getTokenMetadata(token1Address, account);
+
+    const { liq0, liq1 } = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, account);
+    token0.liq = liq0;
+    token1.liq = liq1;
+
+    try {
+        let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
+        displayPair(pairInfo);
+        sendDiscordMessage(pairInfo);
+    } catch (e) {
+        console.log(e);
+    }
+
+    // return {
+    //     token0Decimals: token0.decimals,
+    //     token1Decimals: token1.decimals,
+    // };
+};
 
 const getTokenMetadata = async (tokenAddress, account) => {
     let token = {
@@ -40,8 +59,6 @@ const getTokenMetadata = async (tokenAddress, account) => {
             token.deployerAddress = contract.address;
             success = true;
         } catch (e) {
-            // console.log(e);
-            //console.log(`couldn't find token info for token with address ${tokenAddress} on try ${count}`);
             sleep(1000);
             if (count > 10) break;
         }
@@ -69,13 +86,10 @@ const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, acc
             reserves = await pairContract.getReserves();
             success = true;
         } catch (e) {
-            //console.log(`couldn't find info for pair with address ${addressPair} on try ${count}`);
             sleep(1000);
             if (count > 10) break;
         }
     }
-
-    // console.log('RESERVES', reserves);
 
     let liq0 = ethers.utils.formatUnits(reserves['reserve0'], token0Decimals);
     let liq1 = ethers.utils.formatUnits(reserves['reserve1'], token1Decimals);
@@ -83,51 +97,58 @@ const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, acc
     return { liq0, liq1 };
 };
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
-
-const displayPair = (token0, token1, addressPair, chain, dex, knownTokens) => {
-    let liquidity = 0;
-    let liquidityUSD = 0;
-    let addressNewToken = '';
-    let symbolNewToken = '';
-    let symbolOldToken = '';
-    let nameNewToken = '';
+const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
+    let pairInfo = {
+        liquidity: 0,
+        liquidityUSD: 0,
+        addressNewToken: '',
+        symbolNewToken: '',
+        symbolOldToken: '',
+        nameNewToken: '',
+        address: addressPair,
+        chain: chain,
+        dex: dex,
+    };
 
     let knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
 
     try {
         if (knownAddresses.includes(token0.address.toLowerCase())) {
-            liquidity = parseFloat(token0.liq);
-            liquidityUSD = parseFloat(liquidity) * knownTokens[token0.symbol]['inUSD'];
-            symbolOldToken = token0.symbol;
-            addressNewToken = token1.address;
-            symbolNewToken = token1.symbol;
-            nameNewToken = token1.name;
+            pairInfo.liquidity = parseFloat(token0.liq);
+            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token0.symbol]['inUSD'];
+            pairInfo.symbolOldToken = token0.symbol;
+            pairInfo.addressNewToken = token1.address;
+            pairInfo.symbolNewToken = token1.symbol;
+            pairInfo.nameNewToken = token1.name;
         } else if (knownAddresses.includes(token1.address.toLowerCase())) {
-            liquidity = parseFloat(token1.liq);
-            liquidityUSD = parseFloat(liquidity) * knownTokens[token1.symbol]['inUSD'];
-            symbolOldToken = token1.symbol;
-            addressNewToken = token0.address;
-            symbolNewToken = token0.symbol;
-            nameNewToken = token0.name;
+            pairInfo.liquidity = parseFloat(token1.liq);
+            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token1.symbol]['inUSD'];
+            pairInfo.symbolOldToken = token1.symbol;
+            pairInfo.addressNewToken = token0.address;
+            pairInfo.symbolNewToken = token0.symbol;
+            pairInfo.nameNewToken = token0.name;
         } else {
             // none of the addresses in the pair are known... liq is basically 0?
             // do nothing
         }
     } catch (e) {
-        console.log(`token0: ${token0.address}`);
-        console.log(`token1: ${token1.address}`);
+        console.log(`token0: ${token0.symbol} ${token0.address}`);
+        console.log(`token1: ${token1.symbol} ${token1.address}`);
         console.error(e);
     }
 
+    return pairInfo;
+};
+
+const displayPair = (pairInfo) => {
+    const FgRed = '\x1b[31m';
+    const FgGreen = '\x1b[32m';
+    const FgYellow = '\x1b[33m';
+
     let color = '';
-    if (liquidityUSD >= 5000.0) {
+    if (pairInfo.liquidityUSD >= 5000.0) {
         color = FgGreen;
-    } else if (liquidityUSD >= 1000.0) {
+    } else if (pairInfo.liquidityUSD >= 1000.0) {
         color = FgYellow;
     } else {
         color = FgRed;
@@ -135,74 +156,49 @@ const displayPair = (token0, token1, addressPair, chain, dex, knownTokens) => {
 
     console.log(color, `${color}`);
     console.log(
-        `${symbolOldToken}/${symbolNewToken}\n${nameNewToken}\nliq (${symbolOldToken}, USD): ${liquidity.toFixed(
-            2
-        )}, $${liquidityUSD.toFixed(2)}\n${symbolNewToken} address: ${addressNewToken}\npair: ${addressPair}\n${dex}\n`
-    );
-
-    sendDiscordMessage(
-        symbolOldToken,
-        symbolNewToken,
-        nameNewToken,
-        liquidity,
-        liquidityUSD,
-        addressNewToken,
-        addressPair,
-        chain,
-        dex
+        `${pairInfo.symbolOldToken}/${pairInfo.symbolNewToken}\n${pairInfo.nameNewToken}\nliq (${
+            pairInfo.symbolOldToken
+        }, USD): ${pairInfo.liquidity.toFixed(2)}, $${pairInfo.liquidityUSD.toFixed(2)}\n${
+            pairInfo.symbolNewToken
+        } address: ${pairInfo.addressNewToken}\npair: ${pairInfo.address}\n${pairInfo.dex}\n`
     );
 };
 
-const sendDiscordMessage = (
-    symbolOldToken,
-    symbolNewToken,
-    nameNewToken,
-    liquidity,
-    liquidityUSD,
-    addressNewToken,
-    addressPair,
-    chain,
-    dex
-) => {
-    let webhookClient = '';
+const sendDiscordMessage = (pairInfo) => {
+    const hook = getHookInfo(pairInfo.chain, pairInfo.dex);
 
-    const hook = getHookInfo(chain, dex);
+    const webhookClient = new WebhookClient({
+        url: hook.greenUrl,
+    });
 
     let color = '';
-    if (liquidityUSD >= 5000.0) {
+    if (pairInfo.liquidityUSD >= 50000) {
         color = '#00ff00';
-        webhookClient = new WebhookClient({
-            url: hook.greenUrl,
-        });
-    } else if (liquidityUSD >= 1000.0) {
+    } else if (pairInfo.liquidityUSD >= 10000) {
         color = '#ffff00';
-        webhookClient = new WebhookClient({
-            url: hook.yellowUrl,
-        });
     } else {
         color = '#ff0000';
-        webhookClient = new WebhookClient({
-            url: hook.redUrl,
-        });
     }
 
     const embed = new MessageEmbed()
         .setColor(color)
-        .setTitle(`${symbolOldToken}/${symbolNewToken}`)
+        .setTitle(`${pairInfo.symbolOldToken}/${pairInfo.symbolNewToken}`)
         .setURL(hook.dexUrl)
-        .setAuthor({ name: `${chain}-BOT`, iconURL: hook.img, url: 'https://discord.js.org' })
+        .setAuthor({ name: `${pairInfo.chain}-BOT`, iconURL: hook.img, url: 'https://discord.js.org' })
         .addFields(
             {
                 name: 'Pair information',
-                value: `${symbolOldToken}/${symbolNewToken}, ${addressPair}, ${hook.explorerUrl}${addressPair}`,
+                value: `${pairInfo.symbolOldToken}/${pairInfo.symbolNewToken}, ${pairInfo.address}, ${hook.explorerUrl}${pairInfo.address}`,
             },
             {
                 name: 'Token information',
-                value: `${nameNewToken} (${symbolNewToken}), ${addressNewToken}, ${hook.explorerUrl}${addressNewToken}`,
+                value: `${pairInfo.nameNewToken} (${pairInfo.symbolNewToken}), ${pairInfo.addressNewToken}, ${hook.explorerUrl}${pairInfo.addressNewToken}`,
             },
             {
                 name: 'Liquidity information',
-                value: `liquidity (${symbolOldToken}, USD): ${liquidity.toFixed(2)}, $${liquidityUSD.toFixed(2)}`,
+                value: `liquidity (${pairInfo.symbolOldToken}, USD): ${pairInfo.liquidity.toFixed(
+                    2
+                )}, $${pairInfo.liquidityUSD.toFixed(2)}`,
             }
         )
         .setTimestamp();
@@ -213,7 +209,7 @@ const sendDiscordMessage = (
         embeds: [embed],
     });
 
-    if (notificationWorthy(liquidityUSD, chain)) {
+    if (notificationWorthy(pairInfo.liquidityUSD, pairInfo.chain)) {
         let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
         webhookNotificationClient.send({
             username: 'liquidity pair bot',
@@ -263,8 +259,137 @@ const notificationWorthy = (liquidityUSD, chain) => {
             }
             break;
         }
+        case 'OPTIMISM': {
+            if (liquidityUSD >= 5000) {
+                worthy = true;
+            }
+            break;
+        }
     }
     return worthy;
+};
+
+const getTransactions = async (address, chain) => {
+    let res;
+    if (chain === 'BSC') {
+        res = await fetch(
+            `https://api.bscscan.com/api?module=account&action=txlist&address=${address}&page=1&offset=10000&sort=asc&apikey=${BSC.EXPLORER_APIKEY}`
+        );
+    } else if (chain === 'FTM') {
+        res = await fetch(
+            `https://api.ftmscan.com/api?module=account&action=txlist&address=${address}&sort=asc&apikey=${FTM.EXPLORER_APIKEY}`
+        );
+    }
+
+    const txs = await res.json();
+    return txs['result'];
+};
+const getInternalTransactions = async (address) => {
+    const res = await fetch(
+        `https://api.bscscan.com/api?module=account&action=txlistinternal&address=${address}&page=1&offset=10&sort=asc&apikey=${APIKEY_BSCSCAN}`
+    );
+    const internalTxs = await res.json();
+
+    return internalTxs['result'];
+};
+
+const getHookInfo = (chain, dex) => {
+    let hook = {};
+
+    switch (chain) {
+        case 'BSC': {
+            hook.img = BSC.img;
+            hook.greenUrl = BSC.webhooks.newPair;
+            hook.explorerUrl = `${BSC.explorer.url}/token/`;
+            if (dex === 'pancakeswap') {
+                hook.dexUrl = BSC.dexes.pancakeswap.url;
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
+        case 'ETH': {
+            hook.img = ETH.img;
+            hook.greenUrl = ETH.webhooks.newPair;
+            hook.explorerUrl = `${ETH.explorer.url}/token/`;
+            if (dex === 'uniswap') {
+                hook.dexUrl = ETH.dexes.uniswap.url;
+            } else if (dex === 'sushiswap') {
+                hook.dexUrl = ETH.dexes.sushiswap.url;
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
+        case 'AVAX': {
+            hook.img = AVAX.img;
+            hook.greenUrl = AVAX.webhooks.newPair;
+            hook.explorerUrl = `${AVAX.explorer.url}/token/`;
+            if (dex === 'traderjoe') {
+                hook.dexUrl = AVAX.dexes.uniswap.url;
+            } else if (dex === 'pangolin') {
+                hook.dexUrl = AVAX.dexes.sushiswap.url;
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
+        case 'FTM': {
+            hook.img = FTM.img;
+            hook.greenUrl = FTM.webhooks.newPair;
+            hook.explorerUrl = `${FTM.explorer.url}/token/`;
+            if (dex === 'spookyswap') {
+                hook.dexUrl = FTM.dexes.spookyswap.url;
+            } else if (dex === 'spiritswap') {
+                hook.dexUrl = FTM.dexes.spiritswap.url;
+            }
+            break;
+        }
+        case 'AURORA': {
+            hook.img = AURORA.img;
+            hook.greenUrl = AURORA.webhooks.newPair;
+            hook.explorerUrl = `${AURORA.explorer.url}/token/`;
+            if (dex === 'trisolaris') {
+                hook.dexUrl = AURORA.dexes.trisolaris.url;
+            } else if (dex == 'wannaswap') {
+                hook.dexUrl = AURORA.dexes.wannaswap.url;
+            }
+            break;
+        }
+        case 'FUSE': {
+            hook.img = FUSE.img;
+            hook.greenUrl = FUSE.webhooks.newPair;
+            hook.explorerUrl = `${FUSE.explorer.url}/token/`;
+            if (dex === 'fuse.fi') {
+                hook.dexUrl = FUSE.dexes.fusefi.url;
+            }
+            break;
+        }
+        case 'METIS': {
+            hook.img = METIS.img;
+            hook.greenUrl = METIS.webhooks.newPair;
+            hook.explorerUrl = `${METIS.explorer.url}/token/`;
+            if (dex === 'netswap') {
+                hook.dexUrl = METIS.dexes.netswap.url;
+            } else if (dex === 'tethys') {
+                hook.dexUrl = METIS.dexes.tethys.url;
+            }
+            break;
+        }
+        case 'OPTIMISM': {
+            hook.img = OPTIMISM.img;
+            hook.greenUrl = OPTIMISM.webhooks.newPair;
+            hook.explorerUrl = `${OPTIMISM.explorer.url}/token/`;
+            if (dex === 'zipswap') {
+                hook.dexUrl = OPTIMISM.dexes.zipswap.url;
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+    return hook;
 };
 
 // not in use currently
@@ -316,113 +441,10 @@ const getContractDeployerInfo = async (contractAddress, chain) => {
     return contractCreator;
 };
 
-const getTransactions = async (address, chain) => {
-    let res;
-    if (chain === 'BSC') {
-        res = await fetch(
-            `https://api.bscscan.com/api?module=account&action=txlist&address=${address}&page=1&offset=10000&sort=asc&apikey=${APIKEY_BSCSCAN}`
-        );
-    } else if (chain === 'FTM') {
-        res = await fetch(
-            `https://api.ftmscan.com/api?module=account&action=txlist&address=${address}&sort=asc&apikey=${APIKEY_FTMSCAN}`
-        );
-    }
-
-    const txs = await res.json();
-    return txs['result'];
-};
-const getInternalTransactions = async (address) => {
-    const res = await fetch(
-        `https://api.bscscan.com/api?module=account&action=txlistinternal&address=${address}&page=1&offset=10&sort=asc&apikey=${APIKEY_BSCSCAN}`
-    );
-    const internalTxs = await res.json();
-
-    return internalTxs['result'];
-};
-
-const getHookInfo = (chain, dex) => {
-    let hook = {};
-
-    switch (chain) {
-        case 'BSC': {
-            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png';
-            hook.greenUrl = config.bscHookUrlGreen;
-            hook.yellowUrl = config.bscHookUrlYellow;
-            hook.redUrl = config.bscHookUrlRed;
-            hook.explorerUrl = 'https://bscscan.com/token/';
-            if (dex === 'pancakeswap') {
-                hook.dexUrl = 'https://pancakeswap.finance/swap/';
-            } else {
-                hook.dexUrl = '';
-            }
-            break;
-        }
-        case 'FTM': {
-            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/3513.png';
-            hook.greenUrl = config.ftmHookUrlGreen;
-            hook.yellowUrl = config.ftmHookUrlYellow;
-            hook.redUrl = config.ftmHookUrlRed;
-            hook.explorerUrl = 'https://ftmscan.com/token/';
-            if (dex === 'spookyswap') {
-                hook.dexUrl = 'https://spookyswap.finance/swap';
-            } else if (dex === 'spiritswap') {
-                hook.dexUrl = 'https://swap.spiritswap.finance/#/exchange/swap/';
-            }
-            break;
-        }
-        case 'AURORA': {
-            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png';
-            hook.greenUrl = config.auroraHookUrlGreen;
-            hook.yellowUrl = config.auroraHookUrlYellow;
-            hook.redUrl = config.auroraHookUrlRed;
-            hook.explorerUrl = 'https://explorer.mainnet.aurora.dev/token/';
-            if (dex === 'trisolaris') {
-                hook.dexUrl = 'https://www.trisolaris.io/#/swap';
-            } else if (dex == 'wannaswap') {
-                hook.dexUrl = 'https://wannaswap.finance/exchange/swap';
-            }
-            break;
-        }
-        case 'FUSE': {
-            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/5634.png';
-            hook.greenUrl = config.fuseHookUrlGreen;
-            hook.yellowUrl = config.fuseHookUrlYellow;
-            hook.redUrl = config.fuseHookUrlRed;
-            hook.explorerUrl = 'https://explorer.fuse.io/token/';
-            if (dex === 'fuse.fi') {
-                hook.dexUrl = 'https://app.fuse.fi/#/swap';
-            }
-            break;
-        }
-        case 'METIS': {
-            hook.img = 'https://s2.coinmarketcap.com/static/img/coins/200x200/9640.png';
-            hook.greenUrl = config.metisHookUrlGreen;
-            hook.yellowUrl = config.metisHookUrlYellow;
-            hook.redUrl = config.metisHookUrlRed;
-            hook.explorerUrl = 'https://andromeda-explorer.metis.io/token/';
-            if (dex === 'netswap') {
-                hook.dexUrl = 'https://netswap.io/#/swap';
-            } else if (dex === 'tethys') {
-                hook.dexUrl = 'https://tethys.finance/swap';
-            }
-            break;
-        }
-
-        default:
-            break;
-    }
-    return hook;
-};
-
-const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
-    let token0 = await getTokenMetadata(token0Address, account);
-    let token1 = await getTokenMetadata(token1Address, account);
-
-    const { liq0, liq1 } = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, account);
-    token0.liq = liq0;
-    token1.liq = liq1;
-
-    displayPair(token0, token1, addressPair, chain, dex, knownTokens);
+const sleep = (ms) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
 };
 
 export { getTokenMetadata, getPairLiquidity, displayPair, getContractDeployerInfo, onPairCreated };
