@@ -48,4 +48,10 @@ ranked by myself
     jebus911
     CryptoKaleo
 
-take all the followees of these account. Save all the followees that are followed by 3 or more of these accounts.
+take all the followees of these account. Save all the followees that are followed by 3 or more of these accounts. - DONE
+go through all tweets from these accounts
+
+STEPS:
+
+1. get all recent tweets from account
+2. search for words starting with $. if hit -> insert into DB

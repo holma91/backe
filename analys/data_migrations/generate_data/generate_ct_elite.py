@@ -1,5 +1,14 @@
 import json
-from utils.twitter import get_id_from_username
+import tweepy
+from twitter_env import BEARER_TOKEN_1
+
+client = tweepy.Client(bearer_token=BEARER_TOKEN_1, wait_on_rate_limit=True)
+
+
+def get_id_from_username(username):
+    user = client.get_user(username=username)
+    return user.data.id
+
 
 ranked_accounts = ["blknoiz06",
                    "satsdart",
@@ -65,10 +74,7 @@ final = {}
 for acc in ranked_accounts:
     try:
         twitter_id = get_id_from_username(acc)
-        account = {
-            acc: twitter_id
-        }
-        final[acc] = twitter_id
+        final[acc] = str(twitter_id)
     except Exception as e:
         print(acc)
         print(e)

@@ -26,7 +26,7 @@ const fusefi = {
     account: account,
     knownTokens: knownTokens,
     dexName: 'fusefi',
-    chainName: 'BSC',
+    chainName: 'FUSE',
 };
 
 export { fusefi };

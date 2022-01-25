@@ -1,14 +1,11 @@
+import tweepy
 import json
-import time
-from datetime import datetime
+import re
 
-import psycopg2
-import requests
+text = 'hey you should all buy $jewel at $8, $cewel at $1 and maybe also $atom at $30.'
 
+smart_money_regex = '\B\$[a-zA-z]+'
 
-response = requests.post(f'https://eth-mainnet.alchemyapi.io/v2/{ALCHEMY_KEY}', json={
-    "jsonrpc": "2.0",
-    "method": "eth_getCode",
-    "params": [f"{address}", "latest"],
-    "id": 0
-})
+matches = re.findall(smart_money_regex, text)
+
+print(matches)

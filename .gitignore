@@ -1,6 +1,7 @@
 ### ANALYS ###
 analys/env
 analys/data_migrations/utils/env.py
+analys/data_migrations/generate_data/twitter_env.py
 
 
 ### BACKEND ###

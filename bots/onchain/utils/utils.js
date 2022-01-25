@@ -1,11 +1,11 @@
 import connections from '../connections.js';
 import ethers from 'ethers';
 import clientInitializer from 'twilio';
-const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import { config } from '../wh_discord.js';
 import twilio from '../twilio_env.js';
 
+const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
 const uniV3Factory = ['event PoolCreated(address token0, address token1, uint24 fee, int24 tickSpacing, address pool)'];
 const uniV2Pair = [
@@ -23,15 +23,10 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
     try {
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         displayPair(pairInfo);
-        sendDiscordMessages(pairInfo);
+        sendNotifications(pairInfo);
     } catch (e) {
         console.log(e);
     }
-
-    // return {
-    //     token0Decimals: token0.decimals,
-    //     token1Decimals: token1.decimals,
-    // };
 };
 
 const getTokenMetadata = async (tokenAddress, account) => {
@@ -163,7 +158,7 @@ const displayPair = (pairInfo) => {
     );
 };
 
-const sendDiscordMessages = async (pairInfo) => {
+const sendNotifications = async (pairInfo) => {
     const hook = getHookInfo(pairInfo.chain, pairInfo.dex);
 
     const webhookClient = new WebhookClient({

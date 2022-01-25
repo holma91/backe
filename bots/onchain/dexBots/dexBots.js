@@ -22,6 +22,6 @@ let uniswapV2Dexes = [
     sushiswap,
 ];
 
-let uniswapV3Dexes = [];
+let uniswapV3Dexes = [uniswap];
 
 export { uniswapV2Dexes, uniswapV3Dexes };

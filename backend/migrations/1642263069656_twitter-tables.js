@@ -19,7 +19,8 @@ exports.up = (pgm) => {
 
         create table ticker_mention (
             id serial primary key,
-            username varchar(200) not null REFERENCES twitter_account(username) ON DELETE CASCADE,
+            tweet_id varchar(200) not null unique,
+            user_id varchar(200) not null REFERENCES twitter_account(twitter_id) ON DELETE CASCADE,
             ticker varchar(20),
             tweet_timestamp timestamp
         );

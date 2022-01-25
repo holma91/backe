@@ -1,7 +1,7 @@
 import json
 import tweepy
 
-from utils.env import BEARER_TOKEN_1, BEARER_TOKEN_2
+from env import BEARER_TOKEN_1, BEARER_TOKEN_2
 # "$jewel" until:2021-10-15 since:2021-09-30
 # worthy twitter accounts
 accounts = ["blknoiz06",
@@ -99,8 +99,8 @@ def get_interesting_accounts(usernames):
     return accounts
 
 
-def get_tweets():
-    query = 'from:labacke -is:retweet'
+def get_tweets(username):
+    query = f'from:{username} -is:retweet'
 
     tweets = []
     for tweet in tweepy.Paginator(client.search_recent_tweets, query=query,
@@ -114,9 +114,11 @@ def get_tweets():
         }
         tweets.append(tweet_obj)
 
-    print(json.dumps(tweets, indent=2))
+    return tweets
 
 
+# print('yo')
 # print(json.dumps(get_following('satsdart'), indent=2))
 # print(json.dumps(get_interesting_accounts(accounts), indent=2))
+print(json.dumps(get_tweets('satsdart')))
 # python twitter.py > accounts.json

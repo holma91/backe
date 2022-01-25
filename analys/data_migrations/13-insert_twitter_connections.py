@@ -21,12 +21,10 @@ accounts = json.loads(data)
 
 for twitter_id in accounts.keys():
     try:
-        rank = 0
-        if twitter_id in ranked_accounts.values():
-            rank = 1
 
-        cur.execute("insert into twitter_account (username, twitter_id, rank) values (%s, %s, %s);",
-                    (accounts[twitter_id]['username'], twitter_id, rank))
+        for follower in accounts[twitter_id]['followers']:
+            cur.execute("insert into twitter_connection (follower_id, followee_id) values (%s, %s);",
+                        (str(ranked_accounts[follower]), twitter_id))
 
     except Exception as e:
         print(f'exception at user with id = {twitter_id}')
