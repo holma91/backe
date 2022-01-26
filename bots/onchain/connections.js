@@ -39,6 +39,7 @@ const connections = {
         },
     },
     FTM: {
+        http: 'https://rpc.ftm.tools/',
         ws: 'ws://rpc.fantom.network:18546/',
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/3513.png',
         explorer: {

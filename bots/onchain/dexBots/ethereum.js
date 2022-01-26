@@ -25,7 +25,7 @@ const knownTokens = {
     },
 };
 
-const account = getAccount('ws', 'ETH');
+const account = getAccount('http', 'ETH');
 
 const uniswap = {
     factory: new ethers.Contract(addresses.uniswapFactory, uniV3Factory, account),

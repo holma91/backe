@@ -15,7 +15,7 @@ const knownTokens = {
     MIM: { address: '0x82f0b8b456c1a451378467398982d4834b6829c1', inUSD: 1.0 },
 };
 
-const account = getAccount('ws', 'FTM');
+const account = getAccount('http', 'FTM');
 
 const spookyswap = {
     factory: new ethers.Contract(addresses.spookyswapFactory, uniV2Factory, account),
@@ -27,7 +27,7 @@ const spookyswap = {
 
 const spiritswap = {
     factory: new ethers.Contract(addresses.spiritswapFactory, uniV2Factory, account),
-    account: getAccount('ws', 'FTM'),
+    account: account,
     knownTokens: knownTokens,
     dexName: 'spiritswap',
     chainName: 'FTM',

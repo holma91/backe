@@ -16,7 +16,7 @@ const knownTokens = {
     },
 };
 
-const account = getAccount('ws', 'BSC');
+const account = getAccount('http', 'BSC');
 
 const pancakeswap = {
     factory: new ethers.Contract(addresses.pancakeSwapFactory, uniV2Factory, account),
