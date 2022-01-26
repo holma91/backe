@@ -69,18 +69,12 @@ def get_usernames():
 
 usernames = get_usernames()
 
-# account = get_account()
-# for acc in accs
-# only using accounts with less than 10k tx and or 10k ttes.
 count = 0
 for username in usernames:
     insert_ticker_mentions(username, count)
     count += 1
     if count >= 15:
         count = 0
-
-
-# get_tweets('satsdart')
 
 cur.close()
 con.close()

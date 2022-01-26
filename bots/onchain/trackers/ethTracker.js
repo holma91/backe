@@ -10,12 +10,17 @@
 // 4. if there was a swap, find it by comparing block heights
 
 import ethers from 'ethers';
-import { MNEMONIC, ETH_HTTP } from '../env.js';
+import fetch from 'node-fetch';
 
-const provider = new ethers.providers.JsonRpcProvider(ETH_HTTP);
-//const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-//const account = wallet.connect(provider);
-let blockNumber = await provider.getBlockNumber();
-let block = await provider.getBlockWithTransactions(blockNumber);
-console.log(block);
-console.log(blockNumber);
+const provider = new ethers.providers.JsonRpcProvider(
+    'https://eth-ropsten.alchemyapi.io/v2/VMq6K7b9MLmchJCB5hkgRdiYKEoY2Qqx'
+);
+
+// let blockNumber = await provider.getBlockNumber();
+// let block = await provider.getBlockWithTransactions(blockNumber);
+
+const response = await fetch(
+    'https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6&startblock=0&endblock=999999999&sort=asc&apikey=FJVSJ3Q8PD233E51ZPCPI6EGZRVZKFCD5C'
+);
+let data = await response.json();
+console.log(data);

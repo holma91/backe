@@ -1,41 +1,45 @@
+import connections from '../connections.js';
 import ethers from 'ethers';
-import { MNEMONIC, ETH_HTTP } from '../env.js';
+import fetch from 'node-fetch';
 
 class TransactionChecker {
-    web3;
-    account;
+    provider;
+    address;
+    latestBlock;
 
-
-    constructor(projectId, account) {
-        this.web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/v3/' + projectId));
-        this.provider = new ethers.providers.JsonRpcProvider(ETH_HTTP);
-        
-        this.account = account.toLowerCase();
-
+    constructor(connection, address) {
+        this.provider = new ethers.providers.JsonRpcProvider(connection);
+        this.address = address.toLowerCase();
+        this.latestBlock = 0;
     }
 
     async checkBlock() {
-        let block = await this.web3.eth.getBlock('latest');
-        let number = block.number;
-        console.log('Searching block ' + number);
+        let blockNumber = await this.provider.getBlockNumber();
+        if (blockNumber <= this.latestBlock) return;
+        this.latestBlock = blockNumber;
+
+        console.log('Checking block ' + blockNumber);
+        let block = await this.provider.getBlockWithTransactions(blockNumber);
 
         if (block != null && block.transactions != null) {
-            for (let txHash of block.transactions) {
-                let tx = await this.web3.eth.getTransaction(txHash);
-                if (this.account == tx.to.toLowerCase()) {
-                    console.log('Transaction found on block: ' + number);
-                    console.log({
-                        address: tx.from,
-                        value: this.web3.utils.fromWei(tx.value, 'ether'),
-                        timestamp: new Date(),
-                    });
+            for (let tx of block.transactions) {
+                if (tx.from.toLowerCase() === this.address) {
+                    // the address is doing something
+                    const response = await fetch(
+                        'https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=0x4e83362442b8d1bec281594cea3050c8eb01311c&startblock=0&endblock=999999999&sort=asc&apikey=YourApiKeyToken'
+                    );
+                    console.log(tx);
                 }
             }
         }
     }
 }
 
-let txChecker = new TransactionChecker(process.env.INFURA_ID, '0xe1Dd30fecAb8a63105F2C035B084BfC6Ca5B1493');
+// let txChecker = new TransactionChecker(connections.ETH.http, '0xe1Dd30fecAb8a63105F2C035B084BfC6Ca5B1493');
+let txChecker = new TransactionChecker(
+    'https://eth-ropsten.alchemyapi.io/v2/VMq6K7b9MLmchJCB5hkgRdiYKEoY2Qqx',
+    '0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6'
+);
 setInterval(() => {
     txChecker.checkBlock();
-}, 15 * 1000);
+}, 5000);
