@@ -55,3 +55,8 @@ STEPS:
 
 1. get all recent tweets from account
 2. search for words starting with $. if hit -> insert into DB
+
+ALTERNATIVES
+possible to stream everything from 15k accounts, but in a really hacky way... Might need 20 elevated dev accounts to do so.
+or
+batch retrieve everything once a week.

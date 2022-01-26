@@ -11,7 +11,7 @@ backend/node_modules
 
 bots/onchain/env.js
 bots/onchain/node_modules
-bots/onchain/discord/config.js
+bots/onchain/wh_discord.js
 bots/social/twitter/twitter_env.py
 bots/social/twitter/env
 bots/social/twitter/__pycache__
