@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { AURORA } = connections;
-import { uniV2Factory } from '../utils/utils.js';
+import { uniV2Factory, getAccount } from '../utils/utils.js';
 
 const addresses = {
     WBNB: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
@@ -37,9 +34,7 @@ const knownTokens = {
     },
 };
 
-const provider = new ethers.providers.JsonRpcProvider(AURORA.http);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('http', 'AURORA');
 
 const trisolaris = {
     factory: new ethers.Contract(addresses.trisolarisFactory, uniV2Factory, account),

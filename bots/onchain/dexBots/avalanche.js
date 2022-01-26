@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { AVAX } = connections;
-import { uniV2Factory } from '../utils/utils.js';
+import { getAccount, uniV2Factory } from '../utils/utils.js';
 
 const addresses = {
     traderjoeFactory: '0x9Ad6C38BE94206cA50bb0d90783181662f0Cfa10',
@@ -32,9 +29,7 @@ const knownTokens = {
     },
 };
 
-const provider = new ethers.providers.JsonRpcProvider(AVAX.http);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('http', 'AVAX');
 
 const traderjoe = {
     factory: new ethers.Contract(addresses.traderjoeFactory, uniV2Factory, account),

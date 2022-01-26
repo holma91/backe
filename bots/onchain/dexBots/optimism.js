@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { OPTIMISM } = connections;
-import { uniV2Factory } from '../utils/utils.js';
+import { getAccount, uniV2Factory } from '../utils/utils.js';
 
 const addresses = {
     zipswapFactory: '0x8BCeDD62DD46F1A76F8A1633d4f5B76e0CDa521E',
@@ -17,9 +14,7 @@ const knownTokens = {
     DAI: { address: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1', inUSD: 1.0 },
 };
 
-const provider = new ethers.providers.JsonRpcProvider(OPTIMISM.http);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('http', 'OPTIMISM');
 
 const zipswap = {
     factory: new ethers.Contract(addresses.zipswapFactory, uniV2Factory, account),

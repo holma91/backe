@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { ETH } = connections;
-import { uniV2Factory, uniV3Factory } from '../utils/utils.js';
+import { getAccount, uniV2Factory, uniV3Factory } from '../utils/utils.js';
 
 const addresses = {
     uniswapFactory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
@@ -28,9 +25,7 @@ const knownTokens = {
     },
 };
 
-const provider = new ethers.providers.WebSocketProvider(ETH.ws);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('ws', 'ETH');
 
 const uniswap = {
     factory: new ethers.Contract(addresses.uniswapFactory, uniV3Factory, account),

@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { BSC } = connections;
-import { uniV2Factory } from '../utils/utils.js';
+import { uniV2Factory, getAccount } from '../utils/utils.js';
 
 const addresses = {
     pancakeSwapFactory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
@@ -19,9 +16,7 @@ const knownTokens = {
     },
 };
 
-const provider = new ethers.providers.WebSocketProvider(BSC.ws);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('ws', 'BSC');
 
 const pancakeswap = {
     factory: new ethers.Contract(addresses.pancakeSwapFactory, uniV2Factory, account),

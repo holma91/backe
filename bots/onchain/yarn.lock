@@ -529,6 +529,11 @@
     "node-fetch" "^2.6.1"
     "ws" "^8.4.0"
 
+"dotenv@^14.3.2":
+  "integrity" "sha512-vwEppIphpFdvaMCaHfCEv9IgwcxMljMw2TnAQBB4VWPvzXQLTb82jwmdOKzlEVUL3gNFT4l4TPKO+Bn+sqcrVQ=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-14.3.2.tgz"
+  "version" "14.3.2"
+
 "ecdsa-sig-formatter@1.0.11":
   "integrity" "sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ=="
   "resolved" "https://registry.npmjs.org/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.11.tgz"

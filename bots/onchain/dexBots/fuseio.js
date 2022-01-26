@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { FUSE } = connections;
-import { uniV2Factory } from '../utils/utils.js';
+import { getAccount, uniV2Factory } from '../utils/utils.js';
 
 const addresses = {
     fusefiFactory: '0x1d1f1A7280D67246665Bb196F38553b469294f3a',
@@ -17,9 +14,7 @@ const knownTokens = {
     USDT: { address: '0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10', inUSD: 1.0 },
 };
 
-const provider = new ethers.providers.JsonRpcProvider(FUSE.http);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('http', 'FUSE');
 
 const fusefi = {
     factory: new ethers.Contract(addresses.fusefiFactory, uniV2Factory, account),

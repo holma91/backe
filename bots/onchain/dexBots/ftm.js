@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { FTM } = connections;
-import { uniV2Factory } from '../utils/utils.js';
+import { uniV2Factory, getAccount } from '../utils/utils.js';
 
 const addresses = {
     spookyswapFactory: '0x152eE697f2E276fA89E96742e9bB9aB1F2E61bE3',
@@ -18,9 +15,7 @@ const knownTokens = {
     MIM: { address: '0x82f0b8b456c1a451378467398982d4834b6829c1', inUSD: 1.0 },
 };
 
-const provider = new ethers.providers.WebSocketProvider(FTM.ws);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('ws', 'FTM');
 
 const spookyswap = {
     factory: new ethers.Contract(addresses.spookyswapFactory, uniV2Factory, account),
@@ -32,7 +27,7 @@ const spookyswap = {
 
 const spiritswap = {
     factory: new ethers.Contract(addresses.spiritswapFactory, uniV2Factory, account),
-    account: account,
+    account: getAccount('ws', 'FTM'),
     knownTokens: knownTokens,
     dexName: 'spiritswap',
     chainName: 'FTM',

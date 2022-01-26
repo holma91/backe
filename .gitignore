@@ -1,3 +1,6 @@
+### GLOBAL ###
+.env
+
 ### ANALYS ###
 analys/env
 analys/data_migrations/utils/env.py
@@ -14,8 +17,6 @@ bots/onchain/node_modules
 bots/social/twitter/twitter_env.py
 bots/social/twitter/env
 bots/social/twitter/__pycache__
-bots/onchain/wh_discord.js
-bots/onchain/twilio_env.js
 
 ###### FRONTEND #######
 frontend/node_modules

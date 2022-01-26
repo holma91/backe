@@ -2,8 +2,7 @@ import connections from '../connections.js';
 import ethers from 'ethers';
 import clientInitializer from 'twilio';
 import { MessageEmbed, WebhookClient } from 'discord.js';
-import { config } from '../wh_discord.js';
-import twilio from '../twilio_env.js';
+import 'dotenv/config';
 
 const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
@@ -204,7 +203,8 @@ const sendNotifications = async (pairInfo) => {
     });
 
     if (notificationWorthy(pairInfo.liquidityUSD, pairInfo.chain)) {
-        let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
+        // let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
+        let webhookNotificationClient = new WebhookClient({ url: process.env.discord_newPairHookUrl });
         webhookNotificationClient.send({
             username: 'liquidity pair bot',
             avatarURL: 'https://i.imgur.com/AfFp7pu.png',
@@ -212,11 +212,11 @@ const sendNotifications = async (pairInfo) => {
         });
 
         // phone call here lol. wake the fuck up
-        const client = clientInitializer(twilio.accountSid, twilio.authToken);
+        const client = clientInitializer(process.env.twilio_accountSid, process.env.twilio_authToken);
         await client.calls.create({
             url: 'http://demo.twilio.com/docs/voice.xml',
-            from: twilio.fromNumber,
-            to: twilio.toNumber,
+            from: process.env.twilio_fromNumber,
+            to: process.env.twilio_toNumber,
         });
     }
 };
@@ -364,4 +364,24 @@ const sleep = (ms) => {
     });
 };
 
-export { getTokenMetadata, getPairLiquidity, displayPair, onPairCreated, uniV2Factory, uniV3Factory, uniV2Pair };
+const getAccount = (connectionType, chain) => {
+    let provider;
+    if (connectionType === 'ws') {
+        provider = new ethers.providers.WebSocketProvider(connections[chain][connectionType]);
+    } else if (connectionType === 'http') {
+        provider = new ethers.providers.JsonRpcProvider(connections[chain][connectionType]);
+    }
+    const wallet = ethers.Wallet.fromMnemonic(process.env.mnemonic);
+    return wallet.connect(provider);
+};
+
+export {
+    getTokenMetadata,
+    getPairLiquidity,
+    displayPair,
+    onPairCreated,
+    uniV2Factory,
+    uniV3Factory,
+    uniV2Pair,
+    getAccount,
+};

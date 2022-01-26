@@ -1,8 +1,5 @@
 import ethers from 'ethers';
-import { MNEMONIC } from '../env.js';
-import connections from '../connections.js';
-const { METIS } = connections;
-import { uniV2Factory } from '../utils/utils.js';
+import { getAccount, uniV2Factory } from '../utils/utils.js';
 
 const addresses = {
     netswapFactory: '0x70f51d68D16e8f9e418441280342BD43AC9Dff9f',
@@ -16,9 +13,7 @@ const knownTokens = {
     mUSDT: { address: '0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC', inUSD: 1.0 },
 };
 
-const provider = new ethers.providers.JsonRpcProvider(METIS.http);
-const wallet = ethers.Wallet.fromMnemonic(MNEMONIC);
-const account = wallet.connect(provider);
+const account = getAccount('http', 'METIS');
 
 const netswap = {
     factory: new ethers.Contract(addresses.netswapFactory, uniV2Factory, account),
