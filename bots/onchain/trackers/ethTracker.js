@@ -18,9 +18,24 @@ const provider = new ethers.providers.JsonRpcProvider(
 
 // let blockNumber = await provider.getBlockNumber();
 // let block = await provider.getBlockWithTransactions(blockNumber);
+// for (let i = 0; i < 50; i++) {
+//     try {
+//         let response = await fetch(
+//             'https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=0xdcb9048d6bb9c31e60af7595ef597adc642b9cb6&startblock=11877852&endblock=999999999&sort=asc&apikey=FJVSJ3Q8PD233E51ZPCPI6EGZRVZKFCD5C'
+//         );
+//         let data = await response.json();
+//         console.log(data['status']);
+//     } catch (e) {
+//         console.log(i);
+//         console.log(e);
+//     }
+// }
 
-const response = await fetch(
-    'https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6&startblock=0&endblock=999999999&sort=asc&apikey=FJVSJ3Q8PD233E51ZPCPI6EGZRVZKFCD5C'
-);
-let data = await response.json();
-console.log(data);
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+for (let i = 0; i < 10; i++) {
+    console.log(i);
+    await sleep(2000);
+}

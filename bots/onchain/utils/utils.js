@@ -52,7 +52,7 @@ const getTokenMetadata = async (tokenAddress, account) => {
             token.deployerAddress = contract.address;
             success = true;
         } catch (e) {
-            sleep(1000);
+            await sleep(1000);
             if (count > 10) break;
         }
     }
@@ -79,7 +79,7 @@ const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, acc
             reserves = await pairContract.getReserves();
             success = true;
         } catch (e) {
-            sleep(1000);
+            await sleep(1000);
             if (count > 15) break;
         }
     }
@@ -366,11 +366,9 @@ const getHookInfo = (chain, dex) => {
     return hook;
 };
 
-const sleep = (ms) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-};
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 const getAccount = (connectionType, chain) => {
     let provider;
@@ -392,4 +390,5 @@ export {
     uniV3Factory,
     uniV2Pair,
     getAccount,
+    sleep,
 };
