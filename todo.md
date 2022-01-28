@@ -13,13 +13,14 @@ what is the most important?
 4. set up notifications for movements that are worthy
     - email? discord? native mac notifs?
 
-TODO:
+right now:
 
--   go through real-time course
--   set up a connection from server to website
+-   listening to new pairs on evm chains - DONE
+-   listening to address movements on ethereum - in progress
+-   listening to tweets - in progress BUT limited by twitters api...
 
-RETHINKING THE FRONTEND
-instead of a web app, just have a discord server as the frontend (from the start)
+soon:
 
--   group for every category of notifications
-    -   channel for every chain
+-   dive into mev and build arbitrage bots on evm chains
+-   dive into the whole cosmos eco
+-   dive into nfts
