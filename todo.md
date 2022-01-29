@@ -16,7 +16,9 @@ what is the most important?
 right now:
 
 -   listening to new pairs on evm chains - DONE
--   listening to address movements on ethereum - in progress
+-   listening to address movements on ethereum - DONE
+-   listen to address movements on other evm chains - in progress
+
 -   listening to tweets - in progress BUT limited by twitters api...
 
 soon:
@@ -24,3 +26,7 @@ soon:
 -   dive into mev and build arbitrage bots on evm chains
 -   dive into the whole cosmos eco
 -   dive into nfts
+
+LATER
+
+-   rewrite in typescript

@@ -1,0 +1,8 @@
+how to analyze a swap:
+
+- check if it exists on coingecko
+    - if yes, get price, mc and liq
+    - if not, notice
+
+
+

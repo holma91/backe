@@ -1,0 +1,5 @@
+should be able to use the same code for all evm chains?
+the differences are only:
+    - api keys
+    - links
+    - block time
