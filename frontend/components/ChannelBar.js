@@ -24,7 +24,19 @@ const Dropdown = ({ header, selections }) => {
         <div className="dropdown">
             <div onClick={() => setExpanded(!expanded)} className="dropdown-header">
                 <ChevronIcon expanded={expanded} />
-                <h5 className={expanded ? 'dropdown-header-text-selected' : 'dropdown-header-text'}>{header}</h5>
+    
+                
+                <h5
+                    className={`hover:text-blue-400 hover:cursor-pointer ${
+                        expanded 
+                            ? 'dropdown-header-text-selected' 
+                            : 'dropdown-header-text'
+                    }`} 
+                >
+                    {header}
+                </h5>
+                
+          
             </div>
             {expanded &&
                 selections &&
