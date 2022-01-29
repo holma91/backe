@@ -1,23 +1,19 @@
 import json
 
-import psycopg2
+from utils.db_utils import connect_to_database
 
-con = psycopg2.connect(
-    host="localhost",
-    database="lasse",
-    user="alexander",
-    password="")
 
-cur = con.cursor()
+def main():
+    with open('initial_data/labels.json', 'r') as f:
+        data = f.read()
+    labels = json.loads(data)
 
-with open('initial_data/labels.json', 'r') as f:
-    data = f.read()
+    with connect_to_database() as (con, cur):
+        for label in labels:
+            cur.execute("insert into label (label_id) values (%s);", (label,))
 
-labels = json.loads(data)
+        con.commit()
 
-for label in labels:
-    cur.execute("insert into label (label_id) values (%s);", (label,))
 
-con.commit()
-cur.close()
-con.close()
+if __name__ == "__main__":
+    main()

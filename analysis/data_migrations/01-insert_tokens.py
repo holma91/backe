@@ -1,27 +1,27 @@
 import json
+from utils.db_utils import connect_to_database
 
-import psycopg2
 
-con = psycopg2.connect(
-    host="localhost",
-    database="lasse",
-    user="alexander",
-    password="")
+def main():
+    # Load JSON data
+    with open('initial_data/tokens.json', 'r') as file:
+        data = file.read()
 
-cur = con.cursor()
+    tokens = json.loads(data)
 
-with open('initial_data/tokens.json', 'r') as f:
-    data = f.read()
+    with connect_to_database() as (con, cur):
 
-tokens = json.loads(data)
+        for token in tokens:
+            cur.execute("select * from token where address = %s",
+                        (token['platforms']['ethereum'],))
 
-for token in tokens:
-    cur.execute("select * from token where address = %s", (token['platforms']['ethereum'],))
-    res = cur.fetchall()
-    if len(res) == 0:
-        cur.execute("insert into token (address, name, symbol, decimals, coingecko_id) values (%s, %s, %s, %s, %s)",
-                    (token['platforms']['ethereum'], token['name'], token['symbol'], token['decimals'], token['id']))
+            res = cur.fetchall()
+            if len(res) == 0:
+                cur.execute("insert into token (address, name, symbol, decimals, coingecko_id) values (%s, %s, %s, %s, %s)",
+                            (token['platforms']['ethereum'], token['name'], token['symbol'], token['decimals'], token['id']))
 
-con.commit()
-cur.close()
-con.close()
+        con.commit()
+
+
+if __name__ == '__main__':
+    main()

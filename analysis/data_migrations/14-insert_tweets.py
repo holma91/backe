@@ -1,27 +1,15 @@
-import json
 import re
-
 import tweepy
-import psycopg2
 
 from utils.env import BEARER_TOKEN_1, BEARER_TOKEN_2, BEARER_TOKEN_3
-
-con = psycopg2.connect(
-    host="localhost",
-    database="lasse",
-    user="alexander",
-    password="")
-con.autocommit = True
-cur = con.cursor()
-
-# multiple clients because of twitter rate limiting
-client1 = tweepy.Client(bearer_token=BEARER_TOKEN_1, wait_on_rate_limit=True)
-client2 = tweepy.Client(bearer_token=BEARER_TOKEN_2, wait_on_rate_limit=True)
-client3 = tweepy.Client(bearer_token=BEARER_TOKEN_3, wait_on_rate_limit=True)
-clients = [client1, client2, client3]
+from utils.db_utils import connect_to_database
 
 
-def insert_ticker_mentions(username, count):
+c
+
+
+def insert_ticker_mentions(username, count, clients, cur):
+
     query = f'from:{username} -is:retweet'
     ticker_regex = '\B\$[a-zA-z]+'
     idx = 0
@@ -48,33 +36,35 @@ def insert_ticker_mentions(username, count):
 
 
 def get_usernames():
-    con = psycopg2.connect(
-        host="localhost",
-        database="lasse",
-        user="alexander",
-        password="")
-
-    cur = con.cursor()
-
-    cur.execute("select username from twitter_account;")
-    rows = cur.fetchall()
-
-    con.commit()
-    cur.close()
-    con.close()
-
+    with connect_to_database() as (_, cur):
+        cur.execute("select username from twitter_account;")
+        rows = cur.fetchall()
     usernames = [row[0] for row in rows]
     return usernames
 
 
-usernames = get_usernames()
+def main():
 
-count = 0
-for username in usernames:
-    insert_ticker_mentions(username, count)
-    count += 1
-    if count >= 15:
-        count = 0
+    # multiple clients because of twitter rate limiting
+    client1 = tweepy.Client(bearer_token=BEARER_TOKEN_1,
+                            wait_on_rate_limit=True)
+    client2 = tweepy.Client(bearer_token=BEARER_TOKEN_2,
+                            wait_on_rate_limit=True)
+    client3 = tweepy.Client(bearer_token=BEARER_TOKEN_3,
+                            wait_on_rate_limit=True)
+    clients = [client1, client2, client3]
 
-cur.close()
-con.close()
+    usernames = get_usernames()
+
+    count = 0
+    with connect_to_database() as (con, cur):
+        con.autocommit = True
+        for username in usernames:
+            insert_ticker_mentions(username, count, clients, cur)
+            count += 1
+            if count >= 15:
+                count = 0
+
+
+if __name__ == '__main__':
+    main()

@@ -1,21 +1,19 @@
 from operator import itemgetter
 from datetime import date, datetime, timezone, timedelta
-import json
-
-import psycopg2
-import requests
 
 from utils.EthAccount import EthAccount
 from utils.env import APIKEY_ETHERSCAN, ALCHEMY_KEY
 from utils.helpers import fix_address, get_account_type
+from utils.json_load import get_accounts, get_bridges, get_exchanges
+from utils.db_utils import connect_to_database
 
-weird_one_address = '0xd5cd84d6f044abe314ee7e414d37cae8773ef9d3'
-one_address = '0x799a4202c12ca952cb311598a024c80ed371a41e'
+WIERD_ONE_ADDRESS = '0xd5cd84d6f044abe314ee7e414d37cae8773ef9d3'
+ONE_ADDRESS = '0x799a4202c12ca952cb311598a024c80ed371a41e'
 WRAPPED_ETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 START_TIMESTAMP = 1609459200
 END_TIMESTAMP = 1640995200
+fix_wrapped_eth = fix_address(WRAPPED_ETH)
 
-wrapped_eth = fix_address(WRAPPED_ETH)
 
 STATS = {
     'address': '',
@@ -38,11 +36,11 @@ def floor_date(timestamp):
     return datetimeObj
 
 
-def ceil_date(timestamp):
+def ceil_date(timestamp) -> datetime:
     return floor_date(timestamp) + timedelta(days=1)
 
 
-def get_closest_timestamp(timestamp):
+def get_closest_timestamp(timestamp) -> int:
     ceil = ceil_date(timestamp).replace(tzinfo=timezone.utc).timestamp()
     floor = floor_date(timestamp).replace(tzinfo=timezone.utc).timestamp()
     to_floor = timestamp - floor
@@ -53,8 +51,8 @@ def get_closest_timestamp(timestamp):
         return int(ceil)
 
 
-def to_correct_unit(value, token_decimals):
-    return str(value * 10 ** -token_decimals)
+def to_correct_unit(value, token_decimals) -> str:
+    return str(value * 10 ** - token_decimals)
 
 
 def is_in2021(timestamp) -> bool:
@@ -62,117 +60,126 @@ def is_in2021(timestamp) -> bool:
 
 
 def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
-    con = psycopg2.connect(
-        host="localhost",
-        database="lasse",
-        user="alexander",
-        password="")
-    con.autocommit = True
 
-    cur = con.cursor()
-    account_value_usd = 0
-    for token in holdings.keys():
-        cur.execute("""select price_in_usd, token.decimals from token_snapshot as ts
-                    join token on token.address = ts.address
-                    where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
-                    and ts.address = %s""",
-                    (timestamp, token[-42:]))
+    with connect_to_database() as (con, cur):
+        con.autocommit = True
+
+        cur = con.cursor()
+        account_value_usd = 0
+        for token in holdings.keys():
+            cur.execute("""select price_in_usd, token.decimals from token_snapshot as ts
+                        join token on token.address = ts.address
+                        where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
+                        and ts.address = %s""",
+                        (timestamp, token[-42:]))
+            rows = cur.fetchall()
+            if len(rows) != 1:
+                # too bad, no price data for this token at this timestamp
+                # print(f"no data for {token} at {timestamp}")
+                continue
+            price = float(rows[0][0])
+            decimals = int(rows[0][1])
+            # get token_decimals
+            holdings_correct_unit = float(
+                to_correct_unit(holdings[token], decimals))
+            value = price * holdings_correct_unit
+            account_value_usd += value
+
+        inflow_value_usd = 0
+        inflow_value_eth = 0
+
+        for inflow in inflows:
+            inflow_value_usd += inflow['value_usd']
+            inflow_value_eth += inflow['value_eth']
+
+        outflow_value_usd = 0
+        outflow_value_eth = 0
+
+        for outflow in outflows:
+            outflow_value_usd += outflow['value_usd']
+            outflow_value_eth += outflow['value_eth']
+
+        cur.execute("""select price_in_usd from token_snapshot
+                        where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
+                        and address = %s""",
+                    (timestamp, '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'))
         rows = cur.fetchall()
         if len(rows) != 1:
-            # too bad, no price data for this token at this timestamp
-            # print(f"no data for {token} at {timestamp}")
-            continue
-        price = float(rows[0][0])
-        decimals = int(rows[0][1])
-        # get token_decimals
-        holdings_correct_unit = float(to_correct_unit(holdings[token], decimals))
-        value = price * holdings_correct_unit
-        account_value_usd += value
+            # should never happen
+            print(f"no data for ETHEREUM at {timestamp}")
 
-    inflow_value_usd = 0
-    inflow_value_eth = 0
+        eth_price = float(rows[0][0])
+        account_value_eth = account_value_usd / eth_price
 
-    for inflow in inflows:
-        inflow_value_usd += inflow['value_usd']
-        inflow_value_eth += inflow['value_eth']
+        profit_usd = account_value_usd + outflow_value_usd - inflow_value_usd
+        profit_eth = account_value_eth + outflow_value_eth - inflow_value_eth
 
-    outflow_value_usd = 0
-    outflow_value_eth = 0
+        snapshot = {
+            'address': acc.address,
+            'account_value_usd': account_value_usd,
+            'account_value_eth': account_value_eth,
+            'inflow_value_usd': inflow_value_usd,
+            'inflow_value_eth': inflow_value_eth,
+            'outflow_value_usd': outflow_value_usd,
+            'outflow_value_eth': outflow_value_eth,
+            'profit_usd': profit_usd,
+            'profit_eth': profit_eth,
+            # 'holdings': copy.deepcopy(holdings),
+            # 'inflow_from_eoa': copy.deepcopy(inflow_from_eoa),
+            # 'inflows': copy.deepcopy(inflows),
+            # 'outflows': copy.deepcopy(outflows),
+            'timestamp': timestamp,
 
-    for outflow in outflows:
-        outflow_value_usd += outflow['value_usd']
-        outflow_value_eth += outflow['value_eth']
+        }
 
-    cur.execute("""select price_in_usd from token_snapshot
-                    where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
-                    and address = %s""",
-                (timestamp, '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'))
-    rows = cur.fetchall()
-    if len(rows) != 1:
-        # should never happen
-        print(f"no data for ETHEREUM at {timestamp}")
+        snapshot['timestamp'] = datetime.utcfromtimestamp(
+            snapshot['timestamp']).astimezone()
 
-    eth_price = float(rows[0][0])
-    account_value_eth = account_value_usd / eth_price
+        if timestamp == START_TIMESTAMP:
+            STATS['address'] = snapshot['address']
+            STATS['start_value_usd'] = snapshot['account_value_usd']
+            STATS['start_value_eth'] = snapshot['account_value_eth']
+            STATS['year'] = 2021
+            STATS['inflow_before2021_usd'] = snapshot['inflow_value_usd']
+            STATS['inflow_before2021_eth'] = snapshot['inflow_value_eth']
+            STATS['outflow_before2021_usd'] = snapshot['outflow_value_usd']
+            STATS['outflow_before2021_eth'] = snapshot['outflow_value_eth']
 
-    profit_usd = account_value_usd + outflow_value_usd - inflow_value_usd
-    profit_eth = account_value_eth + outflow_value_eth - inflow_value_eth
+        if timestamp == END_TIMESTAMP:
 
-    snapshot = {
-        'address': acc.address,
-        'account_value_usd': account_value_usd,
-        'account_value_eth': account_value_eth,
-        'inflow_value_usd': inflow_value_usd,
-        'inflow_value_eth': inflow_value_eth,
-        'outflow_value_usd': outflow_value_usd,
-        'outflow_value_eth': outflow_value_eth,
-        'profit_usd': profit_usd,
-        'profit_eth': profit_eth,
-        # 'holdings': copy.deepcopy(holdings),
-        # 'inflow_from_eoa': copy.deepcopy(inflow_from_eoa),
-        # 'inflows': copy.deepcopy(inflows),
-        # 'outflows': copy.deepcopy(outflows),
-        'timestamp': timestamp,
+            inflow2021_usd = snapshot['inflow_value_usd'] - \
+                STATS['inflow_before2021_usd']
+            inflow2021_eth = snapshot['inflow_value_eth'] - \
+                STATS['inflow_before2021_eth']
+            outflow2021_usd = snapshot['outflow_value_usd'] - \
+                STATS['outflow_before2021_usd']
+            outflow2021_eth = snapshot['outflow_value_eth'] - \
+                STATS['outflow_before2021_eth']
 
-    }
+            STATS['start_value_usd'] += inflow2021_usd
+            STATS['start_value_eth'] += inflow2021_eth
+            STATS['end_value_usd'] = snapshot['account_value_usd'] + \
+                outflow2021_usd
+            STATS['end_value_eth'] = snapshot['account_value_eth'] + \
+                outflow2021_eth
+            STATS['profit_usd'] = STATS['end_value_usd'] - \
+                STATS['start_value_usd']
+            STATS['profit_eth'] = STATS['end_value_eth'] - \
+                STATS['start_value_eth']
+            if (STATS['start_value_usd'] != 0 and STATS['start_value_eth'] != 0):
+                STATS['against_usd'] = STATS['end_value_usd'] / \
+                    STATS['start_value_usd']
+                STATS['against_eth'] = STATS['end_value_eth'] / \
+                    STATS['start_value_eth']
+            else:
+                STATS['against_usd'] = 1
+                STATS['against_eth'] = 1
 
-    snapshot['timestamp'] = datetime.utcfromtimestamp(snapshot['timestamp']).astimezone()
-
-    if timestamp == START_TIMESTAMP:
-        STATS['address'] = snapshot['address']
-        STATS['start_value_usd'] = snapshot['account_value_usd']
-        STATS['start_value_eth'] = snapshot['account_value_eth']
-        STATS['year'] = 2021
-        STATS['inflow_before2021_usd'] = snapshot['inflow_value_usd']
-        STATS['inflow_before2021_eth'] = snapshot['inflow_value_eth']
-        STATS['outflow_before2021_usd'] = snapshot['outflow_value_usd']
-        STATS['outflow_before2021_eth'] = snapshot['outflow_value_eth']
-
-    if timestamp == END_TIMESTAMP:
-
-        inflow2021_usd = snapshot['inflow_value_usd'] - STATS['inflow_before2021_usd']
-        inflow2021_eth = snapshot['inflow_value_eth'] - STATS['inflow_before2021_eth']
-        outflow2021_usd = snapshot['outflow_value_usd'] - STATS['outflow_before2021_usd']
-        outflow2021_eth = snapshot['outflow_value_eth'] - STATS['outflow_before2021_eth']
-
-        STATS['start_value_usd'] += inflow2021_usd
-        STATS['start_value_eth'] += inflow2021_eth
-        STATS['end_value_usd'] = snapshot['account_value_usd'] + outflow2021_usd
-        STATS['end_value_eth'] = snapshot['account_value_eth'] + outflow2021_eth
-        STATS['profit_usd'] = STATS['end_value_usd'] - STATS['start_value_usd']
-        STATS['profit_eth'] = STATS['end_value_eth'] - STATS['start_value_eth']
-        if (STATS['start_value_usd'] != 0 and STATS['start_value_eth'] != 0):
-            STATS['against_usd'] = STATS['end_value_usd'] / STATS['start_value_usd']
-            STATS['against_eth'] = STATS['end_value_eth'] / STATS['start_value_eth']
-        else:
-            STATS['against_usd'] = 1
-            STATS['against_eth'] = 1
-
-        cur.execute("""insert into account_stats (address, start_value_usd, start_value_eth, end_value_usd, 
-                    end_value_eth, profit_usd, profit_eth, against_usd, against_eth, tx_count, year) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
-                    (STATS['address'], STATS['start_value_usd'], STATS['start_value_eth'], STATS['end_value_usd'],
-                     STATS['end_value_eth'], STATS['profit_usd'], STATS['profit_eth'], STATS['against_usd'], STATS['against_eth'],
-                     STATS['tx_count'], STATS['year']))
+            cur.execute("""insert into account_stats (address, start_value_usd, start_value_eth, end_value_usd, 
+                        end_value_eth, profit_usd, profit_eth, against_usd, against_eth, tx_count, year) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
+                        (STATS['address'], STATS['start_value_usd'], STATS['start_value_eth'], STATS['end_value_usd'],
+                         STATS['end_value_eth'], STATS['profit_usd'], STATS['profit_eth'], STATS['against_usd'], STATS['against_eth'],
+                         STATS['tx_count'], STATS['year']))
 
     # con.commit()
     cur.close()
@@ -198,7 +205,8 @@ def get_timestamps(sorted_txs) -> list:
     timestamps = [int(datetime.timestamp(last_tx + timedelta(days=1) - timedelta(days=a)))
                   for a in range(diff.days+2)]
 
-    relevant_timestamps = list(filter(lambda timestamp: (timestamp <= END_TIMESTAMP), timestamps))
+    relevant_timestamps = list(
+        filter(lambda timestamp: (timestamp <= END_TIMESTAMP), timestamps))
 
     if START_TIMESTAMP not in relevant_timestamps:
         relevant_timestamps.append(START_TIMESTAMP)
@@ -208,7 +216,7 @@ def get_timestamps(sorted_txs) -> list:
     return relevant_timestamps
 
 
-def account_is_organic(address):
+def account_is_organic(address, exchanges, bridges):
 
     # Check if it is a exchange owned CA
     if address in exchanges:
@@ -229,60 +237,56 @@ def account_is_organic(address):
 
 
 def get_flow(tx, flow_type):
-    con = psycopg2.connect(
-        host="localhost",
-        database="lasse",
-        user="alexander",
-        password="")
 
-    cur = con.cursor()
+    with connect_to_database() as (con, cur):
 
-    identifier = ""
-    value_usd = 0
-    value_eth = 0
+        identifier = ""
+        value_usd = 0
+        value_eth = 0
 
-    if flow_type == 'tte':
-        identifier = f"{tx['tokenSymbol']} {tx['contractAddress']}"
-    elif flow_type == 'tx weth':
-        identifier = f'WETH {wrapped_eth}'
-    else:
-        identifier = 'eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+        if flow_type == 'tte':
+            identifier = f"{tx['tokenSymbol']} {tx['contractAddress']}"
+        elif flow_type == 'tx weth':
+            identifier = f'WETH {fix_wrapped_eth}'
+        else:
+            identifier = 'eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
 
-    timestamp = get_closest_timestamp(int(tx['timeStamp']))
+        timestamp = get_closest_timestamp(int(tx['timeStamp']))
 
-    cur.execute("""select price_in_usd, token.decimals from token_snapshot as ts
-                    join token on token.address = ts.address
-                    where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
-                    and ts.address = %s""",
-                (timestamp, identifier[-42:]))
-    rows = cur.fetchall()
+        cur.execute("""select price_in_usd, token.decimals from token_snapshot as ts
+                        join token on token.address = ts.address
+                        where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
+                        and ts.address = %s""",
+                    (timestamp, identifier[-42:]))
+        rows = cur.fetchall()
 
-    if len(rows) != 1:
-        # too bad, no price data for this token at this timestamp
-        print(f"no data for {identifier} ({identifier[-42]}) at {timestamp}")
-        return {
-            identifier: int(tx['value']),
-            'value_usd': 0,
-            'value_eth': 0,
-            'tx_hash': tx['hash']
-        }
+        if len(rows) != 1:
+            # too bad, no price data for this token at this timestamp
+            print(
+                f"no data for {identifier} ({identifier[-42]}) at {timestamp}")
+            return {
+                identifier: int(tx['value']),
+                'value_usd': 0,
+                'value_eth': 0,
+                'tx_hash': tx['hash']
+            }
 
-    price_in_usd = float(rows[0][0])
-    decimals = int(rows[0][1])
-    value_correct_unit = float(to_correct_unit(int(tx['value']), decimals))
-    value_usd = price_in_usd * value_correct_unit
+        price_in_usd = float(rows[0][0])
+        decimals = int(rows[0][1])
+        value_correct_unit = float(to_correct_unit(int(tx['value']), decimals))
+        value_usd = price_in_usd * value_correct_unit
 
-    cur.execute("""select price_in_usd from token_snapshot
-                    where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
-                    and address = %s""",
-                (timestamp, '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'))
-    rows = cur.fetchall()
-    if len(rows) != 1:
-        # should never happen
-        print(f"no data for ETHEREUM at {timestamp}")
-    eth_price = float(rows[0][0])
+        cur.execute("""select price_in_usd from token_snapshot
+                        where snapshot_timestamp = to_timestamp(%s) AT TIME ZONE 'UTC'
+                        and address = %s""",
+                    (timestamp, '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'))
+        rows = cur.fetchall()
+        if len(rows) != 1:
+            # should never happen
+            print(f"no data for ETHEREUM at {timestamp}")
+        eth_price = float(rows[0][0])
 
-    value_eth = value_usd / eth_price
+        value_eth = value_usd / eth_price
 
     return {
         identifier: int(tx['value']),
@@ -292,7 +296,7 @@ def get_flow(tx, flow_type):
     }
 
 
-def get_snapshots(acc):
+def get_snapshots(acc, exchanges, bridges):
     txs = acc.get_transactions()
     itxs = acc.get_internal_transactions()
     txs.extend(itxs)
@@ -319,18 +323,20 @@ def get_snapshots(acc):
             return snapshots
 
         if int(tx['timeStamp']) > timestamps[count]:
-            snapshot = take_snapshot(acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
+            snapshot = take_snapshot(
+                acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
             snapshots.append(snapshot)
             count += 1
             while len(timestamps) > count and int(tx['timeStamp']) > timestamps[count]:
-                snapshot = take_snapshot(acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
+                snapshot = take_snapshot(
+                    acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
                 snapshots.append(snapshot)
                 count += 1
 
         if 'tokenName' in tx.keys():
             # its a TTE
             if tx['contractAddress'] == '0xd5cd84d6f044abe314ee7e414d37cae8773ef9d3':
-                tx['contractAddress'] = one_address
+                tx['contractAddress'] = ONE_ADDRESS
                 tx['tokenSymbol'] = 'ONE'
             tx['to'] = fix_address(tx['to'])
             tx['from'] = fix_address(tx['from'])
@@ -341,26 +347,32 @@ def get_snapshots(acc):
 
             if tx['to'] == acc.address:
                 # is tx['from'] == EOA or EXC?
-                if not account_is_organic(tx['from']):
+                if not account_is_organic(tx['from'], exchanges, bridges):
                     if f"{tx['tokenSymbol']} {tx['contractAddress']}" not in inflow_from_eoa:
-                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] = int(tx['value'])
+                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] = int(
+                            tx['value'])
                     else:
-                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] += int(tx['value'])
+                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] += int(
+                            tx['value'])
                     inflow = get_flow(tx, 'tte')
                     inflows.append(inflow)
 
-                holdings[f"{tx['tokenSymbol']} {tx['contractAddress']}"] += int(tx['value'])
+                holdings[f"{tx['tokenSymbol']} {tx['contractAddress']}"] += int(
+                    tx['value'])
             elif tx['from'] == acc.address:
-                if not account_is_organic(tx['to']):
+                if not account_is_organic(tx['to'], exchanges, bridges):
                     if f"{tx['tokenSymbol']} {tx['contractAddress']}" not in inflow_from_eoa:
-                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] = int(tx['value']) * (-1)
+                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] = int(
+                            tx['value']) * (-1)
                     else:
-                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] -= int(tx['value'])
+                        inflow_from_eoa[f"{tx['tokenSymbol']} {tx['contractAddress']}"] -= int(
+                            tx['value'])
 
                     outflow = get_flow(tx, 'tte')
                     outflows.append(outflow)
 
-                holdings[f"{tx['tokenSymbol']} {tx['contractAddress']}"] -= int(tx['value'])
+                holdings[f"{tx['tokenSymbol']} {tx['contractAddress']}"] -= int(
+                    tx['value'])
                 # balance -= int(tx['gasPrice']) * int(tx['gasUsed'])
 
         else:
@@ -368,7 +380,8 @@ def get_snapshots(acc):
             if is_in2021(int(tx['timeStamp'])):
                 STATS['tx_count'] += 1
             if tx['from'] == acc.address and tx['to'] == acc.address:
-                holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] -= int(tx['gasPrice']) * int(tx['gasUsed'])
+                holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] -= int(
+                    tx['gasPrice']) * int(tx['gasUsed'])
             elif tx['from'] == acc.address:
                 if tx['isError'] == "0":
                     wrapped_eth = fix_address(WRAPPED_ETH)
@@ -379,84 +392,75 @@ def get_snapshots(acc):
                             holdings[f'WETH {wrapped_eth}'] += int(tx['value'])
 
                         if f'WETH {wrapped_eth}' not in inflow_from_eoa:
-                            inflow_from_eoa[f'WETH {wrapped_eth}'] = int(tx['value'])
+                            inflow_from_eoa[f'WETH {wrapped_eth}'] = int(
+                                tx['value'])
                         else:
-                            inflow_from_eoa[f'WETH {wrapped_eth}'] += int(tx['value'])
+                            inflow_from_eoa[f'WETH {wrapped_eth}'] += int(
+                                tx['value'])
 
                         inflow = get_flow(tx, 'tx weth')
                         inflows.append(inflow)
 
-                    if tx['to'] != "" and not account_is_organic(tx['to']):
-                        inflow_from_eoa[f"eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"] -= int(tx['value'])
+                    if tx['to'] != "" and not account_is_organic(tx['to'], exchanges, bridges):
+                        inflow_from_eoa[f"eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"] -= int(
+                            tx['value'])
                         outflow = get_flow(tx, 'tx')
                         outflows.append(outflow)
 
-                    holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] -= int(tx['value'])
+                    holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] -= int(
+                        tx['value'])
 
                 # gas is payed even if tx fails
-                holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] -= int(tx['gasPrice']) * int(tx['gasUsed'])
+                holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] -= int(
+                    tx['gasPrice']) * int(tx['gasUsed'])
 
             else:
                 # is tx['from'] an EOA?
-                if not account_is_organic(tx['from']):
-                    inflow_from_eoa[f"eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"] += int(tx['value'])
+                if not account_is_organic(tx['from'], exchanges, bridges):
+                    inflow_from_eoa[f"eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"] += int(
+                        tx['value'])
                     inflow = get_flow(tx, 'tx')
                     inflows.append(inflow)
-                holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] += int(tx['value'])
+                holdings['eth 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'] += int(
+                    tx['value'])
 
     while len(timestamps) > count and int(sorted_txs[-1]['timeStamp']) > timestamps[count]:
-        snapshot = take_snapshot(acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
+        snapshot = take_snapshot(
+            acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
         snapshots.append(snapshot)
         count += 1
 
     while len(timestamps) > count:
-        snapshot = take_snapshot(acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
+        snapshot = take_snapshot(
+            acc, holdings, inflow_from_eoa, timestamps[count], inflows, outflows)
         snapshots.append(snapshot)
         count += 1
 
     return snapshots
 
 
-with open('./initial_data/exchanges.json', 'r') as exchanges_file:
-    data = exchanges_file.read()
-
-exchanges = json.loads(data)
-# get a list of the exchange addresses
-exchanges = [exchange['address'] for exchange in exchanges]
-
-with open('./initial_data/bridges.json', 'r') as bridges_file:
-    data = bridges_file.read()
-
-bridges = json.loads(data)
-# get a list of the bridge addresses
-bridges = [bridge['address'] for bridge in bridges]
-
-
 def get_addresses():
-    con = psycopg2.connect(
-        host="localhost",
-        database="lasse",
-        user="alexander",
-        password="")
-
-    cur = con.cursor()
-
-    cur.execute("select address from account;")
-    rows = cur.fetchall()
-
-    con.commit()
-    cur.close()
-    con.close()
-
-    addresses = [row[0] for row in rows]
+    with connect_to_database() as (con, cur):
+        cur.execute("select address from account;")
+        rows = cur.fetchall()
+        addresses = [row[0] for row in rows]
     return addresses
 
 
-addresses = get_addresses()
-# for acc in accs
-# only using accounts with less than 10k tx and or 10k ttes.
-for address in addresses[14:]:
-    print(f"currently with {address}")
-    acc1 = EthAccount(address, APIKEY_ETHERSCAN)
-    snapshots = get_snapshots(acc1)
-    print(f"done with {address}")
+def main():
+
+    exchanges = get_exchanges()
+    bridges = get_bridges()
+
+    addresses = get_addresses()
+    # for acc in accs
+    # only using accounts with less than 10k tx and or 10k ttes.
+    for address in addresses[14:]:
+        print(f"Currently working with: {address}")
+        acc1 = EthAccount(address, APIKEY_ETHERSCAN)
+        snapshots = get_snapshots(acc1, exchanges, bridges)
+        print(f"Done with: {address}")
+
+
+if __name__ == '__main__':
+    main()

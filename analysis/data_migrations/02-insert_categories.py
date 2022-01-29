@@ -1,24 +1,22 @@
 import json
+from utils.db_utils import connect_to_database
 
-import psycopg2
 
-con = psycopg2.connect(
-    host="localhost",
-    database="lasse",
-    user="alexander",
-    password="")
+def main():
 
-cur = con.cursor()
+    # Load JSON data
+    with open('initial_data/categories.json', 'r') as f:
+        data = f.read()
 
-with open('initial_data/categories.json', 'r') as f:
-    data = f.read()
+    categories = json.loads(data)
 
-categories = json.loads(data)
+    with connect_to_database() as (con, cur):
+        for category in categories:
+            cur.execute("insert into category (coingecko_id, coingecko_name) values (%s, %s)",
+                        (category['category_id'], category['name']))
 
-for category in categories:
-    cur.execute("insert into category (coingecko_id, coingecko_name) values (%s, %s)",
-                (category['category_id'], category['name']))
+        con.commit()
 
-con.commit()
-cur.close()
-con.close()
+
+if __name__ == '__main__':
+    main()

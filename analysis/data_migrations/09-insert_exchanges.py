@@ -1,26 +1,19 @@
-import psycopg2
 import json
 
-# connect to the db
-con = psycopg2.connect(
-    host="localhost",
-    database="lasse",
-    user="alexander",
-    password="")
-
-# cursor
-cur = con.cursor()
-
-with open('./initial_data/exchanges.json', 'r') as f:
-    data = f.read()
-
-exchanges = json.loads(data)
+from utils.db_utils import connect_to_database
 
 
-for exchange in exchanges:
-    cur.execute("insert into exchange (address, account_type, label) values (%s, %s, %s);",
-                (exchange['address'], exchange['account_type'], exchange['label']))
+def main():
+    with open('./initial_data/exchanges.json', 'r') as f:
+        data = f.read()
+    exchanges = json.loads(data)
 
-con.commit()
-cur.close()
-con.close()
+    with connect_to_database() as (con, cur):
+        for exchange in exchanges:
+            cur.execute("insert into exchange (address, account_type, label) values (%s, %s, %s);",
+                        (exchange['address'], exchange['account_type'], exchange['label']))
+        con.commit()
+
+
+if __name__ == '__main__':
+    main()
