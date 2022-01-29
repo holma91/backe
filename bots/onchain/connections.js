@@ -23,7 +23,7 @@ const connections = {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png',
         explorer: {
             url: 'https://etherscan.io',
-            apikey: '',
+            apikey: 'FJVSJ3Q8PD233E51ZPCPI6EGZRVZKFCD5C',
         },
         webhooks: {
             newPair:

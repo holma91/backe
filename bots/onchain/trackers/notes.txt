@@ -3,3 +3,16 @@ the differences are only:
     - api keys
     - links
     - block time
+
+
+https://api.bscscan.com/api
+   ?module=account
+   &action=tokentx
+   &contractaddress=0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51
+   &address=0x7bb89460599dbf32ee3aa50798bbceae2a5f7f6a
+   &page=1
+   &offset=5
+   &startblock=0
+   &endblock=999999999
+   &sort=asc
+   &apikey=YourApiKeyToken

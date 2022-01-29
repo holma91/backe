@@ -1,32 +1,156 @@
-HIGH-LEVEL
-what is the most important?
+# on-chain stuff
 
-1. listen for address movements
-    - can follow all movements on ethereum via alchemy
-    - can follow all dex swaps on other chains by listening to the Swap event of a Pair
-2. listen for new tokens
-    - can follow all pair creations on every evm chain
-3. listen for tweets
+### evm chains
 
-    -
+-   listen to when new liquidity pairs are added - DONE (on evm chains)
+-   listen to address movements - IN PROGRESS
+    -   works on ethereum
+    -   set it up on the other evm chains
+-   do everything for erc-721 tokens as well (NFTs) - NOT STARTED
+    -   research the whole nft space first. Not even confident in taking trades here yet.
+-   develop bots that can buy tokens - IN PROGRESS
+    -   bots that can buy on a discord command or something similar
+        -   nice if you wanna pull the trigger from the phone
+    -   bots that can buy stuff automatically
+        -   need to have a list of requirements that can be checked programmatically, the so called rug detector.
+        -   need to research previous releases to see what charactherizes a good release. That it's not a rug is not enough.
 
-4. set up notifications for movements that are worthy
-    - email? discord? native mac notifs?
+### cosmos-sdk chains
 
-right now:
+-   basically the same stuff as on the evm chains - NOT STARTED
+    -   need to research everything about cosmos and IBC before
 
--   listening to new pairs on evm chains - DONE
--   listening to address movements on ethereum - DONE
--   listen to address movements on other evm chains - in progress
+### mev stuff
 
--   listening to tweets - in progress BUT limited by twitters api...
+-   develop mev-bots - NOT STARTED
+    -   dive deeper into the EVM and solidity at first
+    -   somewhat simple arbitrage bots on single evm-chains could be the first step.
+    -   cross-chain arbitrage bots could be the next step, first on multiple evm-chains and then evm and non-evm chain.
+    -   it's said to be hard competition here, could be fun to try writing hyper optimized bots that could compete.
+    -   exciting to do stuff here since you can make trades with a guaranteed profit so it's possibly to just 100% rely on technical stuff.
+    -   first evm chains, then the rest.
 
-soon:
+# social media
 
--   dive into mev and build arbitrage bots on evm chains
--   dive into the whole cosmos eco
--   dive into nfts
+### twitter
 
-LATER
+-   take in all tweets from followed accounts once a week - DONE
+-   follow these accounts in real-time - IN PROGRESS
+    -   problem with twitters api here, don't have a great solution yet. The best idea right now is to sign up to ca. 20 twitter developer accounts with "elevated access". Maybe a better solution is to just scrape a frontend?
+-   do some data analysis on all this data - NOT STARTED
+    -   compare mentions of certain projects with their price development. Unfortunately the api does not provide access to tweets older than 7 days. A solution could be to instead scrape a twitter frontend? either twitter.com or something like nitter.io, not sure how difficult this would be.
+-   listen to tweets from exchange accounts to see if they are listing a new token - NOT STARTED
+    -   the obvious next step here is to frontrun retail by buying the token on a dex when it's tweeted
 
--   rewrite in typescript
+### discord
+
+-   write a "frontend" for the stuff that I'm tracking - DONE
+-   a wonderful thing would be to track and analyze crypto discord servers in the same way as we are tracking twitter. Unfortunately, I don't even think this is allowed by discord so.
+
+### reddit
+
+-   track and analyze all posts and comments from chosen crypto subs - NOT STARTED
+    -   keep in mind that reddit is not a place for alpha in the same way as twitter in crypto (or discord), not even close. Therefore twitter is prioritized. Could still be interesting do analyze historical data. Haven't explored reddit's api yet, it's possible that the full archive is available.
+
+# Backend
+
+Not much "innovative" work to be done here. Except for setting up data pipelines later that updates the database regularly through the day, but this is not a priority at all atm. Node js server with express. Postgres database.
+
+-   set up an api that exposes the database - IN PROGRESS
+-   deploy to production (not in a hurry at all) - NOT STARTED
+    -   how?
+        -   just a basic VM on digital ocean?
+        -   or docker stuff?
+
+# Frontend
+
+The frontend should only have one job from the beginning, and that is to just to show everything that is in the database. Design is not a focus at the moment so it's better to just not try hard there since whatever we do now I'm gonna want to completely redesign it later. The goal right now is therefore, a pretty barebones website that just exposes everything that is in the DB. Of course possible to do everything with dummy data first so the frontend development is not slowed down by the progress on the backend. My priority is not on the frontend right now mainly because it's not gonna provide any short-term trading edge compared to the other stuff (the discord server is a decent frontend already). What to do:
+
+-   show stuff on the frontend - NOT STARTED
+    -   accounts
+        -   follow what accounts are doing in real-time
+    -   tokens
+        -   real-time data
+    -   visualize the data
+        -   maybe learn D3 if the time shows up
+
+tech stack: react with next.js and tailwind
+
+# Trading
+
+-   Keep researching for new projects a couple of times a week.
+-   in general I'm interested of everything regarding ethereum scalability and cosmos during 2022.
+-   NOT super bullish crypto 2022. Definitely possible that 2022 is a down year and then much of this wont matter in the short-term. Can see a scenario where bitcoin ranges between 20k and 50k.
+
+### projects I'm following right now
+
+-   optimism
+    -   optimistic layer 2 roll up on ethereum. zipswap.fi a decent dex. On the watchout for new projects launching.
+-   metis
+    -   a fork of optimism. Basically the same but not as good. Could still get some nice projects.
+-   fuse
+    -   a shitty evm layer 1. Only watching it because they might get a developer fund and their main dex (voltswap) is launching in feb.
+-   near/aurora
+    -   near is a sharded layer 1 and aurora is a evm compatible layer2 built on top of near, good project. Have big investors already and $1b+ developer fund so I'm expecting projects soon.
+
+### some upcoming exciting launches are coming:
+
+-   evmos (launch expected in february)
+    -   evm compatibility arrives to cosmos.
+    -   the play here is to follow the usual "new evm" cycle. Maybe buy the native token $evmos, definitely buy the main dex (diffusion finance), probably buy another dex as well. Definitely buy the first dog coin. Going to be able to track this chain right at launch so the positioning for this is perfect.
+-   neon labs (launch in Q2 probably)
+    -   the same as evmos basically but on solana instead of cosmos.
+-   celestia (launch unknown)
+    -   data availability layer 1 blockchain.
+-   starknet and zksync (launch unknown but probably in 2022)
+    -   zero-knowledge proof layer 2 rollups mainly for ethereum. This is what takes ethereum gas fees from hundreds of dollars to 5 cents.
+-   avalanche subnets
+    -   could be a great narrative for blockchain scalability.
+
+# Summary
+
+## DONE
+
+-   listen to when new liquidity pairs are added - DONE (on evm chains)
+-   take in all tweets from followed accounts once a week - DONE
+-   write a "frontend" (discord server) for the stuff that I'm tracking - DONE
+
+## IN PROGRESS
+
+-   listen to address movements - IN PROGRESS
+-   develop bots that can buy tokens - IN PROGRESS
+-   follow twitter accounts in real-time - IN PROGRESS
+-   set up an api that exposes the database - IN PROGRESS
+
+## NOT STARTED
+
+-   do everything for erc-721 tokens as well (NFTs) - NOT STARTED
+-   do the same stuff on cosmos as on the evm chains - NOT STARTED
+-   develop mev-bots - NOT STARTED
+-   do some data analysis on twitter data - NOT STARTED
+-   listen to tweets from exchange accounts to see if they are listing a new token - NOT STARTED
+-   track and analyze all posts and comments from chosen reddit subs - NOT STARTED
+-   show stuff on the frontend - NOT STARTED
+
+# what i'm doing right now
+
+1. finish the tracking of addresses on evm chains.
+
+### then, not in a specific order:
+
+-   track twitter addresses in real-time
+-   dive into nfts and do the related tasks
+-   dive into cosmos and do the related tasks
+-   dive into the evm, solidity and MEV
+-   make some decisions in analysis, and do the analysis on all collected addresses
+-   finish the tax software for all evm chains
+
+# what i'm not focusing on right now
+
+-   everything in /backend
+-   everything in /frontend
+-   data analysis on social media data
+
+# LATER
+
+-   rewrite all javascript in typescript. Why? because types > no types. Why not right now? Not a priority
