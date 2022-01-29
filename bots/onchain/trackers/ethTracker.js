@@ -8,26 +8,115 @@ const ETH_SYMBOL = 'ETH';
 const ETH_DECIMALS = 18;
 const ETH_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
+const ETH = {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+};
+
 class TransactionChecker {
     provider;
     addresses;
     latestBlock;
     apikey;
+    chain;
+    nativeToken;
 
-    constructor(connection, addresses) {
+    constructor(connection, addresses, apikey, chain, nativeToken) {
         this.provider = new ethers.providers.JsonRpcProvider(connection);
         this.addresses = addresses.map((address) => address.toLowerCase());
         this.latestBlock = 0;
-        this.apikey = 'FJVSJ3Q8PD233E51ZPCPI6EGZRVZKFCD5C';
+        this.apikey = apikey;
+        this.chain = chain;
+        this.nativeToken = nativeToken;
     }
 
     async queryExplorer(address, currentBlock) {
-        // let reqString = `https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=${address}&startblock=${currentBlock}&endblock=999999999&sort=asc&apikey=${this.apikey}`;
-        let reqString = `https://api.etherscan.io/api?module=account&action=tokentx&address=${address}&startblock=${currentBlock}&endblock=999999999&sort=asc&apikey=${this.apikey}`;
+        let reqString = '';
+        if (this.chain === 'ETH') {
+            reqString = `https://api.etherscan.io/api?module=account&action=tokentx&address=${address}&startblock=${currentBlock}&endblock=999999999&sort=asc&apikey=${this.apikey}`;
+        } else if (this.chain === 'BSC') {
+            reqString = `https://api.bscscan.com/api?module=account&action=tokentx&address=${address}&startblock=${currentBlock}&endblock=999999999&sort=asc&apikey=${this.apikey}`;
+        } else if (this.chain === 'ROPSTEN') {
+            reqString = `https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=${address}&startblock=${currentBlock}&endblock=999999999&sort=asc&apikey=${this.apikey}`;
+        }
         // console.log(reqString);
         const response = await fetch(reqString);
         const ttes = await response.json();
         return ttes;
+    }
+
+    async insertPriceData(swaps) {
+        // add price data to every swap object
+        let networkName = '';
+        switch (this.chain) {
+            case 'ETH':
+                networkName = 'ethereum';
+                break;
+            case 'BSC':
+                networkName = 'binance-smart-chain';
+                break;
+        }
+        for (let swap of swaps) {
+            let inRes = await fetch(
+                `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['in']['contractAddress']}`
+            );
+            while (inRes.status_code === 429) {
+                await sleep(5000);
+                console.log(
+                    `rate limited by cg, sleeping at ${swap['in']['name']} with address ${swap['in']['contractAddress']}`
+                );
+                inRes = await fetch(
+                    `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['in']['contractAddress']}`
+                );
+            }
+            let inToken = await inRes.json();
+            if (!inToken['error']) {
+                swap['in']['onCoingecko'] = 'true';
+                swap['in']['marketCapRank'] = inToken['market_cap_rank'];
+                swap['in']['marketCap'] = inToken['market_data']['market_cap']['usd'];
+                swap['in']['totalVolume'] = inToken['market_data']['total_volume']['usd'];
+                swap['in']['price'] = inToken['market_data']['current_price']['usd'];
+                swap['in']['priceChange24H'] = inToken['market_data']['price_change_percentage_24h'];
+                swap['in']['priceChange7D'] = inToken['market_data']['price_change_percentage_7d'];
+                // swap['in']['valueUSD'] = (
+                //     ethers.BigNumber.from(swap['in']['price']) * ethers.BigNumber.from(swap['in']['value'])
+                // ).toString();
+            } else {
+                swap['in']['onCoingecko'] = 'false';
+            }
+
+            let outRes = await fetch(
+                `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['out']['contractAddress']}`
+            );
+            while (outRes.status_code === 429) {
+                await sleep(5000);
+                console.log(
+                    `rate limited by cg, sleeping at ${swap['out']['name']} with address ${swap['out']['contractAddress']}`
+                );
+                outRes = await fetch(
+                    `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['out']['contractAddress']}`
+                );
+            }
+            let outToken = await outRes.json();
+            if (!outToken['error']) {
+                swap['out']['onCoingecko'] = 'true';
+                swap['out']['marketCapRank'] = outToken['market_cap_rank'];
+                swap['out']['marketCap'] = outToken['market_data']['market_cap']['usd'];
+                swap['out']['totalVolume'] = outToken['market_data']['total_volume']['usd'];
+                swap['out']['price'] = outToken['market_data']['current_price']['usd'];
+                swap['out']['priceChange24H'] = outToken['market_data']['price_change_percentage_24h'];
+                swap['out']['priceChange7D'] = outToken['market_data']['price_change_percentage_7d'];
+                // swap['out']['valueUSD'] = (
+                //     ethers.BigNumber.from(swap['out']['price']) * ethers.BigNumber.from(swap['out']['value'])
+                // ).toString();
+            } else {
+                swap['out']['onCoingecko'] = 'false';
+            }
+        }
+
+        return swaps;
     }
 
     async getTTEs(activeAddresses, blockNumber) {
@@ -62,32 +151,27 @@ class TransactionChecker {
 
     async getSwaps(activeAddresses, blockNumber) {
         let foundTTEs = await this.getTTEs(activeAddresses, blockNumber);
-        // console.log('foundTTEs:', foundTTEs);
         let swaps = [];
 
         if (foundTTEs.length === 1) {
-            // eth <-> erc20
+            // native <-> erc20
             let swap = {};
             if (activeAddresses.includes(foundTTEs[0]['from'].toLowerCase())) {
-                // the addreess sold a token for eth
-
+                // the address sold a token for the native token
                 swap = {
                     address: foundTTEs[0]['from'].toLowerCase(),
                     out: {
                         name: foundTTEs[0]['tokenName'],
                         symbol: foundTTEs[0]['tokenSymbol'],
-                        value: foundTTEs[0]['value'],
-                        address: foundTTEs[0]['contractAddress'],
-                        decimals: foundTTEs[0]['tokenDecimal'],
+                        value: ethers.utils.formatUnits(foundTTEs[0]['value'], foundTTEs[0]['tokenDecimal']),
+                        contractAddress: foundTTEs[0]['contractAddress'],
                     },
                     in: {
-                        name: ETH_NAME,
-                        symbol: ETH_SYMBOL,
+                        name: this.nativeToken.name,
+                        symbol: this.nativeToken.symbol,
                         value: '?',
-                        address: ETH_ADDRESS,
-                        decimals: ETH_DECIMALS,
+                        contractAddress: this.nativeToken.address,
                     },
-                    gas: foundTTEs[0]['gasPrice'] * foundTTEs[0]['gasUsed'],
                     txHash: foundTTEs[0]['hash'],
                     blockNumber: foundTTEs[0]['blockNumber'],
                     timestamp: foundTTEs[0]['timeStamp'],
@@ -97,20 +181,17 @@ class TransactionChecker {
                 swap = {
                     address: foundTTEs[0]['to'].toLowerCase(),
                     out: {
-                        name: ETH_NAME,
-                        symbol: ETH_SYMBOL,
+                        name: this.nativeToken.name,
+                        symbol: this.nativeToken.symbol,
                         value: '?',
-                        address: ETH_ADDRESS,
-                        decimals: ETH_DECIMALS,
+                        contractAddress: this.nativeToken.address,
                     },
                     in: {
                         name: foundTTEs[0]['tokenName'],
                         symbol: foundTTEs[0]['tokenSymbol'],
-                        value: foundTTEs[0]['value'],
-                        address: foundTTEs[0]['contractAddress'],
-                        decimals: foundTTEs[0]['tokenDecimal'],
+                        value: ethers.utils.formatUnits(foundTTEs[0]['value'], foundTTEs[0]['tokenDecimal']),
+                        contractAddress: foundTTEs[0]['contractAddress'],
                     },
-                    gas: foundTTEs[0]['gasPrice'] * foundTTEs[0]['gasUsed'],
                     txHash: foundTTEs[0]['hash'],
                     blockNumber: foundTTEs[0]['blockNumber'],
                     timestamp: foundTTEs[0]['timeStamp'],
@@ -139,18 +220,15 @@ class TransactionChecker {
                             out: {
                                 name: subTTE[0]['tokenName'],
                                 symbol: subTTE[0]['tokenSymbol'],
-                                value: subTTE[0]['value'],
-                                address: subTTE[0]['contractAddress'],
-                                decimals: subTTE[0]['tokenDecimal'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
                             in: {
-                                name: ETH_NAME,
-                                symbol: ETH_SYMBOL,
+                                name: this.nativeToken.name,
+                                symbol: this.nativeToken.symbol,
                                 value: '?',
-                                address: ETH_ADDRESS,
-                                decimals: ETH_DECIMALS,
+                                contractAddress: this.nativeToken.address,
                             },
-                            gas: subTTE[0]['gasPrice'] * subTTE[0]['gasUsed'],
                             txHash: subTTE[0]['hash'],
                             blockNumber: subTTE[0]['blockNumber'],
                             timestamp: subTTE[0]['timeStamp'],
@@ -159,20 +237,17 @@ class TransactionChecker {
                         swap = {
                             address: subTTE[0]['to'].toLowerCase(),
                             out: {
-                                name: ETH_NAME,
-                                symbol: ETH_SYMBOL,
+                                name: this.nativeToken.name,
+                                symbol: this.nativeToken.symbol,
                                 value: '?',
-                                address: ETH_ADDRESS,
-                                decimals: ETH_DECIMALS,
+                                contractAddress: this.nativeToken.address,
                             },
                             in: {
                                 name: subTTE[0]['tokenName'],
                                 symbol: subTTE[0]['tokenSymbol'],
-                                value: subTTE[0]['value'],
-                                address: subTTE[0]['contractAddress'],
-                                decimals: subTTE[0]['tokenDecimal'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
-                            gas: subTTE[0]['gasPrice'] * subTTE[0]['gasUsed'],
                             txHash: subTTE[0]['hash'],
                             blockNumber: subTTE[0]['blockNumber'],
                             timestamp: subTTE[0]['timeStamp'],
@@ -188,18 +263,15 @@ class TransactionChecker {
                             out: {
                                 name: subTTE[0]['tokenName'],
                                 symbol: subTTE[0]['tokenSymbol'],
-                                value: subTTE[0]['value'],
-                                address: subTTE[0]['contractAddress'],
-                                decimals: subTTE[0]['tokenDecimal'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
                             in: {
                                 name: subTTE[1]['tokenName'],
                                 symbol: subTTE[1]['tokenSymbol'],
-                                value: subTTE[1]['value'],
-                                address: subTTE[1]['contractAddress'],
-                                decimals: subTTE[1]['tokenDecimal'],
+                                value: ethers.utils.formatUnits(subTTE[1]['value'], subTTE[1]['tokenDecimal']),
+                                contractAddress: subTTE[1]['contractAddress'],
                             },
-                            gas: subTTE[0]['gasPrice'] * subTTE[0]['gasUsed'],
                             txHash: subTTE[0]['hash'],
                             blockNumber: subTTE[0]['blockNumber'],
                             timestamp: subTTE[0]['timeStamp'],
@@ -210,18 +282,15 @@ class TransactionChecker {
                             out: {
                                 name: subTTE[1]['tokenName'],
                                 symbol: subTTE[1]['tokenSymbol'],
-                                value: subTTE[1]['value'],
-                                address: subTTE[1]['contractAddress'],
-                                decimals: subTTE[1]['tokenDecimal'],
+                                value: ethers.utils.formatUnits(subTTE[1]['value'], subTTE[1]['tokenDecimal']),
+                                contractAddress: subTTE[1]['contractAddress'],
                             },
                             in: {
                                 name: subTTE[0]['tokenName'],
                                 symbol: subTTE[0]['tokenSymbol'],
-                                value: subTTE[0]['value'],
-                                address: subTTE[0]['contractAddress'],
-                                decimals: subTTE[0]['tokenDecimal'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
-                            gas: subTTE[1]['gasPrice'] * subTTE[1]['gasUsed'],
                             txHash: subTTE[1]['hash'],
                             blockNumber: subTTE[1]['blockNumber'],
                             timestamp: subTTE[1]['timeStamp'],
@@ -237,6 +306,7 @@ class TransactionChecker {
     }
 
     async getBlockNumbers() {
+        // logic to make sure a block is never missed
         let blockNumber = await this.provider.getBlockNumber();
         if (this.latestBlock === 0) return [blockNumber];
         if (blockNumber <= this.latestBlock) return [];
@@ -252,14 +322,13 @@ class TransactionChecker {
     async checkBlock() {
         try {
             let blockNumbers = await this.getBlockNumbers();
-            // console.log(blockNumbers);
             if (blockNumbers.length === 0) return;
 
             this.latestBlock = blockNumbers[blockNumbers.length - 1];
 
             for (let blockNumber of blockNumbers) {
                 // run every iteration of this loop in parallell somehow
-                console.log('Checking block ' + blockNumber);
+                console.log(`Checking block ${blockNumber} on ${this.chain}`);
                 let block = await this.provider.getBlockWithTransactions(blockNumber);
 
                 if (block != null && block.transactions != null) {
@@ -278,60 +347,7 @@ class TransactionChecker {
                         let swaps = await this.getSwaps(activeAddresses, blockNumber);
 
                         // swaps is now all swaps in this block that we care about
-                        // console.log(swaps);
-
-                        for (let swap of swaps) {
-                            let inRes = await fetch(
-                                `https://api.coingecko.com/api/v3/coins/ethereum/contract/${swap['inAddress']}`
-                            );
-                            while (inRes.status_code === 429) {
-                                await sleep(5000);
-                                console.log(
-                                    `rate limited by cg, sleeping at ${swap['inName']} with address ${swap['inAddress']}`
-                                );
-                                inRes = await fetch(
-                                    `https://api.coingecko.com/api/v3/coins/ethereum/contract/${swap['inAddress']}`
-                                );
-                            }
-                            let inToken = await inRes.json();
-                            if (!inToken['error']) {
-                                swap['inOnCoingecko'] = 'true';
-                                swap['inMarketCapRank'] = inToken['market_cap_rank'];
-                                swap['inMarketCap'] = inToken['market_data']['market_cap']['usd'];
-                                swap['inTotalVolume'] = inToken['market_data']['total_volume']['usd'];
-                                swap['inPrice'] = inToken['market_data']['current_price']['usd'];
-                                swap['inPriceChange24H'] = inToken['market_data']['price_change_percentage_24h'] + '%';
-                                swap['inPriceChange7D'] = inToken['market_data']['price_change_percentage_7d'] + '%';
-                            } else {
-                                swap['inOnCoingecko'] = 'false';
-                            }
-
-                            let outRes = await fetch(
-                                `https://api.coingecko.com/api/v3/coins/ethereum/contract/${swap['outAddress']}`
-                            );
-                            while (outRes.status_code === 429) {
-                                await sleep(5000);
-                                console.log(
-                                    `rate limited by cg, sleeping at ${swap['outName']} with address ${swap['outAddress']}`
-                                );
-                                outRes = await fetch(
-                                    `https://api.coingecko.com/api/v3/coins/ethereum/contract/${swap['outAddress']}`
-                                );
-                            }
-                            let outToken = await outRes.json();
-                            if (!outToken['error']) {
-                                swap['outOnCoingecko'] = 'true';
-                                swap['outMarketCapRank'] = outToken['market_cap_rank'];
-                                swap['outMarketCap'] = outToken['market_data']['market_cap']['usd'];
-                                swap['outTotalVolume'] = outToken['market_data']['total_volume']['usd'];
-                                swap['outPrice'] = outToken['market_data']['current_price']['usd'];
-                                swap['outPriceChange24H'] =
-                                    outToken['market_data']['price_change_percentage_24h'] + '%';
-                                swap['outPriceChange24H'] = outToken['market_data']['price_change_percentage_7d'] + '%';
-                            } else {
-                                swap['outOnCoingecko'] = 'false';
-                            }
-                        }
+                        swaps = await this.insertPriceData(swaps);
 
                         console.log(swaps);
                     }
@@ -342,12 +358,7 @@ class TransactionChecker {
         }
     }
 }
-
-// let txChecker = new TransactionChecker(connections.ETH.http, '0xe1Dd30fecAb8a63105F2C035B084BfC6Ca5B1493');
-// let txChecker = new TransactionChecker('https://eth-ropsten.alchemyapi.io/v2/VMq6K7b9MLmchJCB5hkgRdiYKEoY2Qqx', [
-//     '0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6',
-// ]);
-let txChecker = new TransactionChecker(connections.ETH.http, [
+let addys = [
     '0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6',
     '0x11d625109d9257c24d8a3ab8128c4a95a2cf5c31',
     '0x0f4ee9631f4be0a63756515141281a3e2b293bbe',
@@ -369,9 +380,22 @@ let txChecker = new TransactionChecker(connections.ETH.http, [
     '0x442ddad80cc2870f276800a177351e0bc69aceb5',
     '0xe45c35eb5daa1980fc5bb80fb5298b0ade934ba6',
     '0x0e5a65c3660020f75c29c4665c5392bf6cb889f1',
-    '0xceebc5c76c1c4329dee0d962b365cfa16e178a39',
     '0xd02c260f54997146c9028b2ac7144b11ce4c20a6',
-]);
+    '0xc252a841af842a55b0f0b507f68f3864bf1c02b5',
+    '0xceebc5c76c1c4329dee0d962b365cfa16e178a39',
+    '0x0e5a65c3660020f75c29c4665c5392bf6cb889f1',
+    '0xe45c35eb5daa1980fc5bb80fb5298b0ade934ba6',
+    '0x442ddad80cc2870f276800a177351e0bc69aceb5',
+    '0x18ee55cc36387db47c1a9808b979ceea5401c300',
+];
+// let txChecker = new TransactionChecker(
+//     'https://eth-ropsten.alchemyapi.io/v2/VMq6K7b9MLmchJCB5hkgRdiYKEoY2Qqx',
+//     ['0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6'],
+//     connections.ETH.explorer.apikey,
+//     'ROPSTEN',
+//     ETH
+// );
+let txChecker = new TransactionChecker(connections.ETH.http, addys, connections.ETH.explorer.apikey, 'ETH', ETH);
 
 setInterval(() => {
     txChecker.checkBlock();

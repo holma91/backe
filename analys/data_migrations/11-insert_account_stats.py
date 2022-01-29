@@ -298,6 +298,7 @@ def get_snapshots(acc):
     txs.extend(itxs)
     ttes = acc.get_ERC20_token_transfer_events()
     txs.extend(ttes)
+
     sorted_txs = sorted(txs, key=itemgetter('timeStamp'))
 
     timestamps = get_timestamps(sorted_txs)  # all the timestamps we care about
@@ -455,7 +456,7 @@ def get_addresses():
 addresses = get_addresses()
 # for acc in accs
 # only using accounts with less than 10k tx and or 10k ttes.
-for address in addresses[14:]:
+for address in addresses:
     print(f"currently with {address}")
     acc1 = EthAccount(address, APIKEY_ETHERSCAN)
     snapshots = get_snapshots(acc1)
