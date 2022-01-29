@@ -63,8 +63,12 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
                 }}
             >
                 <option value="">All</option>
-                {options.map((option, i) => (
-                    <option key={i} value={option}>
+                
+                {
+                options
+                    .sort((a, b) => parseInt(a)-parseInt(b))    
+                    .map((option, i) => (
+                    <option className="" key={i} value={option}>
                         {option}
                     </option>
                 ))}

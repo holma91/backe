@@ -63,7 +63,7 @@ const TopicSelection = ({ selection }) => (
 
 const ChannelBlock = () => (
     <div className="channel-block">
-        <h5 className="channel-block-text">Placeholder</h5>
+        <h5 className="channel-block-text hover:cursor-default">Placeholder</h5>
     </div>
 );
 
