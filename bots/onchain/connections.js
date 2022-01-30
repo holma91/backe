@@ -1,15 +1,16 @@
+import 'dotenv/config';
+
 const connections = {
     BSC: {
-        http: 'https://proud-spring-surf.bsc.quiknode.pro/b8e15d7a6b1a823a907f79e8722f7320ee5b9dbd/',
-        ws: 'wss://proud-spring-surf.bsc.quiknode.pro/b8e15d7a6b1a823a907f79e8722f7320ee5b9dbd/',
+        http: process.env.bsc_http,
+        ws: process.env.bsc_ws,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png',
         explorer: {
             url: 'https://bscscan.com',
-            apikey: '9W1BVC324ZY6RMEDES1R5RJ5WTGV8YTQJE',
+            apikey: process.env.bscscan_apikey,
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934827281036242954/UZA8javKyZJxuEfoSPH7m8V6J8-tcgQFvjAJaNmBjrlgTHhF70CrRP0gozkRqOsxtO8w',
+            newPair: process.env.bsc_newpairhook,
         },
         dexes: {
             pancakeswap: {
@@ -18,16 +19,15 @@ const connections = {
         },
     },
     ETH: {
-        http: 'https://eth-mainnet.alchemyapi.io/v2/5EL1sxQhPfThf-ISs-UDJe9FqPtVrRWu/',
-        ws: 'wss://eth-mainnet.alchemyapi.io/v2/5EL1sxQhPfThf-ISs-UDJe9FqPtVrRWu/',
+        http: process.env.eth_http,
+        ws: process.env.eth_ws,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png',
         explorer: {
             url: 'https://etherscan.io',
-            apikey: 'FJVSJ3Q8PD233E51ZPCPI6EGZRVZKFCD5C',
+            apikey: process.env.etherscan_apikey,
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934827062508781629/4fB-HJk50erWQePNw-XEleTgVXfveJg4liaYBnI2w9puj9bwaNQXojLIrIqbfRfEYuiD',
+            newPair: process.env.eth_newpairhook,
         },
         dexes: {
             uniswap: {
@@ -39,16 +39,15 @@ const connections = {
         },
     },
     FTM: {
-        http: 'https://rpc.ftm.tools/',
-        ws: 'ws://rpc.fantom.network:18546/',
+        http: process.env.ftm_http,
+        ws: process.env.ftm_ws,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/3513.png',
         explorer: {
             url: 'https://ftmscan.com',
             apikey: '',
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934826724238176266/dHBPDhUH5aSmwgOARV_EGCUVc9XG3E-GLmih02yOOu5BUcduf_lqV2h5WurZ2xN8Jokr',
+            newPair: process.env.ftm_newpairhook,
         },
         dexes: {
             spookyswap: {
@@ -61,15 +60,14 @@ const connections = {
     },
 
     AURORA: {
-        http: 'https://mainnet.aurora.dev/',
+        http: process.env.aurora_http,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png',
         explorer: {
             url: 'https://explorer.mainnet.aurora.dev',
             apikey: '',
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934826079246491668/NV0LJj0KM6NBXs3gDfPSbmvSatlx6sH4vS4fqGkQv02AmxoOldl127JaA2Mn8JPtn6y6',
+            newPair: process.env.aurora_newpairhook,
         },
         dexes: {
             trisolaris: {
@@ -81,15 +79,14 @@ const connections = {
         },
     },
     FUSE: {
-        http: 'https://rpc.fuse.io/',
+        http: process.env.fuse_http,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/5634.png',
         explorer: {
             url: 'https://explorer.fuse.io',
             apikey: '',
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934825031047999528/jKUvABIMgr2k5fcsO91w8yClupv-eSM0-koG5MlQOQMFxM6REoIQS72k9mKBDG1ps99u',
+            newPair: process.env.fuse_newpairhook,
         },
         dexes: {
             fusefi: {
@@ -98,16 +95,15 @@ const connections = {
         },
     },
     METIS: {
-        http: 'https://andromeda.metis.io/',
-        ws: 'wss://andromeda-ws.metis.io/',
+        http: process.env.metis_http,
+        ws: process.env.metis_ws,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/9640.png',
         explorer: {
             url: 'https://andromeda-explorer.metis.io',
             apikey: '',
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934824542747123732/Jtp1IaSsdadErpCHii21VTaBTFpFNSfBidiRqTr47-S0TsOGinAXKze9N5SEMZ5AoN4L',
+            newPair: process.env.metis_newpairhook,
         },
         dexes: {
             netswap: {
@@ -119,16 +115,15 @@ const connections = {
         },
     },
     OPTIMISM: {
-        http: 'https://mainnet.optimism.io/',
-        ws: 'wss://ws-mainnet.optimism.io/',
+        http: process.env.optimism_http,
+        ws: process.env.optimism_ws,
         img: 'https://user-images.githubusercontent.com/14298799/122151157-0b197500-ce2d-11eb-89d8-6240e3ebe130.png',
         explorer: {
             url: 'https://optimistic.etherscan.io',
             apikey: '',
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934822746158948372/n8zgRUF0R6QkUi-SzyqLDtrVdJ8a9pPFeXFzwJ8kaZsFLR6V5aCv0FNmrXZTuGDXHrl1',
+            newPair: process.env.optimism_newpairhook,
         },
         dexes: {
             zipswap: {
@@ -137,16 +132,15 @@ const connections = {
         },
     },
     AVAX: {
-        http: 'https://api.avax.network/ext/bc/C/rpc/',
-        ws: 'https://api.avax.network/ext/bc/C/ws/',
+        http: process.env.avax_http,
+        ws: process.env.avax_ws,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/5805.png',
         explorer: {
             url: 'https://snowtrace.io/',
             apikey: '',
         },
         webhooks: {
-            newPair:
-                'https://discord.com/api/webhooks/934826441022013470/BHVsJIckpqOr_Sgel1fCB3Um8afST1_XW5-vIamnjZnzFxt46wio0-Kwr_pHU3_Np--a',
+            newPair: process.env.avax_newpairhook,
         },
         dexes: {
             traderjoe: {
@@ -158,7 +152,7 @@ const connections = {
         },
     },
     ROPSTEN: {
-        ws: 'wss://eth-ropsten.alchemyapi.io/v2/VMq6K7b9MLmchJCB5hkgRdiYKEoY2Qqx/',
+        ws: process.env.ropsten_ws,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png',
         explorer: {
             url: 'https://rinkeby.etherscan.io',

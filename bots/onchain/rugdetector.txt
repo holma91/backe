@@ -28,7 +28,7 @@ sample on 50 scams
 
 CHECK FOR HONEYPOT
     - write a selenium bot that checks on rugdoc, honeypot.is, tokensniffer. (not sure which site is the most reliable)
-    - or can I figure out how to do it natively?
+    - or can I figure out how to do it natively? fork da ting
 
 CHECK FOR CONTRACT OWNERSHIP
     - 
