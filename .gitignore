@@ -2,10 +2,13 @@
 .env
 pseudo.txt
 
-### ANALYS ###
-analys/env
-analys/data_migrations/utils/env.py
-analys/data_migrations/generate_data/twitter_env.py
+### ANALYSIS ###
+analysis/env
+analysis/venv
+analysis/data_migrations/utils/env.py
+analysis/data_migrations/generate_data/twitter_env.py
+analysis/data_migrations/utils/.db_env
+
 
 
 ### BACKEND ###
@@ -35,4 +38,10 @@ frontend/build
 
 # vercel
 .vercel
+
+
+# Python
+*__pycache__
+*.pyc
+
 

@@ -24,7 +24,19 @@ const Dropdown = ({ header, selections }) => {
         <div className="dropdown">
             <div onClick={() => setExpanded(!expanded)} className="dropdown-header">
                 <ChevronIcon expanded={expanded} />
-                <h5 className={expanded ? 'dropdown-header-text-selected' : 'dropdown-header-text'}>{header}</h5>
+    
+                
+                <h5
+                    className={`hover:text-blue-400 hover:cursor-pointer ${
+                        expanded 
+                            ? 'dropdown-header-text-selected' 
+                            : 'dropdown-header-text'
+                    }`} 
+                >
+                    {header}
+                </h5>
+                
+          
             </div>
             {expanded &&
                 selections &&
@@ -51,7 +63,7 @@ const TopicSelection = ({ selection }) => (
 
 const ChannelBlock = () => (
     <div className="channel-block">
-        <h5 className="channel-block-text">Placeholder</h5>
+        <h5 className="channel-block-text hover:cursor-default">Placeholder</h5>
     </div>
 );
 
