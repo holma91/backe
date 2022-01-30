@@ -5,7 +5,7 @@ import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 const livestream = ['Overview', 'Adjust'];
 const accounts = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance smart chain'];
 
-const ChannelBar = () => {
+function ChannelBar() {
     return (
         <div className="channel-bar shadow-lg h-screen">
             <ChannelBlock />
@@ -15,9 +15,9 @@ const ChannelBar = () => {
             </div>
         </div>
     );
-};
+}
 
-const Dropdown = ({ header, selections }) => {
+function Dropdown({ header, selections }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -43,28 +43,28 @@ const Dropdown = ({ header, selections }) => {
                 selections.map((selection) => <TopicSelection key={selection[0]} selection={selection} />)}
         </div>
     );
-};
+}
 
-const ChevronIcon = ({ expanded }) => {
+function ChevronIcon({ expanded }) {
     const chevClass = 'text-accent text-opacity-80 my-auto mr-1';
     return expanded ? (
         <FaChevronDown size="14" className={chevClass} />
     ) : (
         <FaChevronRight size="14" className={chevClass} />
     );
-};
+}
 
-const TopicSelection = ({ selection }) => (
-    <div className="dropdown-selection">
+function TopicSelection({ selection }) {
+  return <div className="dropdown-selection">
         <BsHash size="24" className="text-gray-400" />
         <h5 className="dropdown-selection-text">{selection}</h5>
     </div>
-);
+}
 
-const ChannelBlock = () => (
-    <div className="channel-block">
+function ChannelBlock() {
+  return <div className="channel-block">
         <h5 className="channel-block-text hover:cursor-default">Placeholder</h5>
     </div>
-);
+}
 
 export default ChannelBar;
