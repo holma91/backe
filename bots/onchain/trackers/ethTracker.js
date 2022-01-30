@@ -1,6 +1,6 @@
+import connections from '../connections.js';
 import ethers from 'ethers';
 import fetch from 'node-fetch';
-import connections from '../connections.js';
 import { sleep } from '../utils/utils.js';
 
 const ETH_NAME = 'Ethereum';
@@ -17,15 +17,10 @@ const ETH = {
 
 class TransactionChecker {
     provider;
-
     addresses;
-
     latestBlock;
-
     apikey;
-
     chain;
-
     nativeToken;
 
     constructor(connection, addresses, apikey, chain, nativeToken) {
@@ -63,61 +58,61 @@ class TransactionChecker {
                 networkName = 'binance-smart-chain';
                 break;
         }
-        for (const swap of swaps) {
+        for (let swap of swaps) {
             let inRes = await fetch(
-                `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap.in.contractAddress}`
+                `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['in']['contractAddress']}`
             );
             while (inRes.status_code === 429) {
                 await sleep(5000);
                 console.log(
-                    `rate limited by cg, sleeping at ${swap.in.name} with address ${swap.in.contractAddress}`
+                    `rate limited by cg, sleeping at ${swap['in']['name']} with address ${swap['in']['contractAddress']}`
                 );
                 inRes = await fetch(
-                    `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap.in.contractAddress}`
+                    `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['in']['contractAddress']}`
                 );
             }
-            const inToken = await inRes.json();
-            if (!inToken.error) {
-                swap.in.onCoingecko = 'true';
-                swap.in.marketCapRank = inToken.market_cap_rank;
-                swap.in.marketCap = inToken.market_data.market_cap.usd;
-                swap.in.totalVolume = inToken.market_data.total_volume.usd;
-                swap.in.price = inToken.market_data.current_price.usd;
-                swap.in.priceChange24H = inToken.market_data.price_change_percentage_24h;
-                swap.in.priceChange7D = inToken.market_data.price_change_percentage_7d;
+            let inToken = await inRes.json();
+            if (!inToken['error']) {
+                swap['in']['onCoingecko'] = 'true';
+                swap['in']['marketCapRank'] = inToken['market_cap_rank'];
+                swap['in']['marketCap'] = inToken['market_data']['market_cap']['usd'];
+                swap['in']['totalVolume'] = inToken['market_data']['total_volume']['usd'];
+                swap['in']['price'] = inToken['market_data']['current_price']['usd'];
+                swap['in']['priceChange24H'] = inToken['market_data']['price_change_percentage_24h'];
+                swap['in']['priceChange7D'] = inToken['market_data']['price_change_percentage_7d'];
                 // swap['in']['valueUSD'] = (
                 //     ethers.BigNumber.from(swap['in']['price']) * ethers.BigNumber.from(swap['in']['value'])
                 // ).toString();
             } else {
-                swap.in.onCoingecko = 'false';
+                swap['in']['onCoingecko'] = 'false';
             }
 
             let outRes = await fetch(
-                `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap.out.contractAddress}`
+                `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['out']['contractAddress']}`
             );
             while (outRes.status_code === 429) {
                 await sleep(5000);
                 console.log(
-                    `rate limited by cg, sleeping at ${swap.out.name} with address ${swap.out.contractAddress}`
+                    `rate limited by cg, sleeping at ${swap['out']['name']} with address ${swap['out']['contractAddress']}`
                 );
                 outRes = await fetch(
-                    `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap.out.contractAddress}`
+                    `https://api.coingecko.com/api/v3/coins/${networkName}/contract/${swap['out']['contractAddress']}`
                 );
             }
-            const outToken = await outRes.json();
-            if (!outToken.error) {
-                swap.out.onCoingecko = 'true';
-                swap.out.marketCapRank = outToken.market_cap_rank;
-                swap.out.marketCap = outToken.market_data.market_cap.usd;
-                swap.out.totalVolume = outToken.market_data.total_volume.usd;
-                swap.out.price = outToken.market_data.current_price.usd;
-                swap.out.priceChange24H = outToken.market_data.price_change_percentage_24h;
-                swap.out.priceChange7D = outToken.market_data.price_change_percentage_7d;
+            let outToken = await outRes.json();
+            if (!outToken['error']) {
+                swap['out']['onCoingecko'] = 'true';
+                swap['out']['marketCapRank'] = outToken['market_cap_rank'];
+                swap['out']['marketCap'] = outToken['market_data']['market_cap']['usd'];
+                swap['out']['totalVolume'] = outToken['market_data']['total_volume']['usd'];
+                swap['out']['price'] = outToken['market_data']['current_price']['usd'];
+                swap['out']['priceChange24H'] = outToken['market_data']['price_change_percentage_24h'];
+                swap['out']['priceChange7D'] = outToken['market_data']['price_change_percentage_7d'];
                 // swap['out']['valueUSD'] = (
                 //     ethers.BigNumber.from(swap['out']['price']) * ethers.BigNumber.from(swap['out']['value'])
                 // ).toString();
             } else {
-                swap.out.onCoingecko = 'false';
+                swap['out']['onCoingecko'] = 'false';
             }
         }
 
@@ -125,9 +120,9 @@ class TransactionChecker {
     }
 
     async getTTEs(activeAddresses, blockNumber) {
-        const foundTTEs = [];
+        let foundTTEs = [];
         try {
-            for (const address of activeAddresses) {
+            for (let address of activeAddresses) {
                 let ttes = await this.queryExplorer(address, blockNumber);
                 let count = 0;
                 while (ttes.status === '0' && count < 60) {
@@ -155,21 +150,21 @@ class TransactionChecker {
     }
 
     async getSwaps(activeAddresses, blockNumber) {
-        const foundTTEs = await this.getTTEs(activeAddresses, blockNumber);
-        const swaps = [];
+        let foundTTEs = await this.getTTEs(activeAddresses, blockNumber);
+        let swaps = [];
 
         if (foundTTEs.length === 1) {
             // native <-> erc20
             let swap = {};
-            if (activeAddresses.includes(foundTTEs[0].from.toLowerCase())) {
+            if (activeAddresses.includes(foundTTEs[0]['from'].toLowerCase())) {
                 // the address sold a token for the native token
                 swap = {
-                    address: foundTTEs[0].from.toLowerCase(),
+                    address: foundTTEs[0]['from'].toLowerCase(),
                     out: {
-                        name: foundTTEs[0].tokenName,
-                        symbol: foundTTEs[0].tokenSymbol,
-                        value: ethers.utils.formatUnits(foundTTEs[0].value, foundTTEs[0].tokenDecimal),
-                        contractAddress: foundTTEs[0].contractAddress,
+                        name: foundTTEs[0]['tokenName'],
+                        symbol: foundTTEs[0]['tokenSymbol'],
+                        value: ethers.utils.formatUnits(foundTTEs[0]['value'], foundTTEs[0]['tokenDecimal']),
+                        contractAddress: foundTTEs[0]['contractAddress'],
                     },
                     in: {
                         name: this.nativeToken.name,
@@ -177,14 +172,14 @@ class TransactionChecker {
                         value: '?',
                         contractAddress: this.nativeToken.address,
                     },
-                    txHash: foundTTEs[0].hash,
-                    blockNumber: foundTTEs[0].blockNumber,
-                    timestamp: foundTTEs[0].timeStamp,
+                    txHash: foundTTEs[0]['hash'],
+                    blockNumber: foundTTEs[0]['blockNumber'],
+                    timestamp: foundTTEs[0]['timeStamp'],
                 };
-            } else if (activeAddresses.includes(foundTTEs[0].to.toLowerCase())) {
+            } else if (activeAddresses.includes(foundTTEs[0]['to'].toLowerCase())) {
                 // the address bought a token with eth
                 swap = {
-                    address: foundTTEs[0].to.toLowerCase(),
+                    address: foundTTEs[0]['to'].toLowerCase(),
                     out: {
                         name: this.nativeToken.name,
                         symbol: this.nativeToken.symbol,
@@ -192,41 +187,41 @@ class TransactionChecker {
                         contractAddress: this.nativeToken.address,
                     },
                     in: {
-                        name: foundTTEs[0].tokenName,
-                        symbol: foundTTEs[0].tokenSymbol,
-                        value: ethers.utils.formatUnits(foundTTEs[0].value, foundTTEs[0].tokenDecimal),
-                        contractAddress: foundTTEs[0].contractAddress,
+                        name: foundTTEs[0]['tokenName'],
+                        symbol: foundTTEs[0]['tokenSymbol'],
+                        value: ethers.utils.formatUnits(foundTTEs[0]['value'], foundTTEs[0]['tokenDecimal']),
+                        contractAddress: foundTTEs[0]['contractAddress'],
                     },
-                    txHash: foundTTEs[0].hash,
-                    blockNumber: foundTTEs[0].blockNumber,
-                    timestamp: foundTTEs[0].timeStamp,
+                    txHash: foundTTEs[0]['hash'],
+                    blockNumber: foundTTEs[0]['blockNumber'],
+                    timestamp: foundTTEs[0]['timeStamp'],
                 };
             }
             swaps.push(swap);
         } else if (foundTTEs.length > 1) {
             // probably erc20 <-> erc20
-            const subTTEs = {};
+            let subTTEs = {};
             for (const tte of foundTTEs) {
-                if (!subTTEs[tte.hash]) {
-                    subTTEs[tte.hash] = [tte];
+                if (!subTTEs[tte['hash']]) {
+                    subTTEs[tte['hash']] = [tte];
                 } else {
-                    subTTEs[tte.hash].push(tte);
+                    subTTEs[tte['hash']].push(tte);
                 }
             }
 
-            for (const subTTE of Object.values(subTTEs)) {
-                if (subTTE.length > 2) throw `three ttes with the same tx hash! ${subTTE[0].hash}`;
+            for (let subTTE of Object.values(subTTEs)) {
+                if (subTTE.length > 2) throw `three ttes with the same tx hash! ${subTTE[0]['hash']}`;
                 if (subTTE.length === 1) {
                     // eth <-> erc20
                     let swap = {};
-                    if (activeAddresses.includes(subTTE[0].from.toLowerCase())) {
+                    if (activeAddresses.includes(subTTE[0]['from'].toLowerCase())) {
                         swap = {
-                            address: subTTE[0].from.toLowerCase(),
+                            address: subTTE[0]['from'].toLowerCase(),
                             out: {
-                                name: subTTE[0].tokenName,
-                                symbol: subTTE[0].tokenSymbol,
-                                value: ethers.utils.formatUnits(subTTE[0].value, subTTE[0].tokenDecimal),
-                                contractAddress: subTTE[0].contractAddress,
+                                name: subTTE[0]['tokenName'],
+                                symbol: subTTE[0]['tokenSymbol'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
                             in: {
                                 name: this.nativeToken.name,
@@ -234,13 +229,13 @@ class TransactionChecker {
                                 value: '?',
                                 contractAddress: this.nativeToken.address,
                             },
-                            txHash: subTTE[0].hash,
-                            blockNumber: subTTE[0].blockNumber,
-                            timestamp: subTTE[0].timeStamp,
+                            txHash: subTTE[0]['hash'],
+                            blockNumber: subTTE[0]['blockNumber'],
+                            timestamp: subTTE[0]['timeStamp'],
                         };
-                    } else if (activeAddresses.includes(subTTE[0].to.toLowerCase())) {
+                    } else if (activeAddresses.includes(subTTE[0]['to'].toLowerCase())) {
                         swap = {
-                            address: subTTE[0].to.toLowerCase(),
+                            address: subTTE[0]['to'].toLowerCase(),
                             out: {
                                 name: this.nativeToken.name,
                                 symbol: this.nativeToken.symbol,
@@ -248,57 +243,57 @@ class TransactionChecker {
                                 contractAddress: this.nativeToken.address,
                             },
                             in: {
-                                name: subTTE[0].tokenName,
-                                symbol: subTTE[0].tokenSymbol,
-                                value: ethers.utils.formatUnits(subTTE[0].value, subTTE[0].tokenDecimal),
-                                contractAddress: subTTE[0].contractAddress,
+                                name: subTTE[0]['tokenName'],
+                                symbol: subTTE[0]['tokenSymbol'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
-                            txHash: subTTE[0].hash,
-                            blockNumber: subTTE[0].blockNumber,
-                            timestamp: subTTE[0].timeStamp,
+                            txHash: subTTE[0]['hash'],
+                            blockNumber: subTTE[0]['blockNumber'],
+                            timestamp: subTTE[0]['timeStamp'],
                         };
                     }
                     swaps.push(swap);
                 } else if (subTTE.length === 2) {
                     // erc20 <-> erc20
                     let swap = {};
-                    if (activeAddresses.includes(subTTE[0].from.toLowerCase())) {
+                    if (activeAddresses.includes(subTTE[0]['from'].toLowerCase())) {
                         swap = {
-                            address: subTTE[0].from.toLowerCase(),
+                            address: subTTE[0]['from'].toLowerCase(),
                             out: {
-                                name: subTTE[0].tokenName,
-                                symbol: subTTE[0].tokenSymbol,
-                                value: ethers.utils.formatUnits(subTTE[0].value, subTTE[0].tokenDecimal),
-                                contractAddress: subTTE[0].contractAddress,
+                                name: subTTE[0]['tokenName'],
+                                symbol: subTTE[0]['tokenSymbol'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
                             in: {
-                                name: subTTE[1].tokenName,
-                                symbol: subTTE[1].tokenSymbol,
-                                value: ethers.utils.formatUnits(subTTE[1].value, subTTE[1].tokenDecimal),
-                                contractAddress: subTTE[1].contractAddress,
+                                name: subTTE[1]['tokenName'],
+                                symbol: subTTE[1]['tokenSymbol'],
+                                value: ethers.utils.formatUnits(subTTE[1]['value'], subTTE[1]['tokenDecimal']),
+                                contractAddress: subTTE[1]['contractAddress'],
                             },
-                            txHash: subTTE[0].hash,
-                            blockNumber: subTTE[0].blockNumber,
-                            timestamp: subTTE[0].timeStamp,
+                            txHash: subTTE[0]['hash'],
+                            blockNumber: subTTE[0]['blockNumber'],
+                            timestamp: subTTE[0]['timeStamp'],
                         };
-                    } else if (activeAddresses.includes(subTTE[1].from.toLowerCase())) {
+                    } else if (activeAddresses.includes(subTTE[1]['from'].toLowerCase())) {
                         swap = {
-                            address: subTTE[1].from.toLowerCase(),
+                            address: subTTE[1]['from'].toLowerCase(),
                             out: {
-                                name: subTTE[1].tokenName,
-                                symbol: subTTE[1].tokenSymbol,
-                                value: ethers.utils.formatUnits(subTTE[1].value, subTTE[1].tokenDecimal),
-                                contractAddress: subTTE[1].contractAddress,
+                                name: subTTE[1]['tokenName'],
+                                symbol: subTTE[1]['tokenSymbol'],
+                                value: ethers.utils.formatUnits(subTTE[1]['value'], subTTE[1]['tokenDecimal']),
+                                contractAddress: subTTE[1]['contractAddress'],
                             },
                             in: {
-                                name: subTTE[0].tokenName,
-                                symbol: subTTE[0].tokenSymbol,
-                                value: ethers.utils.formatUnits(subTTE[0].value, subTTE[0].tokenDecimal),
-                                contractAddress: subTTE[0].contractAddress,
+                                name: subTTE[0]['tokenName'],
+                                symbol: subTTE[0]['tokenSymbol'],
+                                value: ethers.utils.formatUnits(subTTE[0]['value'], subTTE[0]['tokenDecimal']),
+                                contractAddress: subTTE[0]['contractAddress'],
                             },
-                            txHash: subTTE[1].hash,
-                            blockNumber: subTTE[1].blockNumber,
-                            timestamp: subTTE[1].timeStamp,
+                            txHash: subTTE[1]['hash'],
+                            blockNumber: subTTE[1]['blockNumber'],
+                            timestamp: subTTE[1]['timeStamp'],
                         };
                     }
 
@@ -312,12 +307,12 @@ class TransactionChecker {
 
     async getBlockNumbers() {
         // logic to make sure a block is never missed
-        const blockNumber = await this.provider.getBlockNumber();
+        let blockNumber = await this.provider.getBlockNumber();
         if (this.latestBlock === 0) return [blockNumber];
         if (blockNumber <= this.latestBlock) return [];
 
-        const missed = blockNumber - this.latestBlock;
-        const missedBlockNumbers = [];
+        let missed = blockNumber - this.latestBlock;
+        let missedBlockNumbers = [];
         for (let i = 1; i <= missed; i++) {
             missedBlockNumbers.push(this.latestBlock + i);
         }
@@ -326,19 +321,19 @@ class TransactionChecker {
 
     async checkBlock() {
         try {
-            const blockNumbers = await this.getBlockNumbers();
+            let blockNumbers = await this.getBlockNumbers();
             if (blockNumbers.length === 0) return;
 
             this.latestBlock = blockNumbers[blockNumbers.length - 1];
 
-            for (const blockNumber of blockNumbers) {
+            for (let blockNumber of blockNumbers) {
                 // run every iteration of this loop in parallell somehow
                 console.log(`Checking block ${blockNumber} on ${this.chain}`);
-                const block = await this.provider.getBlockWithTransactions(blockNumber);
+                let block = await this.provider.getBlockWithTransactions(blockNumber);
 
                 if (block != null && block.transactions != null) {
-                    const activeAddresses = [];
-                    for (const tx of block.transactions) {
+                    let activeAddresses = [];
+                    for (let tx of block.transactions) {
                         tx.from = tx.from.toLowerCase();
                         if (this.addresses.includes(tx.from)) {
                             if (!activeAddresses.includes(tx.from)) {
@@ -363,7 +358,7 @@ class TransactionChecker {
         }
     }
 }
-const addys = [
+let addys = [
     '0xdcb9048D6bb9C31e60af7595ef597ADC642B9cB6',
     '0x11d625109d9257c24d8a3ab8128c4a95a2cf5c31',
     '0x0f4ee9631f4be0a63756515141281a3e2b293bbe',
@@ -400,7 +395,7 @@ const addys = [
 //     'ROPSTEN',
 //     ETH
 // );
-const txChecker = new TransactionChecker(connections.ETH.http, addys, connections.ETH.explorer.apikey, 'ETH', ETH);
+let txChecker = new TransactionChecker(connections.ETH.http, addys, connections.ETH.explorer.apikey, 'ETH', ETH);
 
 setInterval(() => {
     txChecker.checkBlock();

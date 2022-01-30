@@ -39,8 +39,8 @@ sushiswapFactory.on('PairCreated', async (token0Address, token1Address, addressP
     for (const interval of intervals) {
         console.log('interval: ', interval);
         function x() {
-            const promise = new Promise((resolve, reject) => {
-                window.setTimeout(() => {
+            var promise = new Promise(function (resolve, reject) {
+                window.setTimeout(function () {
                     resolve('done!');
                 });
             });

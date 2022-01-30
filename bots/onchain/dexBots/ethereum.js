@@ -29,16 +29,16 @@ const account = getAccount('http', 'ETH');
 
 const uniswap = {
     factory: new ethers.Contract(addresses.uniswapFactory, uniV3Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'uniswap',
     chainName: 'ETH',
 };
 
 const sushiswap = {
     factory: new ethers.Contract(addresses.sushiswapFactory, uniV2Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'sushiswap',
     chainName: 'ETH',
 };

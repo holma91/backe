@@ -38,16 +38,16 @@ const account = getAccount('http', 'AURORA');
 
 const trisolaris = {
     factory: new ethers.Contract(addresses.trisolarisFactory, uniV2Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'trisolaris',
     chainName: 'AURORA',
 };
 
 const wannaswap = {
     factory: new ethers.Contract(addresses.wannaswapFactory, uniV2Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'wannaswap',
     chainName: 'AURORA',
 };

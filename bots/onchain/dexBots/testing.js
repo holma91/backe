@@ -1,4 +1,6 @@
-const getDate = () => new Date();
+const getDate = () => {
+    return new Date();
+};
 
 // liq after a while function
 
@@ -7,15 +9,15 @@ const main = async () => {
     for (const interval of intervals) {
         console.log('interval: ', interval);
         const x = async () => {
-            const promise = new Promise((resolve, reject) => {
-                setTimeout(() => {
+            var promise = new Promise(function (resolve, reject) {
+                setTimeout(function () {
                     resolve(getDate());
                 }, interval);
             });
             return promise;
         };
 
-        const res = await x();
+        let res = await x();
         console.log(res);
     }
 };

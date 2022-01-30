@@ -19,16 +19,16 @@ const account = getAccount('http', 'FTM');
 
 const spookyswap = {
     factory: new ethers.Contract(addresses.spookyswapFactory, uniV2Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'spookyswap',
     chainName: 'FTM',
 };
 
 const spiritswap = {
     factory: new ethers.Contract(addresses.spiritswapFactory, uniV2Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'spiritswap',
     chainName: 'FTM',
 };

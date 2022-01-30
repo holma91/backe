@@ -33,16 +33,16 @@ const account = getAccount('http', 'AVAX');
 
 const traderjoe = {
     factory: new ethers.Contract(addresses.traderjoeFactory, uniV2Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'traderjoe',
     chainName: 'AVAX',
 };
 
 const pangolin = {
     factory: new ethers.Contract(addresses.pangolinFactory, uniV2Factory, account),
-    account,
-    knownTokens,
+    account: account,
+    knownTokens: knownTokens,
     dexName: 'pangolin',
     chainName: 'AVAX',
 };

@@ -7,7 +7,7 @@ import { zipswap } from './optimism.js';
 import { traderjoe, pangolin } from './avalanche.js';
 import { uniswap, sushiswap } from './ethereum.js';
 
-const uniswapV2Dexes = [
+let uniswapV2Dexes = [
     pancakeswap,
     trisolaris,
     wannaswap,
@@ -22,6 +22,6 @@ const uniswapV2Dexes = [
     sushiswap,
 ];
 
-const uniswapV3Dexes = [uniswap];
+let uniswapV3Dexes = [uniswap];
 
 export { uniswapV2Dexes, uniswapV3Dexes };
