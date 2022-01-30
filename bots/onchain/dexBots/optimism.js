@@ -18,8 +18,8 @@ const account = getAccount('http', 'OPTIMISM');
 
 const zipswap = {
     factory: new ethers.Contract(addresses.zipswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    account,
+    knownTokens,
     dexName: 'zipswap',
     chainName: 'OPTIMISM',
 };

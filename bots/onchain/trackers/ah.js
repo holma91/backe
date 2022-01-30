@@ -4,15 +4,11 @@ const fruitBasket = {
     pear: 14,
 };
 
-const sleep = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-};
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const getNumFruit = (fruit) => {
-    return sleep(1000).then((v) => fruitBasket[fruit]);
-};
+const getNumFruit = (fruit) => sleep(1000).then((v) => fruitBasket[fruit]);
 
-//getNumFruit('apple').then((num) => console.log(num)); // 27
+// getNumFruit('apple').then((num) => console.log(num)); // 27
 
 const control = async (_) => {
     console.log('Start');

@@ -17,16 +17,16 @@ const account = getAccount('http', 'METIS');
 
 const netswap = {
     factory: new ethers.Contract(addresses.netswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    account,
+    knownTokens,
     dexName: 'netswap',
     chainName: 'METIS',
 };
 
 const tethys = {
     factory: new ethers.Contract(addresses.tethysFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    account,
+    knownTokens,
     dexName: 'tethys',
     chainName: 'METIS',
 };

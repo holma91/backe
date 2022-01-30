@@ -2,10 +2,10 @@
   "env": {
     "browser": true,
     "commonjs": true,
-    "es6": true,
+    "es2021": true,
     "node": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": [
     "eslint:recommended",
     "airbnb",
@@ -23,6 +23,7 @@
     "SharedArrayBuffer": "readonly"
   },
   "parserOptions": {
+    "requireConfigFile": "off",
     "ecmaFeatures": {
       "jsx": true // enable linting for jsx files
     },

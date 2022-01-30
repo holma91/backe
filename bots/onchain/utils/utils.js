@@ -1,7 +1,7 @@
-import connections from '../connections.js';
 import ethers from 'ethers';
 import clientInitializer from 'twilio';
 import { MessageEmbed, WebhookClient } from 'discord.js';
+import connections from '../connections.js';
 import 'dotenv/config';
 
 const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
@@ -12,15 +12,15 @@ const uniV2Pair = [
 ];
 
 const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
-    let token0 = await getTokenMetadata(token0Address, account);
-    let token1 = await getTokenMetadata(token1Address, account);
+    const token0 = await getTokenMetadata(token0Address, account);
+    const token1 = await getTokenMetadata(token1Address, account);
 
     const { liq0, liq1 } = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, account);
     token0.liq = liq0;
     token1.liq = liq1;
 
     try {
-        let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
+        const pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         displayPair(pairInfo);
         sendNotifications(pairInfo);
     } catch (e) {
@@ -29,7 +29,7 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
 };
 
 const getTokenMetadata = async (tokenAddress, account) => {
-    let token = {
+    const token = {
         address: tokenAddress,
     };
 
@@ -45,7 +45,7 @@ const getTokenMetadata = async (tokenAddress, account) => {
     while (!success) {
         try {
             count++;
-            let contract = new ethers.Contract(token.address, tokenInfoABI, account);
+            const contract = new ethers.Contract(token.address, tokenInfoABI, account);
             token.name = await contract.name();
             token.symbol = await contract.symbol();
             token.decimals = await contract.decimals();
@@ -88,8 +88,8 @@ const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, acc
     let liq1 = 0;
 
     try {
-        liq0 = ethers.utils.formatUnits(reserves['reserve0'], token0Decimals);
-        liq1 = ethers.utils.formatUnits(reserves['reserve1'], token1Decimals);
+        liq0 = ethers.utils.formatUnits(reserves.reserve0, token0Decimals);
+        liq1 = ethers.utils.formatUnits(reserves.reserve1, token1Decimals);
     } catch (e) {
         console.log(`could not find liquidity for tokens in the pair with address ${addressPair}`);
         console.log(e);
@@ -99,7 +99,7 @@ const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, acc
 };
 
 const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
-    let pairInfo = {
+    const pairInfo = {
         liquidity: 0,
         liquidityUSD: 0,
         addressNewToken: '',
@@ -107,23 +107,23 @@ const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
         symbolOldToken: '',
         nameNewToken: '',
         address: addressPair,
-        chain: chain,
-        dex: dex,
+        chain,
+        dex,
     };
 
-    let knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
+    const knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
 
     try {
         if (knownAddresses.includes(token0.address.toLowerCase())) {
             pairInfo.liquidity = parseFloat(token0.liq);
-            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token0.symbol]['inUSD'];
+            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token0.symbol].inUSD;
             pairInfo.symbolOldToken = token0.symbol;
             pairInfo.addressNewToken = token1.address;
             pairInfo.symbolNewToken = token1.symbol;
             pairInfo.nameNewToken = token1.name;
         } else if (knownAddresses.includes(token1.address.toLowerCase())) {
             pairInfo.liquidity = parseFloat(token1.liq);
-            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token1.symbol]['inUSD'];
+            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token1.symbol].inUSD;
             pairInfo.symbolOldToken = token1.symbol;
             pairInfo.addressNewToken = token0.address;
             pairInfo.symbolNewToken = token0.symbol;
@@ -212,7 +212,7 @@ const sendNotifications = async (pairInfo) => {
 
     if (notificationWorthy(pairInfo.liquidityUSD, pairInfo.chain)) {
         // let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
-        let webhookNotificationClient = new WebhookClient({ url: process.env.discord_newPairHookUrl });
+        const webhookNotificationClient = new WebhookClient({ url: process.env.discord_newPairHookUrl });
         webhookNotificationClient.send({
             username: 'liquidity pair bot',
             avatarURL: 'https://i.imgur.com/AfFp7pu.png',
@@ -268,7 +268,7 @@ const notificationWorthy = (liquidityUSD, chain) => {
 };
 
 const getHookInfo = (chain, dex) => {
-    let hook = {};
+    const hook = {};
 
     switch (chain) {
         case 'BSC': {

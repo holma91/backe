@@ -9,6 +9,6 @@ import connections from '../connections.js';
 // );
 // let data = await res.json();
 // console.log(JSON.stringify(data));
-let provider = new ethers.providers.JsonRpcProvider(connections.BSC.http);
-let blockNumber = await provider.getBlockNumber();
+const provider = new ethers.providers.JsonRpcProvider(connections.BSC.http);
+const blockNumber = await provider.getBlockNumber();
 console.log(blockNumber);

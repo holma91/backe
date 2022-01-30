@@ -7,7 +7,6 @@
         "start": "node index.js",
         "lint": "eslint ./dexBots/** ./trackers/** ./utils/** ./index.js ./connections.js -c .eslintrc.json --ext js,jsx",
         "lint-fix": "eslint ./dexBots/** ./trackers/** ./utils/** ./index.js ./connections.js --fix --ext js,jsx"
-        
     },
     "keywords": [],
     "author": "",
@@ -24,6 +23,8 @@
         "node": "16.x"
     },
     "devDependencies": {
+        "@babel/core": "^7.16.12",
+        "@babel/eslint-parser": "^7.16.5",
         "babel-eslint": "^10.1.0",
         "eslint": "^8.8.0",
         "eslint-config-airbnb": "^19.0.4",

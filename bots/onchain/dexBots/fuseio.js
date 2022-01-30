@@ -18,8 +18,8 @@ const account = getAccount('http', 'FUSE');
 
 const fusefi = {
     factory: new ethers.Contract(addresses.fusefiFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    account,
+    knownTokens,
     dexName: 'fusefi',
     chainName: 'FUSE',
 };

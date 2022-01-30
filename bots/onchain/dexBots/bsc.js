@@ -20,8 +20,8 @@ const account = getAccount('http', 'BSC');
 
 const pancakeswap = {
     factory: new ethers.Contract(addresses.pancakeSwapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    account,
+    knownTokens,
     dexName: 'pancakeswap',
     chainName: 'BSC',
 };
