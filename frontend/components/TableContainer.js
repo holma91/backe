@@ -1,9 +1,9 @@
 import regeneratorRuntime from 'regenerator-runtime'; // because of "ReferenceError: regeneratorRuntime is not defined"
-import React from 'react';
 import getAddresses from '../dummydata/getAddresses';
+import React from 'react';
 import Table, { AvatarCell, SelectColumnFilter, StatusPill } from './Table';
 
-function TableContainer() {
+const TableContainer = () => {
     const columns = React.useMemo(
         () => [
             {
@@ -59,6 +59,6 @@ function TableContainer() {
             <Table columns={columns} data={data} />
         </div>
     );
-}
+};
 
 export default TableContainer;

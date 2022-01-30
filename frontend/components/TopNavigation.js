@@ -1,7 +1,7 @@
 import { FaSearch, FaHashtag, FaRegBell, FaUserCircle, FaMoon, FaSun } from 'react-icons/fa';
 import useDarkMode from '../hooks/useDarkMode';
 
-function TopNavigation() {
+const TopNavigation = () => {
     return (
         <div className="top-navigation">
             <HashtagIcon />
@@ -12,9 +12,9 @@ function TopNavigation() {
             <UserCircle />
         </div>
     );
-}
+};
 
-function ThemeIcon() {
+const ThemeIcon = () => {
     const [darkTheme, setDarkTheme] = useDarkMode();
     const handleMode = () => setDarkTheme(!darkTheme);
     return (
@@ -26,25 +26,17 @@ function ThemeIcon() {
             )}
         </span>
     );
-}
+};
 
-function Search() {
-  return <div className="search">
+const Search = () => (
+    <div className="search">
         <input className="search-input border-none focus:ring-transparent" type="text" placeholder="Search..." />
         <FaSearch size="18" className="text-secondary my-auto" />
     </div>
-}
-function BellIcon() {
-  return <FaRegBell size="24" className="top-navigation-icon" />
-}
-function UserCircle() {
-  return <FaUserCircle size="24" className="top-navigation-icon" />
-}
-function HashtagIcon() {
-  return <FaHashtag size="20" className="title-hashtag" />
-}
-function Title() {
-  return <h5 className="title-text">tailwind-css</h5>
-}
+);
+const BellIcon = () => <FaRegBell size="24" className="top-navigation-icon" />;
+const UserCircle = () => <FaUserCircle size="24" className="top-navigation-icon" />;
+const HashtagIcon = () => <FaHashtag size="20" className="title-hashtag" />;
+const Title = () => <h5 className="title-text">tailwind-css</h5>;
 
 export default TopNavigation;
