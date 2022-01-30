@@ -12,7 +12,7 @@ router.get('/accounts', async (req, res) => {
 router.get('/accounts/:address', async (req, res) => {
     const { address } = req.params;
 
-    const account = await AccountRepo.findByAddress(address, req.query.include_labels);
+    const account = await AccountRepo.findByAddress(address, req.query['include_labels']);
 
     if (account) {
         res.send(account);

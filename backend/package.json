@@ -7,7 +7,7 @@
         "migrate": "node-pg-migrate",
         "start": "nodemon index.js",
         "lint": "eslint ./src/** ./index.js -c .eslintrc.json --ext js,jsx",
-        "lint-fix": "eslint ./src/** ./index.js -c .eslintrc.json --fix --ext js,jsx"
+        "lint-fix": "eslint ./components/** ./pages/** -c .eslintrc.json --fix --ext js,jsx"
     },
     "keywords": [],
     "author": "",

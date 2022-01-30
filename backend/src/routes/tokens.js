@@ -12,7 +12,7 @@ router.get('/tokens', async (req, res) => {
 router.get('/tokens/:address', async (req, res) => {
     const { address } = req.params;
 
-    const token = await TokenRepo.findByAddress(address, req.query.include_categories);
+    const token = await TokenRepo.findByAddress(address, req.query['include_categories']);
 
     if (token) {
         res.send(token);
