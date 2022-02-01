@@ -20,7 +20,8 @@ class EthAccount:
             print(count)
             count += 1
             time.sleep(10)
-            response = requests.get(f'https://api.etherscan.io/api?module=account&action=txlist&address={self.address}&page=1&offset=10000&sort=asc&apikey={self.api_key}')
+            response = requests.get(
+                f'https://api.etherscan.io/api?module=account&action=txlist&address={self.address}&page=1&offset=10000&sort=asc&apikey={self.api_key}')
         return response.json()['result']
 
     def get_balance(self) -> str:
