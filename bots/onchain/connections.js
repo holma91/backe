@@ -152,6 +152,7 @@ const connections = {
         },
     },
     ROPSTEN: {
+        http: process.env.ropsten_http,
         ws: process.env.ropsten_ws,
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png',
         explorer: {
