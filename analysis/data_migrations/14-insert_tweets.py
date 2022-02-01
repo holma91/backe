@@ -5,9 +5,6 @@ from utils.env import BEARER_TOKEN_1, BEARER_TOKEN_2, BEARER_TOKEN_3
 from utils.db_utils import connect_to_database
 
 
-c
-
-
 def insert_ticker_mentions(username, count, clients, cur):
 
     query = f'from:{username} -is:retweet'

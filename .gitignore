@@ -1,6 +1,7 @@
 ### GLOBAL ###
 .env
 pseudo.txt
+notes.txt
 
 ### ANALYSIS ###
 analysis/env
