@@ -44,7 +44,7 @@ const connections = {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/3513.png',
         explorer: {
             url: 'https://ftmscan.com',
-            apikey: '',
+            apikey: process.env.ftmscan_apikey,
         },
         webhooks: {
             newPair: process.env.ftm_newpairhook,
