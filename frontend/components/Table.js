@@ -10,6 +10,7 @@ import {
 import { Button, PageButton } from './shared/Button';
 import { classNames } from './shared/Utils';
 import { SortIcon, SortUpIcon, SortDownIcon } from './shared/Icons';
+import {FaSearch} from 'react-icons/fa'
 
 // Define a default UI for filtering
 function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
@@ -20,19 +21,21 @@ function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) 
     }, 200);
 
     return (
-        <label className="flex gap-x-2 items-baseline">
-            <span className="text-gray-700">Search: </span>
-            <input
-                type="text"
-                className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                value={value || ''}
-                onChange={(e) => {
-                    setValue(e.target.value);
-                    onChange(e.target.value);
-                }}
-                placeholder={`${count} records...`}
-            />
-        </label>
+        <div>
+            <label className="flex gap-x-2 items-baseline">
+                <span className="text-gray-700">Search: </span>
+                <input
+                    type="text"
+                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    value={value || ''}
+                    onChange={(e) => {
+                        setValue(e.target.value);
+                        onChange(e.target.value);
+                    }}
+                    placeholder={`${count} records...`}
+                />
+            </label>
+        </div>
     );
 }
 
@@ -63,8 +66,12 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
                 }}
             >
                 <option value="">All</option>
-                {options.map((option, i) => (
-                    <option key={i} value={option}>
+                
+                {
+                options
+                    .sort((a, b) => parseInt(a)-parseInt(b))    
+                    .map((option, i) => (
+                    <option className="" key={i} value={option}>
                         {option}
                     </option>
                 ))}

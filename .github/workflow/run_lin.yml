@@ -1,0 +1,17 @@
+name: Lint
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint frontend
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run lint
+      - name: Lint backend
+        working-directory: ./backend
+        nun: |
+          npm ci
+          npm run lint
