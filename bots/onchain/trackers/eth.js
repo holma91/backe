@@ -29,7 +29,7 @@ const getPairMetadata = async (account, factory, i) => {
     let token1Contract = new ethers.Contract(token1.address, tokenInfoABI, account);
 
     try {
-        [token0.name, token0.name, token0.symbol, token1.symbol, token0.decimals, token1.decimals] = await Promise.all([
+        [token0.name, token1.name, token0.symbol, token1.symbol, token0.decimals, token1.decimals] = await Promise.all([
             token0Contract.name(),
             token1Contract.name(),
             token0Contract.symbol(),
@@ -51,6 +51,54 @@ const getPairMetadata = async (account, factory, i) => {
     };
 };
 
+const getPairLiquidity = async (account, pair) => {
+    const knownTokens = {
+        WETH: {
+            address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+            inUSD: 2500,
+        },
+        USDC: {
+            address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+            inUSD: 1.0,
+        },
+        USDT: {
+            address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+            inUSD: 1.0,
+        },
+        DAI: {
+            address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+            inUSD: 1.0,
+        },
+    };
+    let knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
+    const pairABI = [
+        'function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)',
+    ];
+    const pairContract = new ethers.Contract(pair.pairAddress, pairABI, account);
+
+    let reserves = await pairContract.getReserves();
+
+    pair.token0.liq = 0;
+    pair.token1.liq = 0;
+
+    try {
+        pair.token0.liq = ethers.utils.formatUnits(reserves['reserve0'], pair.token0.decimals);
+        pair.token1.liq = ethers.utils.formatUnits(reserves['reserve1'], pair.token1.decimals);
+    } catch (e) {
+        console.log(e);
+    }
+
+    pair.liqUSD = 0;
+
+    if (knownAddresses.includes(pair.token0.address.toLowerCase())) {
+        pair.liqUSD = parseFloat(pair.token0.liq) * knownTokens[pair.token0.symbol]['inUSD'];
+    } else if (knownAddresses.includes(pair.token1.address.toLowerCase())) {
+        pair.liqUSD = parseFloat(pair.token1.liq) * knownTokens[pair.token1.symbol]['inUSD'];
+    }
+
+    return pair;
+};
+
 const main = async () => {
     const addresses = {
         uniswapFactory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
@@ -68,13 +116,19 @@ const main = async () => {
     const sushiAllPairsLength = (await sushiswapFactory.allPairsLength()).toNumber();
 
     let promises = [];
-    for (let i = 0; i < sushiAllPairsLength; i++) {
+    for (let i = 0; i < 10; i++) {
         promises.push(getPairMetadata(account, sushiswapFactory, i));
     }
     let pairs = await Promise.all(promises);
-    console.log(pairs.length);
     pairs = pairs.filter((pair) => pair.pairAddress !== undefined);
-    console.log(pairs.length);
+
+    // get current liquidity for all pairs
+    promises = [];
+    for (let i = 0; i < pairs.length; i++) {
+        promises.push(getPairLiquidity(account, pairs[i]));
+    }
+    pairs = await Promise.all(promises);
+    console.log(JSON.stringify(pairs));
 };
 
 await main();

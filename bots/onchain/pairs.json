@@ -1,0 +1,212 @@
+[
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 0,
+        "pairAddress": "0x680A025Da7b1be2c204D7745e809919bCE074026",
+        "token0": {
+            "address": "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2",
+            "name": "SushiToken",
+            "symbol": "SUSHI",
+            "decimals": 18,
+            "liq": "364.898408413472372494"
+        },
+        "token1": {
+            "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            "name": "Tether USD",
+            "symbol": "USDT",
+            "decimals": 6,
+            "liq": "1560.327717"
+        },
+        "liqUSD": 1560.327717
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 1,
+        "pairAddress": "0x06da0fd433C1A5d7a4faa01111c044910A184553",
+        "token0": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "20359.521438158226979945"
+        },
+        "token1": {
+            "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            "name": "Tether USD",
+            "symbol": "USDT",
+            "decimals": 6,
+            "liq": "56568362.680509"
+        },
+        "liqUSD": 50898803.595395565
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 2,
+        "pairAddress": "0x58Dc5a51fE44589BEb22E8CE67720B5BC5378009",
+        "token0": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "1288.024894548722373732"
+        },
+        "token1": {
+            "address": "0xD533a949740bb3306d119CC777fa900bA034cd52",
+            "name": "Curve DAO Token",
+            "symbol": "CRV",
+            "decimals": 18,
+            "liq": "1029163.917276969648089058"
+        },
+        "liqUSD": 3220062.236371806
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 3,
+        "pairAddress": "0x95b54C8Da12BB23F7A5F6E26C38D04aCC6F81820",
+        "token0": {
+            "address": "0xAba8cAc6866B83Ae4eec97DD07ED254282f6aD8A",
+            "name": "YAMv2",
+            "symbol": "YAMv2",
+            "decimals": 24,
+            "liq": "409.887294897902706066336494"
+        },
+        "token1": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "0.574511981414796474"
+        },
+        "liqUSD": 1436.2799535369911
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 4,
+        "pairAddress": "0x611CDe65deA90918c0078ac0400A72B0D25B9bb1",
+        "token0": {
+            "address": "0x408e41876cCCDC0F92210600ef50372656052a38",
+            "name": "Republic Token",
+            "symbol": "REN",
+            "decimals": 18,
+            "liq": "7546017.466699460404339978"
+        },
+        "token1": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "887.798156670039248882"
+        },
+        "liqUSD": 2219495.3916750983
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 5,
+        "pairAddress": "0x117d4288B3635021a3D612FE05a3Cbf5C717fEf2",
+        "token0": {
+            "address": "0x476c5E26a75bd202a9683ffD34359C0CC15be0fF",
+            "name": "Serum",
+            "symbol": "SRM",
+            "decimals": 6,
+            "liq": "2124435.550809"
+        },
+        "token1": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "1805.298088393863274752"
+        },
+        "liqUSD": 4513245.220984658
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 6,
+        "pairAddress": "0xC352e63B7297FCaAe115E0758A6e84355181Cdaf",
+        "token0": {
+            "address": "0x566113069683Ce664958A784f18336B4020a1350",
+            "name": "NyanCatToken",
+            "symbol": "NYAN",
+            "decimals": 18,
+            "liq": "0.0"
+        },
+        "token1": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "0.0"
+        },
+        "liqUSD": 0
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 7,
+        "pairAddress": "0x001b6450083E531A5a7Bf310BD2c1Af4247E23D4",
+        "token0": {
+            "address": "0x04Fa0d235C4abf4BcF4787aF4CF447DE572eF828",
+            "name": "UMA Voting Token v1",
+            "symbol": "UMA",
+            "decimals": 18,
+            "liq": "72744.699043757468043055"
+        },
+        "token1": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "159.773915155586035058"
+        },
+        "liqUSD": 399434.78788896505
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 8,
+        "pairAddress": "0x31503dcb60119A812feE820bb7042752019F2355",
+        "token0": {
+            "address": "0xc00e94Cb662C3520282E6f5717214004A7f26888",
+            "name": "Compound",
+            "symbol": "COMP",
+            "decimals": 18,
+            "liq": "37121.343866309172888298"
+        },
+        "token1": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "1706.043818477118119262"
+        },
+        "liqUSD": 4265109.546192795
+    },
+    {
+        "chain": "ETH",
+        "dex": "sushiswap",
+        "pairId": 9,
+        "pairAddress": "0xA75F7c2F025f470355515482BdE9EFA8153536A8",
+        "token0": {
+            "address": "0xBA11D00c5f74255f56a5E366F4F77f5A186d7f55",
+            "name": "BandToken",
+            "symbol": "BAND",
+            "decimals": 18,
+            "liq": "145912.895091972995208751"
+        },
+        "token1": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+            "name": "Wrapped Ether",
+            "symbol": "WETH",
+            "decimals": 18,
+            "liq": "187.417093991480778336"
+        },
+        "liqUSD": 468542.734978702
+    }
+]
