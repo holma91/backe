@@ -21,5 +21,4 @@ class Pool {
     }
 }
 
-// module.exports = new Pool();
 export default Pool;
