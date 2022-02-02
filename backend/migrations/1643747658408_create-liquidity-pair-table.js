@@ -18,7 +18,8 @@ exports.up = (pgm) => {
             token1_name varchar,
             token1_symbol varchar,
             token1_decimals varchar,
-            unique(chain, pair_address)
+            unique(chain, pair_address),
+            unique(chain, dex, pair_id)
         );
     `);
 };
