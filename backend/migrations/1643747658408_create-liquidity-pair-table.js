@@ -8,7 +8,6 @@ exports.up = (pgm) => {
             id serial primary key,
             chain varchar,
             dex varchar,
-            pair_id integer,
             pair_address varchar(42),
             token0_address varchar(42),
             token0_name varchar,
@@ -18,8 +17,7 @@ exports.up = (pgm) => {
             token1_name varchar,
             token1_symbol varchar,
             token1_decimals varchar,
-            unique(chain, pair_address),
-            unique(chain, dex, pair_id)
+            unique(chain, pair_address)
         );
     `);
 };
