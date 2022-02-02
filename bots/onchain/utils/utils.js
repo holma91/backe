@@ -3,6 +3,7 @@ import ethers from 'ethers';
 import clientInitializer from 'twilio';
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import 'dotenv/config';
+import fetch from 'node-fetch';
 
 const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
@@ -23,9 +24,34 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         displayPair(pairInfo);
         sendNotifications(pairInfo);
+        await addPair(chain, dex, addressPair, token0, token1);
     } catch (e) {
         console.log(e);
     }
+};
+
+const addPair = async (chain, dex, pairAddress, token0, token1) => {
+    const requestBody = {
+        chain,
+        dex,
+        pairAddress,
+        token0Address: token0.address,
+        token0Name: token0.name,
+        token0Symbol: token0.symbol,
+        token0Decimals: token0.decimals,
+        token1Address: token1.address,
+        token1Name: token1.name,
+        token1Symbol: token1.symbol,
+        token1Decimals: token1.decimals,
+    };
+
+    const response = await fetch('http://localhost:3005/pairs', {
+        method: 'post',
+        body: JSON.stringify(requestBody),
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    await response.json();
 };
 
 const getTokenMetadata = async (tokenAddress, account) => {

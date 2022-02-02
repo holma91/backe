@@ -45,7 +45,6 @@ const getPairMetadata = async (account, factory, i) => {
     return {
         chain: 'ETH',
         dex: 'sushiswap',
-        pairId: i,
         pairAddress: pairAddress,
         token0: token0,
         token1: token1,
@@ -113,14 +112,13 @@ const insertPairsIntoDB = async (pairs) => {
     for (const pair of pairs) {
         await pool.query(
             `insert into liquidity_pair 
-                (chain, dex, pair_id, pair_address, token0_address, token0_name, token0_symbol, 
+                (chain, dex, pair_address, token0_address, token0_name, token0_symbol, 
                 token0_decimals, token1_address, token1_name, token1_symbol, token1_decimals)
-            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
                 `,
             [
                 pair.chain,
                 pair.dex,
-                pair.pairId,
                 pair.pairAddress,
                 pair.token0.address,
                 pair.token0.name,
