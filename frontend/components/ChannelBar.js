@@ -6,7 +6,6 @@ const livestream = ['Overview', 'Adjust'];
 const accounts = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance smart chain'];
 
 const ChannelBar = () => {
-    return (
         <div className="channel-bar shadow-lg h-screen">
             <ChannelBlock />
             <div className="channel-container">
@@ -14,7 +13,6 @@ const ChannelBar = () => {
                 <Dropdown header="Accounts" selections={accounts} />
             </div>
         </div>
-    );
 };
 
 const Dropdown = ({ header, selections }) => {
@@ -22,7 +20,7 @@ const Dropdown = ({ header, selections }) => {
 
     return (
         <div className="dropdown">
-            <div onClick={() => setExpanded(!expanded)} className="dropdown-header">
+            <button type="button" onClick={() => setExpanded(!expanded)} className="dropdown-header">
                 <ChevronIcon expanded={expanded} />
     
                 
@@ -37,7 +35,7 @@ const Dropdown = ({ header, selections }) => {
                 </h5>
                 
           
-            </div>
+            </button>
             {expanded &&
                 selections &&
                 selections.map((selection) => <TopicSelection key={selection[0]} selection={selection} />)}
