@@ -1,5 +1,6 @@
 const express = require('express');
 const PairRepo = require('../repos/pairRepo.js');
+const sendNotifications = require('./utils/sendNotifications');
 
 const router = express.Router();
 
@@ -10,8 +11,9 @@ router.get('/pairs', async (req, res) => {
 });
 
 router.post('/pairs', async (req, res) => {
-    console.log(req.body);
-    // req.body is our new pair
+    // validate request
+    sendNotifications(req.body);
+
     const pair = await PairRepo.add(req.body);
     res.send(pair);
 });
