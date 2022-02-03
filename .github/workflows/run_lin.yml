@@ -13,6 +13,6 @@ jobs:
           npm run lint
       - name: Lint backend
         working-directory: ./backend
-        nun: |
+        run: |
           npm ci
           npm run lint
