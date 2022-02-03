@@ -1,5 +1,11 @@
 import ethers from 'ethers';
 import connections from '../../connections.js';
+const factoryABI = [
+    'function getPair(address tokenA, address tokenB) external view returns (address pair)',
+    'function allPairs(uint) external view returns (address pair)',
+    'function allPairsLength() external view returns (uint)',
+];
+
 const getAccount = (connectionType, chain) => {
     let provider;
     if (connectionType === 'ws') {
@@ -11,4 +17,4 @@ const getAccount = (connectionType, chain) => {
     return wallet.connect(provider);
 };
 
-export default getAccount;
+export { getAccount, factoryABI };
