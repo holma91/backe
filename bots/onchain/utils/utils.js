@@ -1,5 +1,6 @@
 import connections from '../connections.js';
 import ethers from 'ethers';
+
 import clientInitializer from 'twilio';
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import 'dotenv/config';
@@ -23,26 +24,24 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
     try {
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         displayPair(pairInfo);
-        sendNotifications(pairInfo);
-        await addPair(chain, dex, addressPair, token0, token1);
+        const { liquidity, liquidityUSD, newToken } = pairInfo;
+        // sendNotifications(pairInfo);
+        let insertedPair = await addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
     } catch (e) {
         console.log(e);
     }
 };
 
-const addPair = async (chain, dex, pairAddress, token0, token1) => {
+const addPair = async (chain, dex, pairAddress, token0, token1, liquidity, liquidityUSD, newToken) => {
     const requestBody = {
         chain,
         dex,
-        pairAddress,
-        token0Address: token0.address,
-        token0Name: token0.name,
-        token0Symbol: token0.symbol,
-        token0Decimals: token0.decimals,
-        token1Address: token1.address,
-        token1Name: token1.name,
-        token1Symbol: token1.symbol,
-        token1Decimals: token1.decimals,
+        address: pairAddress,
+        token0,
+        token1,
+        liquidity,
+        liquidityUSD,
+        newToken,
     };
 
     const response = await fetch('http://localhost:3005/pairs', {
@@ -51,7 +50,8 @@ const addPair = async (chain, dex, pairAddress, token0, token1) => {
         headers: { 'Content-Type': 'application/json' },
     });
 
-    await response.json();
+    let res = await response.json();
+    return res;
 };
 
 const getTokenMetadata = async (tokenAddress, account) => {
@@ -135,6 +135,7 @@ const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
         address: addressPair,
         chain: chain,
         dex: dex,
+        newToken: '',
     };
 
     let knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
@@ -147,6 +148,7 @@ const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
             pairInfo.addressNewToken = token1.address;
             pairInfo.symbolNewToken = token1.symbol;
             pairInfo.nameNewToken = token1.name;
+            pairInfo.newToken = 'token1';
         } else if (knownAddresses.includes(token1.address.toLowerCase())) {
             pairInfo.liquidity = parseFloat(token1.liq);
             pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token1.symbol]['inUSD'];
@@ -154,6 +156,7 @@ const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
             pairInfo.addressNewToken = token0.address;
             pairInfo.symbolNewToken = token0.symbol;
             pairInfo.nameNewToken = token0.name;
+            pairInfo.newToken = 'token0';
         } else {
             // none of the addresses in the pair are known... liq is basically 0?
             // do nothing

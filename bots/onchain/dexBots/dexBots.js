@@ -1,6 +1,6 @@
 import { pancakeswap } from './bsc.js';
 import { trisolaris, wannaswap } from './aurora.js';
-import { spookyswap, spiritswap } from './ftm.js';
+import { spookyswap } from './ftm.js';
 import { fusefi } from './fuseio.js';
 import { netswap, tethys } from './metis.js';
 import { zipswap } from './optimism.js';
@@ -12,7 +12,6 @@ let uniswapV2Dexes = [
     trisolaris,
     wannaswap,
     spookyswap,
-    spiritswap,
     fusefi,
     netswap,
     tethys,

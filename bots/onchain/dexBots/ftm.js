@@ -25,12 +25,4 @@ const spookyswap = {
     chainName: 'FTM',
 };
 
-const spiritswap = {
-    factory: new ethers.Contract(addresses.spiritswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
-    dexName: 'spiritswap',
-    chainName: 'FTM',
-};
-
-export { spookyswap, spiritswap };
+export { spookyswap };
