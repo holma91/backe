@@ -1,4 +1,3 @@
-import TopNavigation from './TopNavigation';
 import MainContainer from './MainContainer';
 
 const ContentContainer = () => (
