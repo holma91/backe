@@ -1,5 +1,7 @@
 import React from 'react';
-import regeneratorRuntime from 'regenerator-runtime'; // because of "ReferenceError: regeneratorRuntime is not defined"
+
+// WARNING: IF THE LINE BELOW IS REMOVED IT WONT COMPILE because of "ReferenceError: regeneratorRuntime is not defined"
+import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-unused-vars
 import getAddresses from '../dummydata/getAddresses';
 import Table, { AvatarCell, SelectColumnFilter, StatusPill } from './Table';
 

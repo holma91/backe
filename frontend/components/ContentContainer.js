@@ -1,12 +1,10 @@
-import TopNavigation from './TopNavigation';
 import MainContainer from './MainContainer';
 
-const ContentContainer = () => {
-    return (
-        <div className="content-container">
-            <MainContainer></MainContainer>
-        </div>
-    );
-};
+const ContentContainer = () => (
+    <div className="content-container">
+        <MainContainer />
+    </div>
+);
+
 
 export default ContentContainer;

@@ -4,7 +4,7 @@ import TopNavigation from '../../components/TopNavigation';
 
 export default function Home() {
     const router = useRouter();
-    const address = router.query.address;
+    const { address } = router.query;
 
     return (
         <div className="flex">
