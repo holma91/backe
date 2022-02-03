@@ -6,6 +6,7 @@ const livestream = ['Overview', 'Adjust'];
 const accounts = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance smart chain'];
 
 const ChannelBar = () => {
+    return (
         <div className="channel-bar shadow-lg h-screen">
             <ChannelBlock />
             <div className="channel-container">
@@ -13,6 +14,7 @@ const ChannelBar = () => {
                 <Dropdown header="Accounts" selections={accounts} />
             </div>
         </div>
+    );
 };
 
 const Dropdown = ({ header, selections }) => {

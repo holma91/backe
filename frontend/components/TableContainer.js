@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import React from 'react';
-=======
->>>>>>> parent of 547d03b... Autolint
 import regeneratorRuntime from 'regenerator-runtime'; // because of "ReferenceError: regeneratorRuntime is not defined"
 import getAddresses from '../dummydata/getAddresses';
 import React from 'react';
