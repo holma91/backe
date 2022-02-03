@@ -10,6 +10,7 @@ jobs:
         run: |
           npm ci
           npm run lint
+      - uses: actions/checkout@v2
       - name: Lint backend
         working-directory: ./backend
         nun: |
