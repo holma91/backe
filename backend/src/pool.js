@@ -1,4 +1,4 @@
-const pg = require('pg');
+import pg from 'pg';
 
 class Pool {
     _pool = null;
@@ -18,4 +18,6 @@ class Pool {
     }
 }
 
-module.exports = new Pool();
+let pool = new Pool();
+
+export default pool;

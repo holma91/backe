@@ -1,5 +1,5 @@
-const express = require('express');
-const AccountRepo = require('../repos/accountRepo');
+import express from 'express';
+import AccountRepo from '../repos/accountRepo.js';
 
 const router = express.Router();
 
@@ -21,4 +21,4 @@ router.get('/accounts/:address', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

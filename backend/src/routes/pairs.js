@@ -1,6 +1,6 @@
-const express = require('express');
-const PairRepo = require('../repos/pairRepo.js');
-const sendNotifications = require('./utils/sendNotifications');
+import express from 'express';
+import PairRepo from '../repos/pairRepo.js';
+import sendNotifications from './utils/sendNotifications.js';
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get('/pairs', async (req, res) => {
 
 router.post('/pairs', async (req, res) => {
     // validate request
-    sendNotifications(req.body);
+    // sendNotifications(req.body);
 
     const pair = await PairRepo.add(req.body);
     res.send(pair);
@@ -30,4 +30,4 @@ router.post('/pairs', async (req, res) => {
 //     }
 // });
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
-const pool = require('../pool');
-const toCamelCase = require('./utils/toCamelCase');
+import pool from '../pool.js';
+import toCamelCase from './utils/toCamelCase.js';
 
 class UserRepo {
     static async find() {
@@ -13,4 +13,4 @@ class UserRepo {
     }
 }
 
-module.exports = UserRepo;
+export default UserRepo;

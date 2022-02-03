@@ -1,5 +1,10 @@
+import { createRequire } from 'module'; // Bring in the ability to create the 'require' method in es6 modules
+const require = createRequire(import.meta.url); // construct the require method
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 
 const connections = {
     BSC: {
@@ -173,4 +178,4 @@ const connections = {
         },
     },
 };
-module.exports = connections;
+export default connections;

@@ -1,4 +1,4 @@
-module.exports = (rows) => {
+const toCamelCase = (rows) => {
     return rows.map((row) => {
         const replaced = {};
 
@@ -9,3 +9,5 @@ module.exports = (rows) => {
         return replaced;
     });
 };
+
+export default toCamelCase;

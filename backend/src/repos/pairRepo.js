@@ -1,5 +1,5 @@
-const pool = require('../pool');
-const toCamelCase = require('./utils/toCamelCase');
+import pool from '../pool.js';
+import toCamelCase from './utils/toCamelCase.js';
 
 class PairRepo {
     static async find() {
@@ -48,4 +48,4 @@ class PairRepo {
     // }
 }
 
-module.exports = PairRepo;
+export default PairRepo;

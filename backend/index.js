@@ -1,5 +1,5 @@
-const app = require('./src/app');
-const pool = require('./src/pool');
+import app from './src/app.js';
+import pool from './src/pool.js';
 
 pool.connect({
     host: 'localhost',

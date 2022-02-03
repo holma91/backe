@@ -1,5 +1,5 @@
-const express = require('express');
-const TokenRepo = require('../repos/tokenRepo.js');
+import express from 'express';
+import TokenRepo from '../repos/tokenRepo.js';
 
 const router = express.Router();
 
@@ -21,4 +21,4 @@ router.get('/tokens/:address', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

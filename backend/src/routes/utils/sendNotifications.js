@@ -1,9 +1,14 @@
-// import { MessageEmbed, WebhookClient } from 'discord.js';
+import { createRequire } from 'module'; // Bring in the ability to create the 'require' method in es6 modules
+const require = createRequire(import.meta.url); // construct the require method
 const path = require('path');
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-const { MessageEmbed, WebhookClient } = require('discord.js');
 const client = require('twilio');
-const connections = require('./connections');
+
+import { MessageEmbed, WebhookClient } from 'discord.js';
+import connections from '../../connections.js';
 const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 
 const getHookInfo = (chain, dex) => {
@@ -222,4 +227,4 @@ const sendNotifications = async (pair) => {
     }
 };
 
-module.exports = sendNotifications;
+export default sendNotifications;

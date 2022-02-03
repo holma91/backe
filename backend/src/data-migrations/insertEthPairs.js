@@ -1,6 +1,6 @@
-import Pool from '../pool.js';
-import { getAccount } from '../utils/utils.js';
-import { ethers } from 'ethers';
+const ethers = require('ethers');
+const getAccount = require('./utils/getAccount');
+const pool = require('../pool');
 
 const getPairMetadata = async (account, factory, i) => {
     /*
@@ -45,7 +45,7 @@ const getPairMetadata = async (account, factory, i) => {
     return {
         chain: 'ETH',
         dex: 'sushiswap',
-        pairAddress: pairAddress,
+        address: pairAddress,
         token0: token0,
         token1: token1,
     };
@@ -74,7 +74,7 @@ const getPairLiquidity = async (account, pair) => {
     const pairABI = [
         'function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)',
     ];
-    const pairContract = new ethers.Contract(pair.pairAddress, pairABI, account);
+    const pairContract = new ethers.Contract(pair.address, pairABI, account);
 
     let reserves = await pairContract.getReserves();
 
@@ -88,38 +88,30 @@ const getPairLiquidity = async (account, pair) => {
         console.log(e);
     }
 
-    pair.liqUSD = 0;
+    pair.liquidityUSD = 0;
 
     if (knownAddresses.includes(pair.token0.address.toLowerCase())) {
-        pair.liqUSD = parseFloat(pair.token0.liq) * knownTokens[pair.token0.symbol]['inUSD'];
+        pair.liquidityUSD = parseFloat(pair.token0.liq) * knownTokens[pair.token0.symbol]['inUSD'];
     } else if (knownAddresses.includes(pair.token1.address.toLowerCase())) {
-        pair.liqUSD = parseFloat(pair.token1.liq) * knownTokens[pair.token1.symbol]['inUSD'];
+        pair.liquidityUSD = parseFloat(pair.token1.liq) * knownTokens[pair.token1.symbol]['inUSD'];
     }
 
     return pair;
 };
 
 const insertPairsIntoDB = async (pairs) => {
-    const pool = new Pool();
-    pool.connect({
-        host: 'localhost',
-        port: 5432,
-        database: 'lasse',
-        user: 'alexander',
-        password: '',
-    });
-
     for (const pair of pairs) {
         await pool.query(
             `insert into liquidity_pair 
                 (chain, dex, pair_address, token0_address, token0_name, token0_symbol, 
-                token0_decimals, token1_address, token1_name, token1_symbol, token1_decimals)
-            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
+                token0_decimals, token1_address, token1_name, token1_symbol, token1_decimals, 
+                liquidity_usd, updated_at)
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, now() at time zone 'utc') returning *;
                 `,
             [
                 pair.chain,
                 pair.dex,
-                pair.pairAddress,
+                pair.address,
                 pair.token0.address,
                 pair.token0.name,
                 pair.token0.symbol,
@@ -128,11 +120,10 @@ const insertPairsIntoDB = async (pairs) => {
                 pair.token1.name,
                 pair.token1.symbol,
                 pair.token1.decimals,
+                pair.liquidityUSD,
             ]
         );
     }
-
-    pool.close();
 };
 
 const main = async () => {
@@ -153,7 +144,7 @@ const main = async () => {
 
     // get all pairs
     let promises = [];
-    for (let i = 1000; i < sushiAllPairsLength; i++) {
+    for (let i = 0; i < 100; i++) {
         promises.push(getPairMetadata(account, sushiswapFactory, i));
     }
     let pairs = await Promise.all(promises);
@@ -168,10 +159,21 @@ const main = async () => {
 
     // filter pairs on liquidity
     pairs = pairs.filter((pair) => pair.liqUSD >= 100000);
-    // console.log(JSON.stringify(pairs));
+
+    console.log(JSON.stringify(pairs));
 
     // pairs is now all pairs that we care about from sushi on eth
     insertPairsIntoDB(pairs);
 };
 
-await main();
+const runMain = async () => {
+    await pool.connect({
+        host: 'localhost',
+        port: 5432,
+        database: 'lasse',
+        user: 'alexander',
+        password: '',
+    });
+    await main(pool);
+    await pool.close();
+};
