@@ -1,8 +1,7 @@
 import { FaSearch, FaHashtag, FaRegBell, FaUserCircle, FaMoon, FaSun } from 'react-icons/fa';
 import useDarkMode from '../hooks/useDarkMode';
 
-const TopNavigation = () => {
-    return (
+const TopNavigation = () => (
         <div className="top-navigation">
             <HashtagIcon />
             <Title />
@@ -12,7 +11,6 @@ const TopNavigation = () => {
             <UserCircle />
         </div>
     );
-};
 
 const ThemeIcon = () => {
     const [darkTheme, setDarkTheme] = useDarkMode();

@@ -7,10 +7,10 @@ import {
     ChevronRightIcon,
     ChevronDoubleRightIcon,
 } from '@heroicons/react/solid';
+import {FaSearch} from 'react-icons/fa'
 import { Button, PageButton } from './shared/Button';
 import { classNames } from './shared/Utils';
 import { SortIcon, SortUpIcon, SortDownIcon } from './shared/Icons';
-import {FaSearch} from 'react-icons/fa'
 
 // Define a default UI for filtering
 function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
@@ -197,9 +197,9 @@ function Table({ columns, data }) {
                                         prepareRow(row);
                                         return (
                                             <tr {...row.getRowProps()}>
-                                                {row.cells.map((cell) => {
+                                                {row.cells.map((cell) => 
                                                     // console.log(cell);
-                                                    return (
+                                                     (
                                                         <td
                                                             {...cell.getCellProps()}
                                                             className="px-3 py-1 whitespace-nowrap"
@@ -213,8 +213,8 @@ function Table({ columns, data }) {
                                                                 cell.render('Cell')
                                                             )}
                                                         </td>
-                                                    );
-                                                })}
+                                                    )
+                                                )}
                                             </tr>
                                         );
                                     })}

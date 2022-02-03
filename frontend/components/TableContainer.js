@@ -1,6 +1,6 @@
 import regeneratorRuntime from 'regenerator-runtime'; // because of "ReferenceError: regeneratorRuntime is not defined"
-import getAddresses from '../dummydata/getAddresses';
 import React from 'react';
+import getAddresses from '../dummydata/getAddresses';
 import Table, { AvatarCell, SelectColumnFilter, StatusPill } from './Table';
 
 const TableContainer = () => {
