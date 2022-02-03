@@ -1,12 +1,9 @@
 import connections from '../connections.js';
 import ethers from 'ethers';
 
-import clientInitializer from 'twilio';
-import { MessageEmbed, WebhookClient } from 'discord.js';
 import 'dotenv/config';
 import fetch from 'node-fetch';
 
-const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
 const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
 const uniV3Factory = ['event PoolCreated(address token0, address token1, uint24 fee, int24 tickSpacing, address pool)'];
 const uniV2Pair = [
@@ -25,7 +22,6 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         displayPair(pairInfo);
         const { liquidity, liquidityUSD, newToken } = pairInfo;
-        // sendNotifications(pairInfo);
         let insertedPair = await addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
     } catch (e) {
         console.log(e);
@@ -192,207 +188,6 @@ const displayPair = (pairInfo) => {
             pairInfo.symbolNewToken
         } address: ${pairInfo.addressNewToken}\npair: ${pairInfo.address}\n${pairInfo.dex}\n`
     );
-};
-
-const sendNotifications = async (pairInfo) => {
-    const hook = getHookInfo(pairInfo.chain, pairInfo.dex);
-
-    const webhookClient = new WebhookClient({
-        url: hook.greenUrl,
-    });
-
-    let color = '';
-    if (pairInfo.liquidityUSD >= 50000) {
-        color = '#00ff00';
-    } else if (pairInfo.liquidityUSD >= 10000) {
-        color = '#ffff00';
-    } else {
-        color = '#ff0000';
-    }
-
-    const embed = new MessageEmbed()
-        .setColor(color)
-        .setTitle(`${pairInfo.symbolOldToken}/${pairInfo.symbolNewToken}`)
-        .setURL(hook.dexUrl)
-        .setAuthor({ name: `${pairInfo.chain}-BOT`, iconURL: hook.img, url: 'https://discord.js.org' })
-        .addFields(
-            {
-                name: 'Pair information',
-                value: `${pairInfo.symbolOldToken}/${pairInfo.symbolNewToken}, ${pairInfo.address}, ${hook.explorerUrl}${pairInfo.address}`,
-            },
-            {
-                name: 'Token information',
-                value: `${pairInfo.nameNewToken} (${pairInfo.symbolNewToken}), ${pairInfo.addressNewToken}, ${hook.explorerUrl}${pairInfo.addressNewToken}`,
-            },
-            {
-                name: 'Liquidity information',
-                value: `liquidity (${pairInfo.symbolOldToken}, USD): ${pairInfo.liquidity.toFixed(
-                    2
-                )}, $${pairInfo.liquidityUSD.toFixed(2)}`,
-            }
-        )
-        .setTimestamp();
-
-    webhookClient.send({
-        username: 'liquidity pair bot',
-        avatarURL: 'https://i.imgur.com/AfFp7pu.png',
-        embeds: [embed],
-    });
-
-    if (notificationWorthy(pairInfo.liquidityUSD, pairInfo.chain)) {
-        // let webhookNotificationClient = new WebhookClient({ url: config.newPairHookUrl });
-        let webhookNotificationClient = new WebhookClient({ url: process.env.discord_newPairHookUrl });
-        webhookNotificationClient.send({
-            username: 'liquidity pair bot',
-            avatarURL: 'https://i.imgur.com/AfFp7pu.png',
-            embeds: [embed],
-        });
-
-        // phone call here lol. wake the fuck up
-        const client = clientInitializer(process.env.twilio_accountSid, process.env.twilio_authToken);
-        await client.calls.create({
-            url: 'http://demo.twilio.com/docs/voice.xml',
-            from: process.env.twilio_fromNumber,
-            to: process.env.twilio_toNumber,
-        });
-    }
-};
-
-const notificationWorthy = (liquidityUSD, chain) => {
-    // do research here to determine
-    let worthy = false;
-    switch (chain) {
-        case 'ETH': {
-            if (liquidityUSD >= 500000) {
-                worthy = true;
-            }
-            break;
-        }
-        case 'AURORA': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
-            break;
-        }
-        case 'FUSE': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
-            break;
-        }
-        case 'METIS': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
-            break;
-        }
-        case 'OPTIMISM': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
-            break;
-        }
-    }
-    return worthy;
-};
-
-const getHookInfo = (chain, dex) => {
-    let hook = {};
-
-    switch (chain) {
-        case 'BSC': {
-            hook.img = BSC.img;
-            hook.greenUrl = BSC.webhooks.newPair;
-            hook.explorerUrl = `${BSC.explorer.url}/token/`;
-            if (dex === 'pancakeswap') {
-                hook.dexUrl = BSC.dexes.pancakeswap.url;
-            } else {
-                hook.dexUrl = '';
-            }
-            break;
-        }
-        case 'ETH': {
-            hook.img = ETH.img;
-            hook.greenUrl = ETH.webhooks.newPair;
-            hook.explorerUrl = `${ETH.explorer.url}/token/`;
-            if (dex === 'uniswap') {
-                hook.dexUrl = ETH.dexes.uniswap.url;
-            } else if (dex === 'sushiswap') {
-                hook.dexUrl = ETH.dexes.sushiswap.url;
-            } else {
-                hook.dexUrl = '';
-            }
-            break;
-        }
-        case 'AVAX': {
-            hook.img = AVAX.img;
-            hook.greenUrl = AVAX.webhooks.newPair;
-            hook.explorerUrl = `${AVAX.explorer.url}/token/`;
-            if (dex === 'traderjoe') {
-                hook.dexUrl = AVAX.dexes.uniswap.url;
-            } else if (dex === 'pangolin') {
-                hook.dexUrl = AVAX.dexes.sushiswap.url;
-            } else {
-                hook.dexUrl = '';
-            }
-            break;
-        }
-        case 'FTM': {
-            hook.img = FTM.img;
-            hook.greenUrl = FTM.webhooks.newPair;
-            hook.explorerUrl = `${FTM.explorer.url}/token/`;
-            if (dex === 'spookyswap') {
-                hook.dexUrl = FTM.dexes.spookyswap.url;
-            } else if (dex === 'spiritswap') {
-                hook.dexUrl = FTM.dexes.spiritswap.url;
-            }
-            break;
-        }
-        case 'AURORA': {
-            hook.img = AURORA.img;
-            hook.greenUrl = AURORA.webhooks.newPair;
-            hook.explorerUrl = `${AURORA.explorer.url}/token/`;
-            if (dex === 'trisolaris') {
-                hook.dexUrl = AURORA.dexes.trisolaris.url;
-            } else if (dex == 'wannaswap') {
-                hook.dexUrl = AURORA.dexes.wannaswap.url;
-            }
-            break;
-        }
-        case 'FUSE': {
-            hook.img = FUSE.img;
-            hook.greenUrl = FUSE.webhooks.newPair;
-            hook.explorerUrl = `${FUSE.explorer.url}/token/`;
-            if (dex === 'fuse.fi') {
-                hook.dexUrl = FUSE.dexes.fusefi.url;
-            }
-            break;
-        }
-        case 'METIS': {
-            hook.img = METIS.img;
-            hook.greenUrl = METIS.webhooks.newPair;
-            hook.explorerUrl = `${METIS.explorer.url}/token/`;
-            if (dex === 'netswap') {
-                hook.dexUrl = METIS.dexes.netswap.url;
-            } else if (dex === 'tethys') {
-                hook.dexUrl = METIS.dexes.tethys.url;
-            }
-            break;
-        }
-        case 'OPTIMISM': {
-            hook.img = OPTIMISM.img;
-            hook.greenUrl = OPTIMISM.webhooks.newPair;
-            hook.explorerUrl = `${OPTIMISM.explorer.url}/token/`;
-            if (dex === 'zipswap') {
-                hook.dexUrl = OPTIMISM.dexes.zipswap.url;
-            }
-            break;
-        }
-
-        default:
-            break;
-    }
-    return hook;
 };
 
 function sleep(ms) {
