@@ -1,6 +1,5 @@
-const ethers = require('ethers');
-const connections = require('../../connections');
-
+import ethers from 'ethers';
+import connections from '../../connections.js';
 const getAccount = (connectionType, chain) => {
     let provider;
     if (connectionType === 'ws') {
@@ -12,4 +11,4 @@ const getAccount = (connectionType, chain) => {
     return wallet.connect(provider);
 };
 
-module.exports = getAccount;
+export default getAccount;
