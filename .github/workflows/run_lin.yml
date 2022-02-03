@@ -6,13 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        name: Lint frontend
+      - name: Lint frontend
         working-directory: ./frontend
         run: |
           npm ci
           npm run lint
-      - uses: actions/checkout@v2
-        name: Lint backend
+      - name: Lint backend
         working-directory: ./backend
         nun: |
           npm ci
