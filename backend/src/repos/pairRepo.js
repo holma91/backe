@@ -11,21 +11,23 @@ class PairRepo {
         const { rows } = await pool.query(
             `insert into liquidity_pair 
                 (chain, dex, pair_address, token0_address, token0_name, token0_symbol, 
-                token0_decimals, token1_address, token1_name, token1_symbol, token1_decimals)
-            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *;
+                token0_decimals, token1_address, token1_name, token1_symbol, token1_decimals, 
+                liquidity_usd, updated_at)
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, now() at time zone 'utc') returning *;
                 `,
             [
                 pair.chain,
                 pair.dex,
-                pair.pairAddress,
-                pair.token0Address,
-                pair.token0Name,
-                pair.token0Symbol,
-                pair.token0Decimals,
-                pair.token1Address,
-                pair.token1Name,
-                pair.token1Symbol,
-                pair.token1Decimals,
+                pair.address,
+                pair.token0.address,
+                pair.token0.name,
+                pair.token0.symbol,
+                pair.token0.decimals,
+                pair.token1.address,
+                pair.token1.name,
+                pair.token1.symbol,
+                pair.token1.decimals,
+                pair.liquidityUSD,
             ]
         );
 
