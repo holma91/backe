@@ -7,6 +7,19 @@ class PairRepo {
         return toCamelCase(rows);
     }
 
+    static async findByChain(chain) {
+        const { rows } = await pool.query('select * from liquidity_pair where chain = $1;', [chain.toUpperCase()]);
+        return toCamelCase(rows);
+    }
+
+    static async findByChainAndDex(chain, dex) {
+        const { rows } = await pool.query('select * from liquidity_pair where chain = $1 and dex = $2;', [
+            chain.toUpperCase(),
+            dex,
+        ]);
+        return toCamelCase(rows);
+    }
+
     static async add(pair) {
         const { rows } = await pool.query(
             `insert into liquidity_pair 

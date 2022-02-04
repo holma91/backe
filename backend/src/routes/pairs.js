@@ -10,6 +10,22 @@ router.get('/pairs', async (req, res) => {
     res.send(pairs);
 });
 
+router.get('/pairs/:chain', async (req, res) => {
+    const { chain } = req.params;
+
+    const pairs = await PairRepo.findByChain(chain);
+
+    res.send(pairs);
+});
+
+router.get('/pairs/:chain/:dex', async (req, res) => {
+    const { chain, dex } = req.params;
+
+    const pairs = await PairRepo.findByChainAndDex(chain, dex);
+
+    res.send(pairs);
+});
+
 router.post('/pairs', async (req, res) => {
     // validate request
     // sendNotifications(req.body);
