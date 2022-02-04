@@ -4,3 +4,38 @@ Content-Type: application/json
 {
     "name": "Jabba"
 }
+
+###
+POST http://localhost:3005/test
+Content-Type: application/json
+
+{
+    "address": "0xblahblahblah",
+    "account_type": 1,
+    "acc": "yo"
+}
+
+### 
+POST http://localhost:3005/test
+Content-Type: application/json
+
+{
+    "chain": "string",
+    "dex": "string",
+    "address": "string",
+    "token0": {
+        "address": "string",
+        "name": "string",
+        "symbol": "string",
+        "decimals": "string"
+    },
+    "token1": {
+        "address": "string",
+        "name": "string",
+        "symbol": "string",
+        "decimals": "string"
+    },
+    "liquidity": 10,
+    "liquidityUSD": 15,
+    "newToken": "string"
+}
