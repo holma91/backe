@@ -60,6 +60,7 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
             <span className="text-gray-700">{render('Header')}: </span>
             <select
                 id="selection-field"
+                key="selection-field"
                 className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 name={id}
                 value={filterValue}
@@ -73,7 +74,7 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
                 options
                     .sort((a, b) => parseInt(a, 10)-parseInt(b, 10))    
                     .map((option,) => (
-                    <option className="" key={option.id} value={option}>
+                    <option className="" key="{option.id}" value={option}>
                         {option}
                     </option>
                 ))}
