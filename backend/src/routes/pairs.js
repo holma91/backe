@@ -20,6 +20,7 @@ router.get('/pairs/:chain', async (req, res) => {
 
 router.get('/pairs/:chain/:dex', async (req, res) => {
     const { chain, dex } = req.params;
+    console.log('aghhhhhhhh');
 
     const pairs = await PairRepo.findByChainAndDex(chain, dex);
 
@@ -33,17 +34,5 @@ router.post('/pairs', async (req, res) => {
     const pair = await PairRepo.add(req.body);
     res.send(pair);
 });
-
-// router.get('/pairs/:address', async (req, res) => {
-//     const { address } = req.params;
-
-//     const pair = await pairRepo.findByAddress(address, req.query['include_categories']);
-
-//     if (pair) {
-//         res.send(pair);
-//     } else {
-//         res.sendStatus(404);
-//     }
-// });
 
 export default router;
