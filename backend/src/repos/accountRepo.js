@@ -2,9 +2,14 @@ import pool from '../pool.js';
 import toCamelCase from './utils/toCamelCase.js';
 
 class AccountRepo {
-    static async find() {
-        const { rows } = await pool.query('select * from account;');
-        return toCamelCase(rows);
+    static async find(includeLabels) {
+        let res;
+        if (includeLabels === 'yes') {
+            res = await pool.query('select * from account as a join account_label as al on al.address = a.address;');
+        } else {
+            res = await pool.query('select * from account;');
+        }
+        return toCamelCase(res.rows);
     }
 
     static async findByAddress(address, includeLabels) {

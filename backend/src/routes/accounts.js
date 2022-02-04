@@ -4,7 +4,7 @@ import AccountRepo from '../repos/accountRepo.js';
 const router = express.Router();
 
 router.get('/accounts', async (req, res) => {
-    const accounts = await AccountRepo.find();
+    const accounts = await AccountRepo.find(req.query['include_labels']);
 
     res.send(accounts);
 });
