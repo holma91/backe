@@ -1,5 +1,6 @@
 ### GLOBAL ###
 .env
+.dbenv
 pseudo.txt
 notes.txt
 

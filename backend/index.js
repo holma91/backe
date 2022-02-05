@@ -1,12 +1,13 @@
 import app from './src/app.js';
 import pool from './src/pool.js';
+import 'dotenv/config';
 
 pool.connect({
-    host: 'localhost',
-    port: 5432,
-    database: 'lasse',
-    user: 'alexander',
-    password: '',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
 })
     .then(() => {
         app().listen(3005, () => {

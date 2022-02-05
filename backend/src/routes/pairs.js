@@ -5,25 +5,6 @@ import schemas from './utils/requestSchemas.js';
 import validator from 'jsonschema';
 const validate = validator.validate;
 
-// var accountSchema = {
-//     // id: '/SimplePerson',
-//     type: 'object',
-//     properties: {
-//         address: { type: 'string' },
-//         account_type: { type: 'string' },
-//     },
-//     required: ['address', 'account_type'],
-//     additionalProperties: false,
-// };
-
-// var account = {
-//     address: '0xblahblahblah',
-//     account_type: 'EOA',
-// };
-
-// v.addSchema(addressSchema, '/SimpleAddress');
-// console.log(validate(account, accountSchema));
-
 const router = express.Router();
 
 router.get('/pairs', async (req, res) => {
@@ -55,7 +36,7 @@ router.post('/pairs', async (req, res) => {
         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
     }
 
-    // sendNotifications(req.body);
+    sendNotifications(req.body);
 
     const pair = await PairRepo.add(req.body);
     res.send(pair);
