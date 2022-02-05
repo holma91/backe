@@ -69,7 +69,7 @@ Flowet ska vara att en address kommer in, addressen analyseras, addressen sparas
 -   MEV-bots
     -   "Miner extractable value" är ett visst värde för varje transaktion (ibland 0), och detta värde är tillgängligt för den som letar. Som "mev-searcher" kan man antingen leta arbitrages, liquidations och göra sandwich attacks. Nackdelarna med dessa bottar är att jag tror att de är väldigt svårt att få dem till den nivå då man kan tävla med de bästa och faktiskt få ta del av MEV, men fördelen blir att man kan hitta trades där man är garanterad en vinst OCH att detta funkar oavsett hur marknaden går i allmänhet. Bitcoin och ethereum går ner 50%? Spelar ingen roll då det fortfarande kommer att finnas MEV. Inte researchat tillräckligt mycket om detta än, men min uppfattning är att man måste vara rätt bra på solidity för att kunna ta MEV på ett effektivt sätt. Jävligt intressant dock och kan vara en bra utmaning. Dessa lever också onchain givetvis och om man lyckas skriva effektiva bottar här tror jag man kan ha stor edge vid vanlig "altcoin" trading också.
 -   Off-chain bots
-    -   bots som tradear på exchanges (coinbase, binance, kraken etc).
+    -   bots som tradear på exchanges (coinbase, binance, kraken, ftx etc).
     -   ytterst tveksamt om detta ens är värt det, barrier to entry är låg (enkelt att göra dessa bottar) och det finns bara större tokens tillgängliga. Skulle tro att edgen man kan få här jämfört med on-chain bottar inte ens är en tiondel.
 -   information bots
     -   bots som har syftet att bara leta internet för information gällande tokens.
