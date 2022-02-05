@@ -5,24 +5,23 @@ import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 const livestream = ['Overview', 'Adjust'];
 const accounts = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance smart chain'];
 
-const ChannelBar = () => {
-    return (
-        <div className="channel-bar shadow-lg h-screen">
-            <ChannelBlock />
-            <div className="channel-container">
-                <Dropdown header="Address Live Stream" selections={livestream} />
-                <Dropdown header="Accounts" selections={accounts} />
-            </div>
+const ChannelBar = () => (
+    <div className="channel-bar shadow-lg h-screen">
+        <ChannelBlock />
+        <div className="channel-container">
+            <Dropdown header="Address Live Stream" selections={livestream} />
+            <Dropdown header="Accounts" selections={accounts} />
         </div>
-    );
-};
+    </div>
+);
+
 
 const Dropdown = ({ header, selections }) => {
     const [expanded, setExpanded] = useState(false);
 
     return (
         <div className="dropdown">
-            <div onClick={() => setExpanded(!expanded)} className="dropdown-header">
+            <button type="button" onClick={() => setExpanded(!expanded)} className="dropdown-header">
                 <ChevronIcon expanded={expanded} />
     
                 
@@ -37,7 +36,7 @@ const Dropdown = ({ header, selections }) => {
                 </h5>
                 
           
-            </div>
+            </button>
             {expanded &&
                 selections &&
                 selections.map((selection) => <TopicSelection key={selection[0]} selection={selection} />)}

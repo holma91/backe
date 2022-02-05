@@ -10,21 +10,23 @@ import {
 import { Button, PageButton } from './shared/Button';
 import { classNames } from './shared/Utils';
 import { SortIcon, SortUpIcon, SortDownIcon } from './shared/Icons';
-import {FaSearch} from 'react-icons/fa'
+
+
 
 // Define a default UI for filtering
 function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
     const count = preGlobalFilteredRows.length;
     const [value, setValue] = React.useState(globalFilter);
-    const onChange = useAsyncDebounce((value) => {
-        setGlobalFilter(value || undefined);
+    const onChange = useAsyncDebounce((val) => {
+        setGlobalFilter(val || undefined);
     }, 200);
 
     return (
         <div>
-            <label className="flex gap-x-2 items-baseline">
+            <label htmlFor="search-input" className="flex gap-x-2 items-baseline">
                 <span className="text-gray-700">Search: </span>
                 <input
+                    id="search-input"
                     type="text"
                     className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     value={value || ''}
@@ -45,21 +47,22 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
     // Calculate the options for filtering
     // using the preFilteredRows
     const options = React.useMemo(() => {
-        const options = new Set();
+        const ops = new Set();
         preFilteredRows.forEach((row) => {
-            options.add(row.values[id]);
+            ops.add(row.values[id]);
         });
-        return [...options.values()];
+        return [...ops.values()];
     }, [id, preFilteredRows]);
 
     // Render a multi-select box
     return (
-        <label className="flex gap-x-2 items-baseline">
+        <label htmlFor="selection-field" className="flex gap-x-2 items-baseline">
             <span className="text-gray-700">{render('Header')}: </span>
             <select
+                id="selection-field"
+                key="selection-field"
                 className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 name={id}
-                id={id}
                 value={filterValue}
                 onChange={(e) => {
                     setFilter(e.target.value || undefined);
@@ -69,9 +72,9 @@ export function SelectColumnFilter({ column: { filterValue, setFilter, preFilter
                 
                 {
                 options
-                    .sort((a, b) => parseInt(a)-parseInt(b))    
-                    .map((option, i) => (
-                    <option className="" key={i} value={option}>
+                    .sort((a, b) => parseInt(a, 10)-parseInt(b, 10))    
+                    .map((option,) => (
+                    <option className="" key="{option.id}" value={option}>
                         {option}
                     </option>
                 ))}
@@ -193,13 +196,13 @@ function Table({ columns, data }) {
                                     ))}
                                 </thead>
                                 <tbody {...getTableBodyProps()} className="bg-white divide-y divide-gray-200">
-                                    {page.map((row, i) => {
+                                    {page.map((row, ) => {
                                         prepareRow(row);
                                         return (
                                             <tr {...row.getRowProps()}>
-                                                {row.cells.map((cell) => {
+                                                {row.cells.map((cell) => 
                                                     // console.log(cell);
-                                                    return (
+                                                     (
                                                         <td
                                                             {...cell.getCellProps()}
                                                             className="px-3 py-1 whitespace-nowrap"
@@ -213,8 +216,8 @@ function Table({ columns, data }) {
                                                                 cell.render('Cell')
                                                             )}
                                                         </td>
-                                                    );
-                                                })}
+                                                    )
+                                                )}
                                             </tr>
                                         );
                                     })}
@@ -240,9 +243,10 @@ function Table({ columns, data }) {
                             Page <span className="font-medium">{state.pageIndex + 1}</span> of{' '}
                             <span className="font-medium">{pageOptions.length}</span>
                         </span>
-                        <label>
+                        <label htmlFor="item-count-selector">
                             <span className="sr-only">Items Per Page</span>
                             <select
+                                id="item-count-selector"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 value={state.pageSize}
                                 onChange={(e) => {
