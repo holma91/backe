@@ -23,7 +23,6 @@ router.get('/pairs/:chain', async (req, res) => {
 
 router.get('/pairs/:chain/:dex', async (req, res) => {
     const { chain, dex } = req.params;
-    console.log('aghhhhhhhh');
 
     const pairs = await PairRepo.findByChainAndDex(chain, dex);
 

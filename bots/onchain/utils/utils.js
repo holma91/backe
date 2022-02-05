@@ -21,7 +21,8 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         displayPair(pairInfo);
         const { liquidity, liquidityUSD, newToken } = pairInfo;
-        let insertedPair = await addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
+        let response = await addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
+        console.log(response);
     } catch (e) {
         console.log(e);
     }
