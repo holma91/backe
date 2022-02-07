@@ -6,24 +6,40 @@ const getAndInsertPairs = async (account, factory, chain, dex, knownTokens) => {
 
     // get all pairs
     let promises = [];
-    for (let i = 2200; i < allPairsLength; i++) {
+    let pairs = [];
+    for (let i = 0; i < allPairsLength; i++) {
         promises.push(getPairMetadata(account, factory, i, chain, dex));
+        // make the calls in batches to prevent stack overflow
+        if (i % 500 === 0) {
+            let newPairs = await Promise.all(promises);
+            pairs = pairs.concat(newPairs);
+            promises = [];
+        }
     }
-    let pairs = await Promise.all(promises);
+    let newPairs = await Promise.all(promises);
+    pairs = pairs.concat(newPairs);
+
     pairs = pairs.filter((pair) => pair.address !== undefined);
 
     // get current liquidity for all pairs
     promises = [];
+    let pairsWithLiq = [];
     for (let i = 0; i < pairs.length; i++) {
         promises.push(getPairLiquidity(account, pairs[i], knownTokens));
+        if (i % 500 === 0) {
+            let newPairs = await Promise.all(promises);
+            pairsWithLiq = pairsWithLiq.concat(newPairs);
+            promises = [];
+        }
     }
-    pairs = await Promise.all(promises);
+    let newPairsWithLiq = await Promise.all(promises);
+    pairsWithLiq = pairsWithLiq.concat(newPairsWithLiq);
 
     // filter pairs on liquidity
-    pairs = pairs.filter((pair) => pair.liquidityUSD >= 100000);
+    let finalPairs = pairsWithLiq.filter((pair) => pair.liquidityUSD >= 100000);
 
     // pairs is now all pairs that we care about from sushi on eth
-    await insertPairsIntoDB(pairs);
+    await insertPairsIntoDB(finalPairs);
 };
 
 const insertPairsIntoDB = async (pairs) => {
@@ -47,12 +63,12 @@ const insertPairsIntoDB = async (pairs) => {
                 [
                     pair.chain,
                     pair.dex,
-                    pair.address,
-                    pair.token0.address,
+                    pair.address.toLowerCase(),
+                    pair.token0.address.toLowerCase(),
                     pair.token0.name,
                     pair.token0.symbol,
                     pair.token0.decimals,
-                    pair.token1.address,
+                    pair.token1.address.toLowerCase(),
                     pair.token1.name,
                     pair.token1.symbol,
                     pair.token1.decimals,
