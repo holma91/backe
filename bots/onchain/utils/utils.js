@@ -9,6 +9,8 @@ const uniV2Pair = [
     'event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)',
 ];
 
+const URL = process.env.environment === 'PROD' ? 'http://hassebacke.io' : 'http://localhost:3005';
+
 const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
     let token0 = await getTokenMetadata(token0Address, account);
     let token1 = await getTokenMetadata(token1Address, account);
@@ -19,10 +21,11 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
 
     try {
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
-        displayPair(pairInfo);
+        if (process.env.environment === 'DEV') {
+            displayPair(pairInfo);
+        }
         const { liquidity, liquidityUSD, newToken } = pairInfo;
-        let response = await addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
-        console.log(response);
+        addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
     } catch (e) {
         console.log(e);
     }
@@ -40,14 +43,11 @@ const addPair = async (chain, dex, pairAddress, token0, token1, liquidity, liqui
         newToken,
     };
 
-    const response = await fetch('http://localhost:3005/pairs', {
+    fetch(`${URL}/pairs`, {
         method: 'post',
         body: JSON.stringify(requestBody),
         headers: { 'Content-Type': 'application/json' },
     });
-
-    let res = await response.json();
-    return res;
 };
 
 const getTokenMetadata = async (tokenAddress, account) => {
@@ -138,16 +138,16 @@ const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
 
     try {
         if (knownAddresses.includes(token0.address.toLowerCase())) {
-            pairInfo.liquidity = parseFloat(token0.liq);
-            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token0.symbol]['inUSD'];
+            pairInfo.liquidity = parseInt(token0.liq);
+            pairInfo.liquidityUSD = parseInt(pairInfo.liquidity) * knownTokens[token0.symbol]['inUSD'];
             pairInfo.symbolOldToken = token0.symbol;
             pairInfo.addressNewToken = token1.address;
             pairInfo.symbolNewToken = token1.symbol;
             pairInfo.nameNewToken = token1.name;
             pairInfo.newToken = 'token1';
         } else if (knownAddresses.includes(token1.address.toLowerCase())) {
-            pairInfo.liquidity = parseFloat(token1.liq);
-            pairInfo.liquidityUSD = parseFloat(pairInfo.liquidity) * knownTokens[token1.symbol]['inUSD'];
+            pairInfo.liquidity = parseInt(token1.liq);
+            pairInfo.liquidityUSD = parseInt(pairInfo.liquidity) * knownTokens[token1.symbol]['inUSD'];
             pairInfo.symbolOldToken = token1.symbol;
             pairInfo.addressNewToken = token0.address;
             pairInfo.symbolNewToken = token0.symbol;

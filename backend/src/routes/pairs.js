@@ -35,6 +35,8 @@ router.post('/pairs', async (req, res) => {
         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
     }
 
+    console.log('pair:', req.body);
+
     sendNotifications(req.body);
 
     const pair = await PairRepo.add(req.body);
