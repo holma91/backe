@@ -23,10 +23,15 @@ const onPairCreated = async (provider, token0Address, token1Address, addressPair
     let token1 = await getTokenMetadata(token1Address, provider);
     console.timeEnd(`getTokenMetadata(${token1Address})`);
 
+    console.time(`getPairLiquidity(${addressPair})`);
+    const { liq0, liq1 } = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, provider);
+    console.timeEnd(`getPairLiquidity(${addressPair})`);
+    token0.liq = liq0;
+    token1.liq = liq1;
+
     console.timeEnd(`${addressPair}`);
 
-    console.log(token0);
-    console.log(token1);
+    console.log([token0, token1]);
 };
 
 const getTokenMetadata = async (tokenAddress, provider) => {
@@ -63,6 +68,47 @@ const getTokenMetadata = async (tokenAddress, provider) => {
     }
 
     return token;
+};
+
+const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, provider) => {
+    const pairContract = new ethers.Contract(
+        addressPair,
+        [
+            'function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)',
+        ],
+        provider
+    );
+
+    let success = false;
+    let count = 0;
+    let reserves;
+
+    while (!success) {
+        try {
+            count++;
+            reserves = await pairContract.getReserves();
+            success = true;
+        } catch (e) {
+            // try 15 times
+            console.log(e);
+            console.log(`sleeping at ${addressPair}`);
+            await sleep(1000);
+            if (count > 15) break;
+        }
+    }
+
+    let liq0 = 0;
+    let liq1 = 0;
+
+    try {
+        liq0 = ethers.utils.formatUnits(reserves['reserve0'], token0Decimals);
+        liq1 = ethers.utils.formatUnits(reserves['reserve1'], token1Decimals);
+    } catch (e) {
+        console.log(`could not find liquidity for tokens in the pair with address ${addressPair}`);
+        console.log(e);
+    }
+
+    return { liq0, liq1 };
 };
 
 factory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
