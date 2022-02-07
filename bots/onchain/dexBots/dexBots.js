@@ -9,16 +9,16 @@ import { uniswap, sushiswap } from './ethereum.js';
 
 let uniswapV2Dexes = [
     pancakeswap,
-    // trisolaris,
-    // wannaswap,
-    // spookyswap,
-    // fusefi,
-    // netswap,
-    // tethys,
-    // zipswap,
-    // traderjoe,
-    // pangolin,
-    // sushiswap,
+    trisolaris,
+    wannaswap,
+    spookyswap,
+    fusefi,
+    netswap,
+    tethys,
+    zipswap,
+    traderjoe,
+    pangolin,
+    sushiswap,
 ];
 
 let uniswapV3Dexes = [uniswap];

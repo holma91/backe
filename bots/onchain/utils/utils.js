@@ -13,17 +13,11 @@ const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.e
 
 const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
     console.time(`${addressPair}`);
-    console.time(`getTokenMetadata(${token0Address})`);
-    let token0 = await getTokenMetadata(token0Address, account);
-    console.timeEnd(`getTokenMetadata(${token0Address})`);
 
-    console.time(`getTokenMetadata(${token1Address})`);
-    let token1 = await getTokenMetadata(token1Address, account);
-    console.timeEnd(`getTokenMetadata(${token1Address})`);
+    let promises = [getTokenMetadata(token0Address, account), getTokenMetadata(token1Address, account)];
+    let [token0, token1] = await Promise.all(promises);
 
-    console.time(`getPairLiquidity(${addressPair})`);
     const { liq0, liq1 } = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, account);
-    console.timeEnd(`getPairLiquidity(${addressPair})`);
 
     token0.liq = liq0;
     token1.liq = liq1;
@@ -37,7 +31,7 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
         }
 
         const { liquidity, liquidityUSD, newToken } = pairInfo;
-        //addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
+        addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
     } catch (e) {
         console.log(e);
     }
@@ -80,9 +74,8 @@ const getTokenMetadata = async (tokenAddress, account) => {
         try {
             count++;
             let contract = new ethers.Contract(token.address, tokenInfoABI, account);
-            token.name = await contract.name();
-            token.symbol = await contract.symbol();
-            token.decimals = await contract.decimals();
+            let promises = [contract.name(), contract.symbol(), contract.decimals()];
+            [token.name, token.symbol, token.decimals] = await Promise.all(promises);
             token.deployerAddress = contract.address;
             success = true;
         } catch (e) {
