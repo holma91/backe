@@ -9,7 +9,7 @@ const uniV2Pair = [
     'event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)',
 ];
 
-const URL = process.env.environment === 'PROD' ? 'http://hassebacke.io' : 'http://localhost:3005';
+const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
 
 const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
     let token0 = await getTokenMetadata(token0Address, account);
