@@ -1,0 +1,8 @@
+api calls in onPairCreated
+
+WITHOUT OPTIMIZING
+local macbook pro:
+10 pairs: avg time is 5.6s
+
+digital ocean linux machine:
+10 pairs: avg time is 43s!!!!!!! WTF

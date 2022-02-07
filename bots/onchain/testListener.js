@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { getAccount } from './utils/utils.js';
+import { getAccount, onPairCreated } from './utils/utils.js';
 
 const addresses = {
     factory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
@@ -14,12 +14,6 @@ const factory = new ethers.Contract(
 );
 
 factory.on('PairCreated', async (token0, token1, addressPair) => {
-    console.log(`
-    ~~~~~~~~~~~~~~~~~~
-    New pair detected
-    ~~~~~~~~~~~~~~~~~~
-    token0: ${token0}
-    token1: ${token1}
-    addressPair: ${addressPair}
-    `);
+    console.log(`new pair: ${addressPair}`);
+    await onPairCreated(account, token0Address, token1Address, addressPair, 'BSC', 'pancakeswap', knownTokens);
 });

@@ -12,12 +12,23 @@ const uniV2Pair = [
 const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
 
 const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
+    console.time(`${addressPair}`);
+    console.time(`getTokenMetadata(${token0Address})`);
     let token0 = await getTokenMetadata(token0Address, account);
-    let token1 = await getTokenMetadata(token1Address, account);
+    console.timeEnd(`getTokenMetadata(${token0Address})`);
 
+    console.time(`getTokenMetadata(${token1Address})`);
+    let token1 = await getTokenMetadata(token1Address, account);
+    console.timeEnd(`getTokenMetadata(${token1Address})`);
+
+    console.time(`getPairLiquidity(${addressPair})`);
     const { liq0, liq1 } = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, account);
+    console.timeEnd(`getPairLiquidity(${addressPair})`);
+
     token0.liq = liq0;
     token1.liq = liq1;
+
+    console.timeEnd(`${addressPair}`);
 
     try {
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
@@ -26,7 +37,7 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
         }
 
         const { liquidity, liquidityUSD, newToken } = pairInfo;
-        addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
+        //addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
     } catch (e) {
         console.log(e);
     }
@@ -75,6 +86,8 @@ const getTokenMetadata = async (tokenAddress, account) => {
             token.deployerAddress = contract.address;
             success = true;
         } catch (e) {
+            console.log(e);
+            console.log(`sleeping at ${token.address}`);
             await sleep(1000);
             if (count > 10) break;
         }
