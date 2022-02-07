@@ -24,6 +24,7 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
         if (process.env.environment === 'DEV') {
             displayPair(pairInfo);
         }
+
         const { liquidity, liquidityUSD, newToken } = pairInfo;
         addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
     } catch (e) {
