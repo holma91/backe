@@ -2,7 +2,8 @@
 
 how to get price data:
 - via third party, e.g coingecko
-- via the pool directly (better)
+- via the pool directly (better?)
+- via the swap directly (even better)
 
 what info do I want to get out of this?
 - most bought/sold tokens during certain periods
