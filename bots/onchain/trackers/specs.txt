@@ -1,8 +1,0 @@
-start with eth and ftm
-
-
-- get every dex
-- get every pair at each dex
-- for every pair, check the liquidity
-    - if the liq is above a treshold, keep the pair
-- listen to every pair with decent liquidity

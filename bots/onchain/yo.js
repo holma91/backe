@@ -1,35 +1,15 @@
-// console.log(new Promise((resolve) => resolve(5)));
-// new Promise((resolve) => {
-//     setTimeout(resolve, 1000);
-// })
-//     .then(() => {
-//         console.log('first then is running');
-//     })
-//     .then(() => {
-//         console.log('second then is running');
-//     });
+import Big from 'big.js';
 
-function getUser(id) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, 2000); // Simulate slow network request
-    }).then(() => {
-        console.log('got user', id);
-        return 'user ' + id.toString();
-    });
-}
+// let x = new Big(9); // '9'
+// y = new Big(x); // '9'
+// new Big('5032485723458348569331745.33434346346912144534543');
+// new Big('4.321e+4'); // '43210'
+// new Big('-735.0918e-430'); // '-7.350918e-428'
+// Big(435.345); // '435.345'
+// new Big(); // 'Error: [big.js] Invalid value'
+// Big(); // No error, and a new Big constructor is returned
 
-// get users slowly
-// let users = await getUser(1).then((user1) => getUser(2).then((user2) => [user1, user2]));
-// console.log(users);
+let x = new Big(0.6553245345345345);
+let y = x.times(3.23452342424);
 
-// get users faster
-// const promise1 = getUser(1);
-// const promise2 = getUser(2);
-
-// let users = await promise1.then((user1) => promise2.then((user2) => [user1, user2]));
-// console.log(users);
-
-let funcs = [getUser(1), getUser(2), getUser(3), getUser(4)];
-console.log(funcs);
-let res = await Promise.all(funcs);
-console.log(res);
+console.log(y.toString());
