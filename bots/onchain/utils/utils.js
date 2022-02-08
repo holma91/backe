@@ -12,8 +12,6 @@ const uniV2Pair = [
 const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
 
 const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
-    console.time(`${addressPair}`);
-
     let promises = [getTokenMetadata(token0Address, account), getTokenMetadata(token1Address, account)];
     let [token0, token1] = await Promise.all(promises);
 
@@ -22,16 +20,14 @@ const onPairCreated = async (account, token0Address, token1Address, addressPair,
     token0.liq = liq0;
     token1.liq = liq1;
 
-    console.timeEnd(`${addressPair}`);
-
     try {
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
         if (process.env.environment === 'DEV') {
             displayPair(pairInfo);
+        } else {
+            const { liquidity, liquidityUSD, newToken } = pairInfo;
+            addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
         }
-
-        const { liquidity, liquidityUSD, newToken } = pairInfo;
-        addPair(chain, dex, addressPair, token0, token1, liquidity, liquidityUSD, newToken);
     } catch (e) {
         console.log(e);
     }
