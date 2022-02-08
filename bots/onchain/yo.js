@@ -1,15 +1,130 @@
+import ethers from 'ethers';
+import { getAccount, uniV2Pair } from '../utils/utils.js';
+import fetch from 'node-fetch';
 import Big from 'big.js';
 
-// let x = new Big(9); // '9'
-// y = new Big(x); // '9'
-// new Big('5032485723458348569331745.33434346346912144534543');
-// new Big('4.321e+4'); // '43210'
-// new Big('-735.0918e-430'); // '-7.350918e-428'
-// Big(435.345); // '435.345'
-// new Big(); // 'Error: [big.js] Invalid value'
-// Big(); // No error, and a new Big constructor is returned
+const stablecoins = {
+    '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
+        address: 'USDC',
+        usdValue: new Big(1.0),
+    },
+    '0xdac17f958d2ee523a2206206994597c13d831ec7': {
+        symbol: 'USDT',
+        usdValue: new Big(1.0),
+    },
+    '0x6b175474e89094c44da98b954eedeac495271d0f': {
+        symbol: 'DAI',
+        usdValue: new Big(1.0),
+    },
+};
 
-let x = new Big(0.6553245345345345);
-let y = x.times(3.23452342424);
+const WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
 
-console.log(y.toString());
+const stablecoinAddresses = Object.keys(stablecoins);
+
+const getPrice = async (token) => {
+    let price = 0;
+    try {
+        switch (token) {
+            case 'WETH':
+                let response = await fetch(
+                    'https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&vs_currencies=usd'
+                );
+                let data = await response.json();
+                price = data[WETH]['usd'];
+                break;
+        }
+    } catch (e) {
+        console.log(`problem with ${token}`);
+        console.log(e);
+    }
+    return price;
+};
+
+const isSenderInteresting = async (sender) => {
+    const response = await fetch(`http://localhost:3005/accounts/${sender}/`);
+    return response.status !== 404;
+};
+
+const setUpPair = (pair, account) => {
+    const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, account);
+
+    pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
+        // check if sender is an address of interest
+        sender = sender.toLowerCase();
+        // if (!isSenderInteresting(sender)) {
+        //     console.log(`${sender} is not of interest`);
+        //     return;
+        // }
+
+        let swap = {
+            pair: pair.pairAddress,
+            chain: 'ETH',
+            sender,
+            token0: {
+                symbol: pair.token0Symbol,
+                address: pair.token0Address,
+                in: ethers.utils.formatUnits(amount0In, pair.token0Decimals),
+                out: ethers.utils.formatUnits(amount0Out, pair.token0Decimals),
+                priceUSD: new Big(0),
+            },
+            token1: {
+                symbol: pair.token1Symbol,
+                address: pair.token1Address,
+                in: ethers.utils.formatUnits(amount1In, pair.token1Decimals),
+                out: ethers.utils.formatUnits(amount1Out, pair.token1Decimals),
+                priceUSD: new Big(0),
+            },
+        };
+
+        // check if WETH or stables are involved
+        if (pair.token0Address === WETH) {
+            swap.token0.priceUSD = new Big(await getPrice('WETH'));
+        } else if (stablecoinAddresses.includes(pair.token0Address)) {
+            swap.token0.priceUSD = new Big(1);
+        }
+
+        if (pair.token1Address === WETH) {
+            swap.token1.priceUSD = new Big(await getPrice('WETH'));
+        } else if (stablecoinAddresses.includes(pair.token1Address)) {
+            swap.token1.priceUSD = new Big(1);
+        }
+
+        console.log(swap);
+
+        if (swap.token0.in !== '0.0') {
+            // token0in, token1out
+            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.in).div(swap.token1.out);
+        } else if (swap.token0.out !== '0.0') {
+            // token0out, token1in
+            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.out).div(swap.token1.in);
+        }
+
+        if (swap.token1.in !== '0.0') {
+            // token1in, token0out
+            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.in).div(swap.token0.out);
+        } else if (swap.token1.out !== '0.0') {
+            // token1out, token0in
+            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.out).div(swap.token0.in);
+        }
+
+        swap.token0.priceUSD = swap.token1.priceUSD.toString();
+        swap.token1.priceUSD = swap.token1.priceUSD.toString();
+
+        // are sender and/or to interesting?
+        console.log(swap);
+    });
+};
+
+const main = async () => {
+    const response = await fetch('http://localhost:3005/pairs/eth/');
+    let pairs = await response.json();
+
+    const account = getAccount('http', 'ETH');
+
+    for (const pair of pairs) {
+        setUpPair(pair, account);
+    }
+};
+
+await main();
