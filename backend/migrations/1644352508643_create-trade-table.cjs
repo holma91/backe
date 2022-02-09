@@ -11,6 +11,7 @@ exports.up = (pgm) => {
             sender_address varchar(42) references account(address),
             pair_address varchar(42),
             token_address varchar(42),
+            token_symbol varchar,
             token_price numeric,
             amount numeric,
             on_coingecko boolean,

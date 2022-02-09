@@ -2,6 +2,7 @@ import express from 'express';
 import accountsRouter from './routes/accounts.js';
 import pairsRouter from './routes/pairs.js';
 import tokensRouter from './routes/tokens.js';
+import tradesRouter from './routes/trades.js';
 
 const app = () => {
     const app = express();
@@ -10,6 +11,7 @@ const app = () => {
     app.use(accountsRouter);
     app.use(tokensRouter);
     app.use(pairsRouter);
+    app.use(tradesRouter);
 
     return app;
 };

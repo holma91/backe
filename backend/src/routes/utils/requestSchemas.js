@@ -31,6 +31,39 @@ const schemas = {
         },
         minProperties: 7,
     },
+    trade: {
+        type: 'object',
+        properties: {
+            chain: { type: 'string' },
+            pairAddress: { type: 'string' },
+            senderAddress: { type: 'string' },
+            token0: {
+                type: { type: 'object' },
+                properties: {
+                    symbol: { type: 'string' },
+                    address: { type: 'string' },
+                    order: { type: 'string' },
+                    amount: { type: 'string' },
+                    priceUSD: { type: 'string' },
+                    onCoingecko: { type: 'boolean' },
+                },
+                minProperties: 6,
+            },
+            token1: {
+                type: { type: 'object' },
+                properties: {
+                    symbol: { type: 'string' },
+                    address: { type: 'string' },
+                    order: { type: 'string' },
+                    amount: { type: 'string' },
+                    priceUSD: { type: 'string' },
+                    onCoingecko: { type: 'boolean' },
+                },
+                minProperties: 6,
+            },
+        },
+        minProperties: 5,
+    },
 };
 
 export default schemas;

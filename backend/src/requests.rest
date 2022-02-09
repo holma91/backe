@@ -16,26 +16,7 @@ Content-Type: application/json
 }
 
 ### 
-POST http://localhost:3005/test
+POST http://localhost:3005/trades
 Content-Type: application/json
 
-{
-    "chain": "string",
-    "dex": "string",
-    "address": "string",
-    "token0": {
-        "address": "string",
-        "name": "string",
-        "symbol": "string",
-        "decimals": "string"
-    },
-    "token1": {
-        "address": "string",
-        "name": "string",
-        "symbol": "string",
-        "decimals": "string"
-    },
-    "liquidity": 10,
-    "liquidityUSD": 15,
-    "newToken": "string"
-}
+{"chain":"ETH","pairAddress":"0x06da0fd433c1a5d7a4faa01111c044910a184553","senderAddress":"0xdbabb30a1d1e7e48d65465efac4a6335b6d53fd5","token0":{"symbol":"WETH","address":"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2","order":"buy","amount":"0.139529","priceUSD":"3223.78","onCoingecko":true},"token1":{"symbol":"USDT","address":"0xdac17f958d2ee523a2206206994597c13d831ec7","order":"sell","amount":"451.729","priceUSD":"0.995750","onCoingecko":true}}

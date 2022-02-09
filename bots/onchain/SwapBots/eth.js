@@ -82,12 +82,6 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
     amount1In = ethers.utils.formatUnits(amount1In, pair.token1Decimals);
     amount1Out = ethers.utils.formatUnits(amount1Out, pair.token1Decimals);
 
-    sender = sender.toLowerCase();
-    // if (!isSenderInteresting(sender)) {
-    //     console.log(`${sender} is not of interest`);
-    //     return;
-    // }
-
     let swap = {
         chain: 'ETH',
         pairAddress: pair.pairAddress,
@@ -121,18 +115,23 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
             swap.token0.amount = amount0In;
             swap.token1.order = 'buy';
             swap.token1.amount = amount1Out;
-            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.amount).div(swap.token1.amount).toString();
+            swap.token1.priceUSD = swap.token0.priceUSD
+                .times(swap.token0.amount)
+                .div(swap.token1.amount)
+                .toPrecision(6);
         } else if (amount0Out !== '0.0') {
             // token0out, token1in
             swap.token0.order = 'buy';
             swap.token0.amount = amount0Out;
             swap.token1.order = 'sell';
             swap.token1.amount = amount1In;
-            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.amount).div(swap.token1.amount).toString();
+            swap.token1.priceUSD = swap.token0.priceUSD
+                .times(swap.token0.amount)
+                .div(swap.token1.amount)
+                .toPrecision(6);
         }
 
-        // swap.token0.amount = parseFloat(swap.token0.amount)
-        swap.token0.priceUSD = swap.token0.priceUSD.toString();
+        swap.token0.priceUSD = swap.token0.priceUSD.toPrecision(6);
         swap.token0.onCoingecko = true;
         swap.token1.onCoingecko = await existsOnCoingecko('ETH', swap.token1.address);
     } else if (pair.token1Address === WETH || stablecoinAddresses.includes(pair.token1Address)) {
@@ -144,36 +143,53 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
             swap.token0.amount = amount0Out;
             swap.token1.order = 'sell';
             swap.token1.amount = amount1In;
-            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.amount).div(swap.token0.amount).toString();
+            swap.token0.priceUSD = swap.token1.priceUSD
+                .times(swap.token1.amount)
+                .div(swap.token0.amount)
+                .toPrecision(6);
         } else if (amount1Out !== '0.0') {
             // token1out, token0in
             swap.token0.order = 'sell';
             swap.token0.amount = amount0In;
             swap.token1.order = 'buy';
             swap.token1.amount = amount1Out;
-            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.amount).div(swap.token0.amount).toString();
+            swap.token0.priceUSD = swap.token1.priceUSD
+                .times(swap.token1.amount)
+                .div(swap.token0.amount)
+                .toPrecision(6);
         }
-        swap.token1.priceUSD = swap.token1.priceUSD.toString();
+        swap.token1.priceUSD = swap.token1.priceUSD.toPrecision(6);
         swap.token1.onCoingecko = true;
         swap.token0.onCoingecko = await existsOnCoingecko('ETH', swap.token0.address);
     }
 
+    swap.token0.amount = new Big(swap.token0.amount).toPrecision(6);
+    swap.token1.amount = new Big(swap.token1.amount).toPrecision(6);
+
     console.log(swap);
 
-    // set up api routes
-    // save to db and stuff
-
-    // fetch(`${URL}/trades`, {
-    //     method: 'post',
-    //     body: JSON.stringify(swap),
-    //     headers: { 'Content-Type': 'application/json' },
-    // });
+    fetch(`${URL}/trades`, {
+        method: 'post',
+        body: JSON.stringify(swap),
+        headers: { 'Content-Type': 'application/json' },
+    });
 };
+
+const cachedBoringAddresses = new Set();
 
 const setUpPair = (pair, account) => {
     const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, account);
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
+        sender = sender.toLowerCase();
+        if (cachedBoringAddresses.has(sender)) return;
+
+        if (!(await isSenderInteresting(sender))) {
+            console.log(`${sender} is not of interest`);
+            cachedBoringAddresses.add(sender);
+            return;
+        }
+
         await onNewSwap(pair, sender, amount0In, amount1In, amount0Out, amount1Out, to);
     });
 };
