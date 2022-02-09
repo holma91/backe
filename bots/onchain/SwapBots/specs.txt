@@ -1,10 +1,11 @@
+RULES FOR SELECTING LIQUIDITY PAIRS
+1:
+    - over 100k liq
+    OR
+    - over 10k liq AND created in the last 30days
+    OR
+    created in the last 5 days
 
-
-how to get price data:
-- via third party, e.g coingecko
-- via the pool directly (better?)
-- via the swap directly (even better)
-
-what info do I want to get out of this?
-- most bought/sold tokens during certain periods
-- 
+    APPLIES TO:
+    - all ethereum dexes (mainnet and on rollups)
+    

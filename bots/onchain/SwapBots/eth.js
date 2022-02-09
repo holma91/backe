@@ -45,6 +45,29 @@ const getPrice = async (token) => {
     return price;
 };
 
+const existsOnCoingecko = async (chain, address) => {
+    let network;
+
+    switch (chain) {
+        case 'ETH':
+            network = 'ethereum';
+            break;
+        default:
+            break;
+    }
+
+    try {
+        let response = await fetch(
+            `https://api.coingecko.com/api/v3/simple/token_price/${network}?contract_addresses=${address}&vs_currencies=usd`
+        );
+        let data = await response.json();
+
+        return data[address] !== undefined;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 const isSenderInteresting = async (sender) => {
     const response = await fetch(`http://localhost:3005/accounts/${sender}/`);
     return response.status !== 404;
@@ -70,6 +93,7 @@ const setUpPair = (pair, account) => {
                 in: ethers.utils.formatUnits(amount0In, pair.token0Decimals),
                 out: ethers.utils.formatUnits(amount0Out, pair.token0Decimals),
                 priceUSD: 0,
+                onCoingecko: false,
             },
             token1: {
                 symbol: pair.token1Symbol,
@@ -77,6 +101,7 @@ const setUpPair = (pair, account) => {
                 in: ethers.utils.formatUnits(amount1In, pair.token1Decimals),
                 out: ethers.utils.formatUnits(amount1Out, pair.token1Decimals),
                 priceUSD: 0,
+                onCoingecko: false,
             },
         };
 
@@ -91,6 +116,8 @@ const setUpPair = (pair, account) => {
                 swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.out).div(swap.token1.in).toFixed(6);
             }
             swap.token0.priceUSD = swap.token0.priceUSD.toFixed(6);
+            swap.token0.onCoingecko = true;
+            swap.token1.onCoingecko = await existsOnCoingecko('ETH', swap.token1.address);
         } else if (pair.token1Address === WETH || stablecoinAddresses.includes(pair.token1Address)) {
             swap.token1.priceUSD = pair.token1Address === WETH ? new Big(await getPrice('WETH')) : new Big(1);
 
@@ -102,10 +129,14 @@ const setUpPair = (pair, account) => {
                 swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.out).div(swap.token0.in).toFixed(6);
             }
             swap.token1.priceUSD = swap.token1.priceUSD.toFixed(6);
+            swap.token1.onCoingecko = true;
+            swap.token0.onCoingecko = await existsOnCoingecko('ETH', swap.token0.address);
         }
 
-        // are sender and/or to interesting?
         console.log(swap);
+
+        // set up api routes
+        // save to db and stuff
     });
 };
 
