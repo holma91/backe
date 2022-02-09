@@ -77,59 +77,62 @@ const isSenderInteresting = async (sender) => {
 };
 
 const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
+    amount0In = ethers.utils.formatUnits(amount0In, pair.token0Decimals);
+    amount0Out = ethers.utils.formatUnits(amount0Out, pair.token0Decimals);
+    amount1In = ethers.utils.formatUnits(amount1In, pair.token1Decimals);
+    amount1Out = ethers.utils.formatUnits(amount1Out, pair.token1Decimals);
+
     sender = sender.toLowerCase();
     // if (!isSenderInteresting(sender)) {
     //     console.log(`${sender} is not of interest`);
     //     return;
     // }
 
-    amount0In = ethers.utils.formatUnits(amount0In, pair.token0Decimals);
-    amount0Out = ethers.utils.formatUnits(amount0Out, pair.token0Decimals);
-    amount1In = ethers.utils.formatUnits(amount1In, pair.token1Decimals);
-    amount1Out = ethers.utils.formatUnits(amount1Out, pair.token1Decimals);
-
     let swap = {
-        pairAddress: pair.pairAddress,
         chain: 'ETH',
-        sender,
+        pairAddress: pair.pairAddress,
+        senderAddress: sender,
         token0: {
             symbol: pair.token0Symbol,
             address: pair.token0Address,
+            order: '',
             amount: 0,
             priceUSD: 0,
             onCoingecko: false,
-            order: '',
         },
         token1: {
             symbol: pair.token1Symbol,
             address: pair.token1Address,
+            order: '',
             amount: 0,
             priceUSD: 0,
             onCoingecko: false,
-            order: '',
         },
     };
+
+    // everything is from the pool's perspective, so selling and buying need to be reversed for the user
 
     if (pair.token0Address === WETH || stablecoinAddresses.includes(pair.token0Address)) {
         swap.token0.priceUSD = pair.token0Address === WETH ? new Big(await getPrice('WETH')) : new Big(1);
 
         if (amount0In !== '0.0') {
             // token0in, token1out
-            swap.token0.order = 'buy';
+            swap.token0.order = 'sell';
             swap.token0.amount = amount0In;
-            swap.token1.order = 'sell';
+            swap.token1.order = 'buy';
             swap.token1.amount = amount1Out;
-            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.amount).div(swap.token1.amount).toFixed(6);
+            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.amount).div(swap.token1.amount).toString();
         } else if (amount0Out !== '0.0') {
             // token0out, token1in
-            swap.token0.order = 'sell';
+            swap.token0.order = 'buy';
             swap.token0.amount = amount0Out;
-            swap.token1.order = 'buy';
+            swap.token1.order = 'sell';
             swap.token1.amount = amount1In;
-            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.amount).div(swap.token1.amount).toFixed(6);
+            swap.token1.priceUSD = swap.token0.priceUSD.times(swap.token0.amount).div(swap.token1.amount).toString();
         }
 
-        swap.token0.priceUSD = swap.token0.priceUSD.toFixed(6);
+        // swap.token0.amount = parseFloat(swap.token0.amount)
+        swap.token0.priceUSD = swap.token0.priceUSD.toString();
         swap.token0.onCoingecko = true;
         swap.token1.onCoingecko = await existsOnCoingecko('ETH', swap.token1.address);
     } else if (pair.token1Address === WETH || stablecoinAddresses.includes(pair.token1Address)) {
@@ -137,20 +140,20 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
 
         if (amount1In !== '0.0') {
             // token1in, token0out
-            swap.token0.order = 'sell';
+            swap.token0.order = 'buy';
             swap.token0.amount = amount0Out;
-            swap.token1.order = 'buy';
+            swap.token1.order = 'sell';
             swap.token1.amount = amount1In;
-            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.amount).div(swap.token0.amount).toFixed(6);
+            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.amount).div(swap.token0.amount).toString();
         } else if (amount1Out !== '0.0') {
             // token1out, token0in
-            swap.token0.order = 'buy';
+            swap.token0.order = 'sell';
             swap.token0.amount = amount0In;
-            swap.token1.order = 'sell';
+            swap.token1.order = 'buy';
             swap.token1.amount = amount1Out;
-            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.amount).div(swap.token0.amount).toFixed(6);
+            swap.token0.priceUSD = swap.token1.priceUSD.times(swap.token1.amount).div(swap.token0.amount).toString();
         }
-        swap.token1.priceUSD = swap.token1.priceUSD.toFixed(6);
+        swap.token1.priceUSD = swap.token1.priceUSD.toString();
         swap.token1.onCoingecko = true;
         swap.token0.onCoingecko = await existsOnCoingecko('ETH', swap.token0.address);
     }
@@ -160,7 +163,7 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
     // set up api routes
     // save to db and stuff
 
-    // fetch(`${URL}/pairs`, {
+    // fetch(`${URL}/trades`, {
     //     method: 'post',
     //     body: JSON.stringify(swap),
     //     headers: { 'Content-Type': 'application/json' },
