@@ -2,7 +2,8 @@ import ethers from 'ethers';
 import { getAccount, uniV2Factory, uniV3Factory } from '../utils/utils.js';
 
 const addresses = {
-    uniswapFactory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+    uniswapV3Factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+    uniswapV2Factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
     sushiswapFactory: '0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac',
 };
 
@@ -27,11 +28,19 @@ const knownTokens = {
 
 const account = getAccount('http', 'ETH');
 
-const uniswap = {
-    factory: new ethers.Contract(addresses.uniswapFactory, uniV3Factory, account),
+const uniswapV3 = {
+    factory: new ethers.Contract(addresses.uniswapV3Factory, uniV3Factory, account),
     account: account,
     knownTokens: knownTokens,
-    dexName: 'uniswap',
+    dexName: 'uniswapV3',
+    chainName: 'ETH',
+};
+
+const uniswapV2 = {
+    factory: new ethers.Contract(addresses.uniswapV2Factory, uniV2Factory, account),
+    account: account,
+    knownTokens: knownTokens,
+    dexName: 'uniswapV2',
     chainName: 'ETH',
 };
 
@@ -43,4 +52,4 @@ const sushiswap = {
     chainName: 'ETH',
 };
 
-export { uniswap, sushiswap };
+export { uniswapV2, uniswapV3, sushiswap };
