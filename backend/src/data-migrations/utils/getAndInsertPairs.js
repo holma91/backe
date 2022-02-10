@@ -5,20 +5,35 @@ import pool from '../../pool.js';
 const getAndInsertPairs = async (account, factory, chain, dex, knownTokens, liqTreshold) => {
     const allPairsLength = (await factory.allPairsLength()).toNumber();
 
+    console.log(allPairsLength);
+
     // get all pairs
     let promises = [];
     let pairs = [];
     for (let i = 0; i < allPairsLength; i++) {
-        promises.push(getPairMetadata(account, factory, i, chain, dex));
-        // make the calls in batches to prevent stack overflow
-        if (i % 500 === 0) {
-            let newPairs = await Promise.all(promises);
-            pairs = pairs.concat(newPairs);
-            promises = [];
+        try {
+            promises.push(getPairMetadata(account, factory, i, chain, dex));
+            // make the calls in batches to prevent stack overflow
+            if (i % 500 === 0) {
+                let newPairs = await Promise.all(promises);
+                pairs = pairs.concat(newPairs);
+                promises = [];
+                // sleep to minimize chance of getting rate limited
+                sleep(10000);
+            }
+        } catch (e) {
+            console.log(`error with getting metadata at i = ${i}`);
+            console.log(e);
+            sleep(30000);
         }
     }
-    let newPairs = await Promise.all(promises);
-    pairs = pairs.concat(newPairs);
+    try {
+        let newPairs = await Promise.all(promises);
+        pairs = pairs.concat(newPairs);
+    } catch (e) {
+        console.log('error at metadata after the loop');
+        console.log(e);
+    }
 
     pairs = pairs.filter((pair) => pair.address !== undefined);
 
@@ -26,17 +41,28 @@ const getAndInsertPairs = async (account, factory, chain, dex, knownTokens, liqT
     promises = [];
     let pairsWithLiq = [];
     for (let i = 0; i < pairs.length; i++) {
-        promises.push(getPairLiquidity(account, pairs[i], knownTokens));
-        if (i % 500 === 0) {
-            let newPairs = await Promise.all(promises);
-            pairsWithLiq = pairsWithLiq.concat(newPairs);
-            promises = [];
-            // sleep to minimize chance of getting rate limited
-            sleep(10000);
+        try {
+            promises.push(getPairLiquidity(account, pairs[i], knownTokens));
+            if (i % 500 === 0) {
+                let newPairs = await Promise.all(promises);
+                pairsWithLiq = pairsWithLiq.concat(newPairs);
+                promises = [];
+                // sleep to minimize chance of getting rate limited
+                sleep(10000);
+            }
+        } catch (e) {
+            console.log(`error with liq at i = ${i}`);
+            console.log(e);
+            sleep(30000);
         }
     }
-    let newPairsWithLiq = await Promise.all(promises);
-    pairsWithLiq = pairsWithLiq.concat(newPairsWithLiq);
+    try {
+        let newPairsWithLiq = await Promise.all(promises);
+        pairsWithLiq = pairsWithLiq.concat(newPairsWithLiq);
+    } catch (e) {
+        console.log('error at liq after the loop');
+        console.log(e);
+    }
 
     // filter pairs on liquidity
     let finalPairs = pairsWithLiq.filter((pair) => pair.liquidityUSD >= liqTreshold);
@@ -79,6 +105,7 @@ const insertPairsIntoDB = async (pairs) => {
                 ]
             );
         } catch (e) {
+            console.log(`cant insert pair: ${pair}`);
             console.log(e);
         }
     }

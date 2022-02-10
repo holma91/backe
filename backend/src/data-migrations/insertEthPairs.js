@@ -5,6 +5,7 @@ import { getAccount, factoryABI } from './utils/utils.js';
 const main = async () => {
     const addresses = {
         sushiswapFactory: '0xc0aee478e3658e2610c5f7a4a2e1777ce9e4f2ac',
+        uniswapV2Factory: '0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f',
     };
 
     const knownTokens = {
@@ -28,10 +29,11 @@ const main = async () => {
 
     const account = getAccount('http', 'ETH');
 
-    const sushiswapFactory = new ethers.Contract(addresses.sushiswapFactory, factoryABI, account);
+    // const sushiswapFactory = new ethers.Contract(addresses.sushiswapFactory, factoryABI, account);
+    // await getAndInsertPairs(account, sushiswapFactory, 'ETH', 'sushiswap', knownTokens, 100000);
 
-    await getAndInsertPairs(account, sushiswapFactory, 'ETH', 'sushiswap', knownTokens, 100000);
-    // await getAndInsertPairs(account, sushiswapFactory, 'ETH', 'uniswapv2', knownTokens, 100000);
+    const uniswapV2Factory = new ethers.Contract(addresses.uniswapV2Factory, factoryABI, account);
+    await getAndInsertPairs(account, uniswapV2Factory, 'ETH', 'uniswapv2', knownTokens, 100000);
 };
 
 await main();
