@@ -23,6 +23,6 @@ let uniswapV2Dexes = [
     sushiswapARBITRUM,
 ];
 
-let uniswapV3Dexes = [uniswap, uniswapARBITRUM];
+let uniswapV3Dexes = []; // [uniswap, uniswapARBITRUM];
 
 export { uniswapV2Dexes, uniswapV3Dexes };
