@@ -16,6 +16,6 @@ def get_bridges():
 
 
 def get_accounts():
-    with open('./dump_data/addresses.json', 'r') as f:
+    with open('./dump_data/eth_addresses.json', 'r') as f:
         data = f.read()
     return json.loads(data)

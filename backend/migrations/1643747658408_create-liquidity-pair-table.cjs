@@ -18,6 +18,7 @@ exports.up = (pgm) => {
             token1_symbol varchar,
             token1_decimals varchar,
             liquidity_usd numeric,
+            created_at timestamp,
             updated_at timestamp,
             unique(chain, pair_address)
         );

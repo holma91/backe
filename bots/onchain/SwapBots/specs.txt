@@ -1,11 +1,22 @@
-RULES FOR SELECTING LIQUIDITY PAIRS
-1:
-    - over 100k liq
-    OR
-    - over 10k liq AND created in the last 30days
-    OR
-    created in the last 5 days
+RULES FOR SELECTING OLD LIQUIDITY PAIRS
+ethereum (mainnet)
+- over 100k liq
+- only care about the last 10k pairs on univ2
 
-    APPLIES TO:
-    - all ethereum dexes (mainnet and on rollups)
+optimism
+- over 10k liq
+
+metis
+- over 10k liq
+
+
+
+
+RULES FOR SELECTING NEW LIQUIDITY PAIRS
+all ethereum dexes (mainnet)
+- over 10k liq
+
+
+
+
     

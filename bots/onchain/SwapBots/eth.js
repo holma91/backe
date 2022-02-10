@@ -166,7 +166,7 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
     swap.token0.amount = new Big(swap.token0.amount).toPrecision(6);
     swap.token1.amount = new Big(swap.token1.amount).toPrecision(6);
 
-    console.log(swap);
+    // console.log(swap);
 
     fetch(`${URL}/trades`, {
         method: 'post',

@@ -6,8 +6,7 @@ exports.up = (pgm) => {
     pgm.sql(`
       create table account (
         id serial primary key,
-        address varchar(42) not null unique,
-        account_type varchar not null
+        address varchar(42) not null unique
       );
     `);
 };

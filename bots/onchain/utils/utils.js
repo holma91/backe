@@ -175,9 +175,9 @@ const displayPair = (pairInfo) => {
     const FgYellow = '\x1b[33m';
 
     let color = '';
-    if (pairInfo.liquidityUSD >= 5000.0) {
+    if (pairInfo.liquidityUSD >= 10000.0) {
         color = FgGreen;
-    } else if (pairInfo.liquidityUSD >= 1000.0) {
+    } else if (pairInfo.liquidityUSD >= 5000.0) {
         color = FgYellow;
     } else {
         color = FgRed;
