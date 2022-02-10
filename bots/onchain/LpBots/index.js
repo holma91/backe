@@ -6,6 +6,7 @@ import { netswap, tethys } from './metis.js';
 import { zipswap } from './optimism.js';
 import { traderjoe, pangolin } from './avalanche.js';
 import { uniswap, sushiswap } from './ethereum.js';
+import { uniswapARBITRUM, sushiswapARBITRUM } from './arbitrum.js';
 
 let uniswapV2Dexes = [
     pancakeswap,
@@ -19,8 +20,9 @@ let uniswapV2Dexes = [
     traderjoe,
     pangolin,
     sushiswap,
+    sushiswapARBITRUM,
 ];
 
-let uniswapV3Dexes = [uniswap];
+let uniswapV3Dexes = [uniswap, uniswapARBITRUM];
 
 export { uniswapV2Dexes, uniswapV3Dexes };

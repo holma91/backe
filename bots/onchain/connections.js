@@ -131,6 +131,22 @@ const connections = {
             },
         },
     },
+    ARBITRUM: {
+        http: process.env.arbitrum_http,
+        img: 'https://assets.trustwalletapp.com/blockchains/arbitrum/info/logo.png',
+        explorer: {
+            url: 'https://arbiscan.io',
+            apikey: '',
+        },
+        webhooks: {
+            newPair: process.env.arbitrum_newpairhook,
+        },
+        dexes: {
+            uniswap: {
+                url: 'https://app.uniswap.org/#/swap?chain=arbitrum',
+            },
+        },
+    },
     AVAX: {
         http: process.env.avax_http,
         ws: process.env.avax_ws,
