@@ -22,15 +22,15 @@ const knownTokens = {
     },
     AURORA: {
         address: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79',
-        inUSD: 14,
+        inUSD: 12,
     },
     TRI: {
         address: '0xFa94348467f64D5A457F75F8bc40495D33c65aBB',
-        inUSD: 1.1,
+        inUSD: 0.85,
     },
     WETH: {
         address: '0xC9BdeEd33CD01541e1eeD10f90519d2C06Fe3feB',
-        inUSD: 2500,
+        inUSD: 3200,
     },
 };
 

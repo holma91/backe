@@ -9,7 +9,7 @@ const addresses = {
 const knownTokens = {
     WETH: {
         address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-        inUSD: 2500,
+        inUSD: 3200,
     },
     USDC: {
         address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',

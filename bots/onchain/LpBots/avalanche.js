@@ -9,7 +9,7 @@ const addresses = {
 const knownTokens = {
     WAVAX: {
         address: '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7',
-        inUSD: 65,
+        inUSD: 86,
     },
     USDC: {
         address: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',

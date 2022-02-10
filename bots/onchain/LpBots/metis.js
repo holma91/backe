@@ -7,8 +7,8 @@ const addresses = {
 };
 
 const knownTokens = {
-    METIS: { address: '0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000', inUSD: 170 },
-    WETH: { address: '0x420000000000000000000000000000000000000A', inUSD: 2500 },
+    METIS: { address: '0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000', inUSD: 150 },
+    WETH: { address: '0x420000000000000000000000000000000000000A', inUSD: 3200 },
     mUSDC: { address: '0xEA32A96608495e54156Ae48931A7c20f0dcc1a21', inUSD: 1.0 },
     mUSDT: { address: '0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC', inUSD: 1.0 },
 };

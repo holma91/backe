@@ -6,8 +6,8 @@ const addresses = {
 };
 
 const knownTokens = {
-    FUSE: { address: '0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d', inUSD: 1.1 },
-    WFUSE: { address: '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', inUSD: 1.1 },
+    FUSE: { address: '0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d', inUSD: 0.7 },
+    WFUSE: { address: '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629', inUSD: 0.7 },
     FUSD: { address: '0x249BE57637D8B013Ad64785404b24aeBaE9B098B', inUSD: 1.0 },
     BUSD: { address: '0x6a5F6A8121592BeCd6747a38d67451B310F7f156', inUSD: 1.0 },
     USDC: { address: '0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5', inUSD: 1.0 },
