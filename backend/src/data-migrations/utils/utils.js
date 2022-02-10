@@ -7,6 +7,10 @@ const factoryABI = [
     'function allPairsLength() external view returns (uint)',
 ];
 
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const getAccount = (connectionType, chain) => {
     let provider;
     if (connectionType === 'ws') {
@@ -18,4 +22,4 @@ const getAccount = (connectionType, chain) => {
     return wallet.connect(provider);
 };
 
-export { getAccount, factoryABI };
+export { getAccount, factoryABI, sleep };

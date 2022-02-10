@@ -1,7 +1,8 @@
 import ethers from 'ethers';
+import { sleep } from './utils.js';
 import pool from '../../pool.js';
 
-const getAndInsertPairs = async (account, factory, chain, dex, knownTokens) => {
+const getAndInsertPairs = async (account, factory, chain, dex, knownTokens, liqTreshold) => {
     const allPairsLength = (await factory.allPairsLength()).toNumber();
 
     // get all pairs
@@ -30,13 +31,15 @@ const getAndInsertPairs = async (account, factory, chain, dex, knownTokens) => {
             let newPairs = await Promise.all(promises);
             pairsWithLiq = pairsWithLiq.concat(newPairs);
             promises = [];
+            // sleep to minimize chance of getting rate limited
+            sleep(10000);
         }
     }
     let newPairsWithLiq = await Promise.all(promises);
     pairsWithLiq = pairsWithLiq.concat(newPairsWithLiq);
 
     // filter pairs on liquidity
-    let finalPairs = pairsWithLiq.filter((pair) => pair.liquidityUSD >= 100000);
+    let finalPairs = pairsWithLiq.filter((pair) => pair.liquidityUSD >= liqTreshold);
 
     // pairs is now all pairs that we care about from sushi on eth
     await insertPairsIntoDB(finalPairs);
@@ -57,8 +60,8 @@ const insertPairsIntoDB = async (pairs) => {
                 `insert into liquidity_pair 
                     (chain, dex, pair_address, token0_address, token0_name, token0_symbol, 
                     token0_decimals, token1_address, token1_name, token1_symbol, token1_decimals, 
-                    liquidity_usd, updated_at)
-                values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, now() at time zone 'utc') returning *;
+                    liquidity_usd, created_at, updated_at)
+                values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, null, now() at time zone 'utc') returning *;
                     `,
                 [
                     pair.chain,
@@ -83,7 +86,7 @@ const insertPairsIntoDB = async (pairs) => {
 };
 
 const getPairLiquidity = async (account, pair, knownTokens) => {
-    let knownAddresses = Object.values(knownTokens).map((token) => token.address.toLowerCase());
+    let knownAddresses = Object.keys(knownTokens).map((address) => address.toLowerCase());
     const pairABI = [
         'function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)',
     ];
@@ -104,9 +107,14 @@ const getPairLiquidity = async (account, pair, knownTokens) => {
     pair.liquidityUSD = 0;
 
     if (knownAddresses.includes(pair.token0.address.toLowerCase())) {
-        pair.liquidityUSD = parseInt(pair.token0.liq) * knownTokens[pair.token0.symbol]['inUSD'];
+        try {
+            pair.liquidityUSD = parseInt(pair.token0.liq) * knownTokens[pair.token0.address]['inUSD'];
+        } catch (e) {
+            console.log(pair.token0);
+            console.log(e);
+        }
     } else if (knownAddresses.includes(pair.token1.address.toLowerCase())) {
-        pair.liquidityUSD = parseInt(pair.token1.liq) * knownTokens[pair.token1.symbol]['inUSD'];
+        pair.liquidityUSD = parseInt(pair.token1.liq) * knownTokens[pair.token1.address]['inUSD'];
     }
 
     return pair;
@@ -128,7 +136,9 @@ const getPairMetadata = async (account, factory, i, chain, dex) => {
     let token0 = {};
     let token1 = {};
 
-    [token0.address, token1.address] = await Promise.all([pairContract.token0(), pairContract.token1()]);
+    [token0.address, token1.address] = (await Promise.all([pairContract.token0(), pairContract.token1()])).map(
+        (address) => address.toLowerCase()
+    );
 
     const tokenInfoABI = [
         'function name() view returns (string)',
