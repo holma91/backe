@@ -1,0 +1,15 @@
+RULES FOR SELECTING OLD LIQUIDITY PAIRS
+ethereum (mainnet)
+- over 100k liq
+- only care about the last 10k pairs on univ2
+
+optimism
+- over 10k liq
+
+metis
+- over 10k liq
+
+
+bsc
+- over 100k liq
+- last 10k pairs

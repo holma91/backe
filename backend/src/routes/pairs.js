@@ -3,9 +3,19 @@ import PairRepo from '../repos/pairRepo.js';
 import sendLPNotification from './utils/sendLPNotification.js';
 import schemas from './utils/requestSchemas.js';
 import validator from 'jsonschema';
+import ws from 'ws';
+
 const validate = validator.validate;
 
 const router = express.Router();
+
+const wss = new ws.WebSocketServer({ port: 8080 });
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function message(msg) {
+        console.log(msg.toString());
+    });
+});
 
 router.get('/pairs', async (req, res) => {
     const pairs = await PairRepo.find();
@@ -35,11 +45,19 @@ router.post('/pairs', async (req, res) => {
         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
     }
 
-    console.log('pair:', req.body);
-
     sendLPNotification(req.body);
 
     const pair = await PairRepo.add(req.body);
+
+    pair.createdAt = new Date();
+
+    // need to notify the swapbot
+    wss.clients.forEach((client) => {
+        if (client.readyState === ws.OPEN) {
+            client.send(JSON.stringify(pair));
+        }
+    });
+
     res.send(pair);
 });
 
