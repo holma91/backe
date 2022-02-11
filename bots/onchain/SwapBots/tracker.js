@@ -78,7 +78,6 @@ const onNewSwap = async (
     stablecoins
 ) => {
     const stablecoinAddresses = Object.keys(stablecoins);
-
     amount0In = ethers.utils.formatUnits(amount0In, pair.token0Decimals);
     amount0Out = ethers.utils.formatUnits(amount0Out, pair.token0Decimals);
     amount1In = ethers.utils.formatUnits(amount1In, pair.token1Decimals);
@@ -194,6 +193,7 @@ const onNewSwap = async (
 const cachedBoringAddresses = new Set();
 
 const setUpPair = (pair, account, nativeTokenAddress, stablecoins) => {
+    console.log('setting up', pair);
     const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, account);
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {

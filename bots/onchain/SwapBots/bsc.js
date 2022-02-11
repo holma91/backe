@@ -1,6 +1,7 @@
 import { getAccount } from '../utils/utils.js';
 import fetch from 'node-fetch';
 import Big from 'big.js';
+import WebSocket from 'ws';
 import 'dotenv/config';
 import setUpPair from './tracker.js';
 
@@ -26,6 +27,24 @@ const main = async () => {
     for (const pair of pairs) {
         setUpPair(pair, account, WBNB, stablecoins);
     }
+
+    const ws = new WebSocket('ws://localhost:8080/');
+
+    ws.on('open', function open() {
+        ws.send('socket opened succesfully in binance smart chain tracker');
+    });
+
+    ws.on('message', function message(msg) {
+        try {
+            const pair = JSON.parse(msg);
+            if (pair.chain === 'BSC') {
+                setUpPair(pair, account, WBNB, stablecoins);
+            }
+        } catch (e) {
+            console.log(e);
+            console.log(msg.toString());
+        }
+    });
 };
 
 await main();
