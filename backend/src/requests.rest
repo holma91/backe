@@ -19,4 +19,27 @@ Content-Type: application/json
 POST http://localhost:3005/trades
 Content-Type: application/json
 
-{"chain":"ETH","pairAddress":"0x06da0fd433c1a5d7a4faa01111c044910a184553","senderAddress":"0xdbabb30a1d1e7e48d65465efac4a6335b6d53fd5","token0":{"symbol":"WETH","address":"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2","order":"buy","amount":"0.139529","priceUSD":"3223.78","onCoingecko":true},"token1":{"symbol":"USDT","address":"0xdac17f958d2ee523a2206206994597c13d831ec7","order":"sell","amount":"451.729","priceUSD":"0.995750","onCoingecko":true}}
+{
+    "chain": "ETH",
+    "dex": "sushiswap",
+    "pairAddress": "0x06da0fd433c1a5d7a4faa01111c044910a184553",
+    "senderAddress": "0xc3866d6e9417887b3c9c963428b8ee7d48faf003",
+    "token0": {
+        "name": "A Game",
+        "symbol": "Game",
+        "address": "0x882e5b370d595e50c24b2a0e7a94e87cc32adda1",
+        "order": "buy",
+        "amount": "22.0",
+        "priceUSD": "65.082081",
+        "onCoingecko": true
+    },
+    "token1": {
+        "name": "Wrapped Ether",
+        "symbol": "WETH",
+        "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        "order": "sell",
+        "amount": "0.447873185153491414",
+        "priceUSD": "3196.900000",
+        "onCoingecko": true
+    }
+}

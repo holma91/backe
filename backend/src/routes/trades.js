@@ -1,6 +1,6 @@
 import express from 'express';
 import TradeRepo from '../repos/tradeRepo.js';
-// import sendTradeNotification from './utils/sendTradeNotification.js';
+import sendTradeNotification from './utils/sendTradeNotification.js';
 import schemas from './utils/requestSchemas.js';
 import validator from 'jsonschema';
 const validate = validator.validate;
@@ -21,20 +21,26 @@ router.post('/trades', async (req, res) => {
 
     console.log('trade:', req.body);
 
-    // sendNotifications(req.body);
-    // sendTradeNotification(req.body);
     const trade0 = {
         chain: req.body.chain,
+        dex: req.body.dex,
         senderAddress: req.body.senderAddress,
+        senderLabel: req.body.senderLabel,
         pairAddress: req.body.pairAddress,
+        pair: `${req.body.token0.symbol}/${req.body.token1.symbol}`,
         token: req.body.token0,
     };
     const trade1 = {
         chain: req.body.chain,
+        dex: req.body.dex,
         senderAddress: req.body.senderAddress,
+        senderLabel: req.body.senderLabel,
         pairAddress: req.body.pairAddress,
+        pair: `${req.body.token0.symbol}/${req.body.token1.symbol}`,
         token: req.body.token1,
     };
+
+    sendTradeNotification(trade0.token.order === 'buy' ? trade0 : trade1);
 
     const trades = await Promise.all([TradeRepo.add(trade0), TradeRepo.add(trade1)]);
     res.send(trades);

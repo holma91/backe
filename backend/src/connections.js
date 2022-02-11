@@ -34,6 +34,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.eth_newpairhook,
+            newTrade: process.env.eth_newtradehook,
         },
         dexes: {
             uniswap: {

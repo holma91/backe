@@ -1,8 +1,10 @@
 {
     "chain": "ETH",
-    "pairAddress": "0xd9a13cf1c0a61ffc2e82cbdc641f45f37c2b1c1c",
-    "senderAddress": "0x1111111254fb6c44bac0bed2854e76f90643097d",
+    "dex": "sushiswap",
+    "pairAddress": "0x06da0fd433c1a5d7a4faa01111c044910a184553",
+    "senderAddress": "0xdbabb30a1d1e7e48d65465efac4a6335b6d53fd5",
     "token0": {
+        "name": "A Game",
         "symbol": "Game",
         "address": "0x882e5b370d595e50c24b2a0e7a94e87cc32adda1",
         "order": "buy",
@@ -11,6 +13,7 @@
         "onCoingecko": true
     },
     "token1": {
+        "name": "Wrapped Ether",
         "symbol": "WETH",
         "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
         "order": "sell",

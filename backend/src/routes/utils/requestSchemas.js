@@ -35,11 +35,14 @@ const schemas = {
         type: 'object',
         properties: {
             chain: { type: 'string' },
+            dex: { type: 'string' },
             pairAddress: { type: 'string' },
             senderAddress: { type: 'string' },
+            senderLabel: { type: 'string' },
             token0: {
                 type: { type: 'object' },
                 properties: {
+                    name: { type: 'string' },
                     symbol: { type: 'string' },
                     address: { type: 'string' },
                     order: { type: 'string' },
@@ -47,11 +50,12 @@ const schemas = {
                     priceUSD: { type: 'string' },
                     onCoingecko: { type: 'boolean' },
                 },
-                minProperties: 6,
+                minProperties: 7,
             },
             token1: {
                 type: { type: 'object' },
                 properties: {
+                    name: { type: 'string' },
                     symbol: { type: 'string' },
                     address: { type: 'string' },
                     order: { type: 'string' },
@@ -59,10 +63,10 @@ const schemas = {
                     priceUSD: { type: 'string' },
                     onCoingecko: { type: 'boolean' },
                 },
-                minProperties: 6,
+                minProperties: 7,
             },
         },
-        minProperties: 5,
+        minProperties: 7,
     },
 };
 
