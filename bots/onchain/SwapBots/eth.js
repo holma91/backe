@@ -83,10 +83,13 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
     amount1Out = ethers.utils.formatUnits(amount1Out, pair.token1Decimals);
 
     let swap = {
-        chain: 'ETH',
+        chain: pair.chain,
+        dex: pair.dex,
         pairAddress: pair.pairAddress,
         senderAddress: sender,
+        senderLabel: '',
         token0: {
+            name: pair.token0Name,
             symbol: pair.token0Symbol,
             address: pair.token0Address,
             order: '',
@@ -95,6 +98,7 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
             onCoingecko: false,
         },
         token1: {
+            name: pair.token1Name,
             symbol: pair.token1Symbol,
             address: pair.token1Address,
             order: '',
@@ -167,6 +171,10 @@ const onNewSwap = async (pair, sender, amount0In, amount1In, amount0Out, amount1
     swap.token1.amount = new Big(swap.token1.amount).toPrecision(6);
 
     // console.log(swap);
+
+    let response = await fetch(`${URL}/accounts/${swap.senderAddress}?include_labels=yes`);
+    let account = await response.json();
+    swap.senderLabel = account.labelId;
 
     fetch(`${URL}/trades`, {
         method: 'post',
