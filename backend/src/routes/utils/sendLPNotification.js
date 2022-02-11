@@ -30,7 +30,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = ETH.img;
             hook.greenUrl = ETH.webhooks.newPair;
             hook.explorerUrl = `${ETH.explorer.url}/token/`;
-            if (dex === 'uniswap') {
+            if (dex === 'uniswapV2') {
                 hook.dexUrl = ETH.dexes.uniswap.url;
             } else if (dex === 'sushiswap') {
                 hook.dexUrl = ETH.dexes.sushiswap.url;
