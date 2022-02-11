@@ -188,11 +188,11 @@ const sendLPNotification = async (pair) => {
         .addFields(
             {
                 name: 'Pair information',
-                value: `${symbolOldToken}/${symbolNewToken}, ${pair.address}, ${hook.explorerUrl}${pair.address}`,
+                value: `${symbolOldToken}/${symbolNewToken}\n${pair.address}\n${hook.explorerUrl}${pair.address}`,
             },
             {
                 name: 'Token information',
-                value: `${nameNewToken} (${symbolNewToken}), ${pair.addressNewToken}, ${hook.explorerUrl}${addressNewToken}`,
+                value: `${nameNewToken} (${symbolNewToken})\n${pair.address}\n${hook.explorerUrl}${addressNewToken}`,
             },
             {
                 name: 'Liquidity information',
