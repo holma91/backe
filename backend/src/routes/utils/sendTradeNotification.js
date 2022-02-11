@@ -9,6 +9,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import connections from '../../connections.js';
+import { log } from 'console';
 const { ETH } = connections;
 
 const dexscreenerUrl = 'https://dexscreener.com';
@@ -43,7 +44,7 @@ const notificationWorthy = (trade, valueUSD) => {
     let worthy = false;
     switch (trade.chain) {
         case 'ETH': {
-            if (!trade.onCoingecko) {
+            if (!trade.token.onCoingecko) {
                 worthy = true;
             } else if (valueUSD >= 500000) {
                 worthy = true;
