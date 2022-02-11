@@ -192,7 +192,7 @@ const sendLPNotification = async (pair) => {
             },
             {
                 name: 'Token information',
-                value: `${nameNewToken} (${symbolNewToken})\n${pair.address}\n${hook.explorerUrl}${addressNewToken}`,
+                value: `${nameNewToken} (${symbolNewToken})\n${addressNewToken}\n${hook.explorerUrl}${addressNewToken}`,
             },
             {
                 name: 'Liquidity information',
