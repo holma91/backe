@@ -10,7 +10,9 @@ def account_is_interesting(accounts, address, exchanges, bridges):
     # cba to regex this shit
     return not('pool' in accounts[address].lower() or 'router'
                in accounts[address].lower() or 'factory' in accounts[address].lower()
-               or 'token' in accounts[address].lower()
+               or 'token' in accounts[address].lower() or 'proxy' in accounts[address].lower()
+               or 'contract' in accounts[address].lower() or 'staking' in accounts[address].lower()
+               or 'reward' in accounts[address].lower()
                or address in exchanges or address in bridges)
 
 

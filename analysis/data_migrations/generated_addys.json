@@ -156,10 +156,6 @@
     "label": "\ud83e\udd13 Smart LP: 0xcba"
   },
   {
-    "address": "0x3fe65692bfcd0e6cf84cb1e7d24108e434a7587e",
-    "label": "\ud83e\udd16 Convex Finance: cvxCRV Rewards"
-  },
-  {
     "address": "0x4c46f9a3da4f7f2911e29dae334ebcf09101a669",
     "label": "\ud83e\udd13 Smart LP: 0x4c4"
   },
@@ -198,10 +194,6 @@
   {
     "address": "0x8517a89b9c47a5631098b37587560262494f5c43",
     "label": "\ud83e\udd13 Flash Boy: 0x851"
-  },
-  {
-    "address": "0x1d6e8bac6ea3730825bde4b005ed7b2b39a2932d",
-    "label": "\ud83e\udd16 Sandwich Attack Contract"
   },
   {
     "address": "0x53d8a6a3368ffe7b844782d8a037012497110d81",
@@ -1520,10 +1512,6 @@
     "label": "\ud83e\udd16 OpenSea: Collectibles"
   },
   {
-    "address": "0x79dd22579112d8a5f7347c5ed7e609e60da713c5",
-    "label": "\ud83e\udd16 Tokemak: Rewards Contract"
-  },
-  {
     "address": "0x1fd34033240c95aabf73e186a94b9576c6dab81b",
     "label": "\ud83e\udd13 palette.eth*"
   },
@@ -1656,10 +1644,6 @@
     "label": "\ud83e\udd13 Flash Boy: 0xb3b"
   },
   {
-    "address": "0x7cf09d7a9a74f746edcb06949b9d64bcd9d1604f",
-    "label": "\ud83e\udd16 Sandwich Attack Contract"
-  },
-  {
     "address": "0x894e37f02249b922b14561f234d228410cf754e2",
     "label": "\ud83e\udd16 FeudalzElvez"
   },
@@ -1700,10 +1684,6 @@
     "label": "\ud83e\udd13 racerx.eth"
   },
   {
-    "address": "0x7ef865963d3a005670b8f8df6aed23e456fa75e0",
-    "label": "\ud83e\udd16 TransparentUpgradeableProxy"
-  },
-  {
     "address": "0xd27fc8aee201ec6a35f3ae32c457d04c44965158",
     "label": "\ud83e\udd13 Smart NFT Hodler"
   },
@@ -1742,10 +1722,6 @@
   {
     "address": "0xd4924261323dac5faad8524864d35d43d7190f92",
     "label": "\ud83e\udd13 Smart LP: 0xd49"
-  },
-  {
-    "address": "0xaac2fe6db0ed42f5728012543a647cdbbad0afbd",
-    "label": "\ud83e\udd16 PolytradeStaking"
   },
   {
     "address": "0x7a58c0be72be218b41c608b7fe7c5bb630736c71",
@@ -1856,10 +1832,6 @@
     "label": "\ud83e\udd13 Smart LP: 0xc5f"
   },
   {
-    "address": "0x9fb53b18fca2ad85e08cf3e6825f266ad75badd1",
-    "label": "\ud83e\udd16 Gnosis Safe Proxy"
-  },
-  {
     "address": "0x303052148a78a692d7aa89bad454f3e91785488d",
     "label": "\ud83e\udd13 pixls.eth"
   },
@@ -1878,10 +1850,6 @@
   {
     "address": "0x3193b3076f0d3e2ebed047cade5c51ceba3ea046",
     "label": "\ud83e\udd13 crodian.eth"
-  },
-  {
-    "address": "0xd1ecd7d32e057f3182deca31f534d8f1743b0529",
-    "label": "\ud83e\udd16 ComptrollerProxy"
   },
   {
     "address": "0x7fc9435a996e6f07e75c244bd9f345faaf81af8c",
@@ -1916,20 +1884,12 @@
     "label": "\ud83e\udd16 Pixel Vault Founder's DAO"
   },
   {
-    "address": "0xdef1c0ded9bec7f1a1670819833240f027b25eff",
-    "label": "\ud83c\udfe6 \ud83e\udd16 0x: Exchange Proxy"
-  },
-  {
     "address": "0xe0b54aa5e28109f6aa8bedcff9622d61a75e6b83",
     "label": "\ud83e\udd13 Smarter LP"
   },
   {
     "address": "0xba02a83d3fead87c1bfdc15f1c07db53888305a3",
     "label": "\ud83e\udd13 Flash Boy: 0xba0"
-  },
-  {
-    "address": "0x00000081c57cbc967248bea482c417207e84cffb",
-    "label": "\ud83e\udd16 Sandwich Attack Contract"
   },
   {
     "address": "0x54a7cee7b02976ace1bdd4afad87273251ed34cf",
@@ -1960,16 +1920,8 @@
     "label": "\ud83e\udd13 Flash Boy: 0xa6a"
   },
   {
-    "address": "0x00000000003b3cc22af3ae1eac0440bcee416b40",
-    "label": "\ud83e\udd16 Sandwich Attack Contract"
-  },
-  {
     "address": "0x744bc1d963e8f54395dfe504e343fc3f2fe8fc8b",
     "label": "\ud83e\udd13 Flash Boy: 0x744"
-  },
-  {
-    "address": "0x0000000000d41c96294ccdac8612bdfe29c641af",
-    "label": "\ud83e\udd16 Sandwich Attack Contract"
   },
   {
     "address": "0x65a7c3cb6d1c3cef361063c57936d9d4c9d7bcab",
@@ -1986,10 +1938,6 @@
   {
     "address": "0x23be060093db74f38b1a3daf57afdc1a23db0077",
     "label": "\ud83e\udd13 Smart LP: 0x23b"
-  },
-  {
-    "address": "0xd8d18d3429a8f388ff61a6881242df4c807dfbb9",
-    "label": "\ud83e\udd16 DSProxy"
   },
   {
     "address": "0xd52784d31f5575fbcbb45d7fc36ec68c7f9dda12",
@@ -2030,10 +1978,6 @@
   {
     "address": "0x56c857f9f86b8b37fdc18811fa85f9ec205fd339",
     "label": "\ud83e\udd13 Flash Boy: 0x56c"
-  },
-  {
-    "address": "0xda2c338350a0e59ce71cdced9679a3a590dd9bec",
-    "label": "\ud83e\udd16 Frax Finance: Staking FRAX-FXS"
   },
   {
     "address": "0x003d5a75d284824af736df51933be522de9eed0f",
@@ -2108,10 +2052,6 @@
     "label": "\ud83e\udd13 Smart LP: 0x8a0"
   },
   {
-    "address": "0x5958a8db7dfe0cc49382209069b00f54e17929c2",
-    "label": "\ud83e\udd16 ConvexStakingWrapperAbra"
-  },
-  {
     "address": "0x549c0421c69be943a2a60e76b19b4a801682cbd3",
     "label": "\ud83e\udd13 Smart LP: 0x549"
   },
@@ -2164,14 +2104,6 @@
     "label": "\ud83e\udd16 High Activity"
   },
   {
-    "address": "0xd5bf9e015755489d7f8e1465ce3d82cc550efec8",
-    "label": "\ud83e\udd16 GoldzRewards"
-  },
-  {
-    "address": "0x2aa297c3208bd98a9a477514d3c80ace570a6dee",
-    "label": "\ud83e\udd16 Alpha Finance Lab: ALPHA Staking"
-  },
-  {
     "address": "0x95b9b364fec724a26b38d940d4c4862516ec0b3c",
     "label": "\ud83e\udd13 0x\ud83d\udc3a.eth"
   },
@@ -2218,10 +2150,6 @@
   {
     "address": "0x1c012b03f1c2dea274d2eeeb566b0eeabfe3af1a",
     "label": "\ud83e\udd13 Smart LP: 0x1c0"
-  },
-  {
-    "address": "0x6ef6f40c446a7602581edde2eb795e01cf808661",
-    "label": "\ud83e\udd16 DSProxy"
   },
   {
     "address": "0x52a337a2da1db041ebda3015c327732a85636d40",
@@ -2284,10 +2212,6 @@
     "label": "\ud83e\udd13 Smart LP: 0x651"
   },
   {
-    "address": "0x881d40237659c251811cec9c364ef91dc08d300c",
-    "label": "\ud83e\udd16 MetaMask Swaps Contract"
-  },
-  {
     "address": "0x00397d81c4b005e86df0492fd468891ad2153377",
     "label": "\ud83e\udd13 Smart LP: 0x003"
   },
@@ -2332,10 +2256,6 @@
     "label": "mexpex.eth"
   },
   {
-    "address": "0x1ebc9d454445e6734ded87f3095bd41ff86d593c",
-    "label": "\ud83e\udd16 DSProxy"
-  },
-  {
     "address": "0x888e1b67bfb11d6a68c43a6af939b89d8defb2bb",
     "label": "\ud83e\udd13 Smart LP: 0x888"
   },
@@ -2350,10 +2270,6 @@
   {
     "address": "0xf3ad7d08240b09d0ee8ac0811fbee835ce2788e1",
     "label": "\ud83e\udd13 Smart LP: 0xf3a"
-  },
-  {
-    "address": "0xccac05541e7c9ce80e87954d6a1625b65ef72ebe",
-    "label": "\ud83e\udd16 TransparentUpgradeableProxy"
   },
   {
     "address": "0xc1339cf4c27d29b5bd1faa90739ad1e2d4a8b9cb",
@@ -2392,16 +2308,8 @@
     "label": "\ud83e\udd13 Flash Boy: 0x5aa"
   },
   {
-    "address": "0x01ff6318440f7d5553a82294d78262d5f5084eff",
-    "label": "\ud83e\udd16 Sandwich Attack Contract"
-  },
-  {
     "address": "0x454c24b6044ad7cbe1040577127316615857f7e1",
     "label": "\ud83e\udd13 Smart LP: 0x454"
-  },
-  {
-    "address": "0x585cd9cb4c90427bd5ebd64a6740b762380aeef8",
-    "label": "\ud83e\udd16 DSProxy"
   },
   {
     "address": "0x303f2d38ab911296deca9dc19968a854d9cbcadc",
@@ -2412,20 +2320,8 @@
     "label": "\ud83e\udd16 Abracadabra Money: yvWETH v2 Cauldron"
   },
   {
-    "address": "0x3ad412055f123f6b596deb290417e182ee192fb2",
-    "label": "\ud83e\udd16 Nexo: Maker Vault Proxy"
-  },
-  {
-    "address": "0x00000000008c4fb1c916e0c88fd4cc402d935e7d",
-    "label": "\ud83e\udd16 Sandwich Attack Contract"
-  },
-  {
     "address": "0x553e92c5910408e00bcc6d399ad9f41ed7efa8a9",
     "label": "\ud83e\udd13 Smart LP: 0x553"
-  },
-  {
-    "address": "0x4f5fb03aeb5caa2009cf14548b56aa4a8913cc81",
-    "label": "\ud83e\udd16 DSProxy"
   },
   {
     "address": "0x9b6db7597a74602a5a806e33408e7e2dafa58193",
@@ -2540,10 +2436,6 @@
     "label": "\ud83e\udd13 Smart LP: 0x399"
   },
   {
-    "address": "0x83e063c8b8b5f6034e72ec4e060a6928d48528af",
-    "label": "\ud83e\udd16 DSProxy"
-  },
-  {
     "address": "0x39aa39c021dfbae8fac545936693ac917d5e7563",
     "label": "\ud83e\udd16 Compound: USDC"
   },
@@ -2600,14 +2492,6 @@
     "label": "\ud83e\udd16 CErc20Delegator"
   },
   {
-    "address": "0x88761084490a54f5448c2d5586bc030a38a8501a",
-    "label": "\ud83e\udd16 DSProxy"
-  },
-  {
-    "address": "0x865377367054516e17014ccded1e7d814edc9ce4",
-    "label": "\ud83e\udd16 Inverse Finance: Inverse Finance Dola Stablecoin Contract"
-  },
-  {
     "address": "0x3f3e305c4ad49271ebda489dd43d2c8f027d2d41",
     "label": "\ud83e\udd13 \"mcflyyy\" on OpenSea"
   },
@@ -2650,10 +2534,6 @@
   {
     "address": "0x3c338c4049bf841413d268456188e2b67f045b7e",
     "label": "\ud83e\udd16 InstaAccountV2"
-  },
-  {
-    "address": "0x30647a72dc82d7fbb1123ea74716ab8a317eac19",
-    "label": "\ud83e\udd16 mStable: mUSD Savings Contract"
   },
   {
     "address": "0x888888990077883104e227bd6f825c9d831a4f68",
@@ -2708,10 +2588,6 @@
     "label": "\ud83e\udd16 TreasureIsland"
   },
   {
-    "address": "0x2362843745615368f4ef0a43d7502353649c0783",
-    "label": "\ud83e\udd16 MintGatewayProxy"
-  },
-  {
     "address": "0xe90aadbf8e1d1830e7e9509a5b158d94cf84c36b",
     "label": "\ud83e\udd13 acidgod.eth"
   },
@@ -2742,14 +2618,6 @@
   {
     "address": "0x090e53c44e8a9b6b1bca800e881455b921aec420",
     "label": "\ud83e\udd16 ParaSwap: Airdrop"
-  },
-  {
-    "address": "0x3818eff63418e0a0ba3980aba5ff388b029b6d90",
-    "label": "\ud83e\udd16 LobisStaking"
-  },
-  {
-    "address": "0xb0fa2beee3cf36a7ac7e99b885b48538ab364853",
-    "label": "\ud83e\udd16 BarnBridge: Staking"
   },
   {
     "address": "0x96fd61202a698ee3eac21e247a6b209ea5ffeb91",
@@ -2884,10 +2752,6 @@
     "label": "\ud83e\udd16 CryptoHobosPetPartners"
   },
   {
-    "address": "0xfbddadd80fe7bda00b901fbaf73803f2238ae655",
-    "label": "\ud83e\udd16 StrongBlock: Service Proxy"
-  },
-  {
     "address": "0x262f103bb7ab38c6e4dcd848586dfebe0bde2959",
     "label": "\ud83e\udd16 Monkes"
   },
@@ -2964,18 +2828,6 @@
     "label": "\ud83e\udd13 Smart LP: 0x9fe"
   },
   {
-    "address": "0xc8c436271f9a6f10a5b80c8b8ed7d0e8f37a612d",
-    "label": "\ud83e\udd16 OlympusDAO: Staking"
-  },
-  {
-    "address": "0x3ef26504dbc8dd7b7aa3e97bc9f3813a9fc0b4b0",
-    "label": "\ud83e\udd16 Frax Finance: Uniswap V3 FRAX-USDC Staking Contract"
-  },
-  {
-    "address": "0x430ed40abca75dcddbae2db384138d2eb301ed11",
-    "label": "\ud83e\udd16 DSProxy"
-  },
-  {
     "address": "0xa078efb1e49bd30fc720fb8f6aadc2228b15a53d",
     "label": "\ud83e\udd13 bethecheetah.eth"
   },
@@ -3004,16 +2856,8 @@
     "label": "\ud83e\udd13 Smarter LP"
   },
   {
-    "address": "0x3ba207c25a278524e1cc7faaea950753049072a4",
-    "label": "\ud83e\udd16 ConvexStakingWrapperAbra"
-  },
-  {
     "address": "0x257101f20cb7243e2c7129773ed5dbbcef8b34e0",
     "label": "\ud83e\udd16 CauldronV2CheckpointV1"
-  },
-  {
-    "address": "0xf22471ac2156b489cc4a59092c56713f813ff53e",
-    "label": "\ud83e\udd16 Frax Finance: Uniswap V3 FRAX-DAI Staking Contract"
   },
   {
     "address": "0xcd18eaa163733da39c232722cbc4e8940b1d8888",
@@ -3040,10 +2884,6 @@
     "label": "\ud83e\udd16 Immortal Phoenix"
   },
   {
-    "address": "0xafdcc16973589e9980ce6980b3bd1ed8b143e346",
-    "label": "\ud83e\udd16 $PIXA Rewards V2"
-  },
-  {
     "address": "0x05e1df6888dbefa858a6bd3bbf0229f2adaf8e32",
     "label": "\ud83e\udd13 Smart NFT Minter"
   },
@@ -3066,10 +2906,6 @@
   {
     "address": "0xc310e760778ecbca4c65b6c559874757a4c4ece0",
     "label": "\ud83e\udd16 BatchSwap"
-  },
-  {
-    "address": "0xd92494cb921e5c0d3a39ea88d0147bbd82e51008",
-    "label": "\ud83e\udd16 Convex Finance: Staking Wrapper Abra"
   },
   {
     "address": "0x9f1f7957c0456157485a0fc433a5f86403055432",
@@ -3120,10 +2956,6 @@
     "label": "\ud83e\udd16 stkABPT"
   },
   {
-    "address": "0x0c256328b8d9668b7ce14ca86d43933b2c52aa2c",
-    "label": "\ud83e\udd13 \ud83e\udd16 Tetranode: \ud83d\udc0b: DSProxy"
-  },
-  {
     "address": "0x39978cc40e2d1d7e127050bdfffbb0dfcfaebad0",
     "label": "\ud83e\udd13 Smart LP: 0x399"
   },
@@ -3138,10 +2970,6 @@
   {
     "address": "0xfd1076d80fff9dc702ae9fdfea0073467b9b3fb7",
     "label": "\ud83e\udd16 SpookyBoysCountryClub"
-  },
-  {
-    "address": "0xd784927ff2f95ba542bfc824c8a8a98f3495f6b5",
-    "label": "\ud83e\udd16 Aave: Rewards"
   },
   {
     "address": "0xafbf7e3cfa48ff03dca13472b86397f77c190d7c",
@@ -3680,20 +3508,12 @@
     "label": "\ud83e\udd13 CMS"
   },
   {
-    "address": "0x7091dbb7fcba54569ef1387ac89eb2a5c9f6d2ea",
-    "label": "\ud83e\udd16 Convex Finance: Three CRV Rewards"
-  },
-  {
     "address": "0x2f4a0e60fbffddef11c5b736b6ca3c8f71ca5bca",
     "label": "\ud83e\udd13 Smart NFT Hodler"
   },
   {
     "address": "0x2a8f327085d733a3dba191b3647818415a84ff28",
     "label": "\ud83e\udd16 Elite Dex Trader"
-  },
-  {
-    "address": "0x22f9dcf4647084d6c31b2765f6910cd85c178c18",
-    "label": "\ud83c\udfe6 \ud83e\udd16 0x: Exchange Proxy Flash Wallet"
   },
   {
     "address": "0x517f0ab702b7295b2bc36f39b14e63dcbddabbc2",
@@ -3774,10 +3594,6 @@
   {
     "address": "0xa32fcc1b3d4e2b597cf626f98228e68b63ef46f0",
     "label": "debra.eth"
-  },
-  {
-    "address": "0x1941441d31809e9e1828da0ce6d44175f657e215",
-    "label": "\ud83e\udd16 ERC1967Proxy"
   },
   {
     "address": "0x526c7665c5dd9cd7102c6d42d407a0d9dc1e431d",
@@ -4036,10 +3852,6 @@
     "label": "no label"
   },
   {
-    "address": "0x2ca74be68f0a0e053f030d143c1376806babedc9",
-    "label": "\ud83e\udd16 GnosisSafeProxy"
-  },
-  {
     "address": "0x14b6154bcbf537368af932901456a7feb57cbe5a",
     "label": "\ud83c\udfe6 \ud83e\udd16 Uniswap V2: OCC-ETH Pair"
   },
@@ -4204,10 +4016,6 @@
     "label": "Uncommon NFT Collector"
   },
   {
-    "address": "0xb7dfcb421412f16b25ddd4ad4bdd73d0883136d8",
-    "label": "\ud83e\udd16 AdminUpgradeabilityProxy"
-  },
-  {
     "address": "0x141f59a0283303a6b882b4d6973e418f8d75f9b3",
     "label": "\ud83e\udd13 Smart LP: 0x141"
   },
@@ -4324,10 +4132,6 @@
     "label": "Uncommon NFT Collector"
   },
   {
-    "address": "0xfe33228982f0b39126e4bffefff2b295dea52ffd",
-    "label": "\ud83e\udd16 DSProxy"
-  },
-  {
     "address": "0xe70dda9b5f3a8b6a50598aeac021be5a51b00d80",
     "label": "OpenSea User"
   },
@@ -4406,10 +4210,6 @@
   {
     "address": "0x00a1b46319be9163b8ae30dbe506235608a563dc",
     "label": "\ud83e\udd13 boy.eth"
-  },
-  {
-    "address": "0x1e6bb68acec8fefbd87d192be09bb274170a0548",
-    "label": "\ud83e\udd16 InitializableImmutableAdminUpgradeabilityProxy"
   },
   {
     "address": "0xabb0e1194303b7f2fbf19f37199aeee0bb607109",
@@ -4496,24 +4296,12 @@
     "label": "\ud83e\udd13 jonokirk.eth*"
   },
   {
-    "address": "0xe66b31678d6c16e9ebf358268a790b763c133750",
-    "label": "\ud83e\udd16 ZeroExProxy"
-  },
-  {
     "address": "0xc6b8e3616077ba6b711fa95d8b0762dd29a3999e",
     "label": "\ud83e\udd13 ETH Millionaire"
   },
   {
-    "address": "0x989aeb4d175e16225e39e87d0d97a3360524ad80",
-    "label": "\ud83e\udd16 Convex Finance: Voter Proxy, Whitelist"
-  },
-  {
     "address": "0xe32acfcedfa8bda1d0ed03cafa854219ce0c9cea",
     "label": "\ud83e\udd13 boothy.eth"
-  },
-  {
-    "address": "0x75ff3dd673ef9fc459a52e1054db5df2a1101212",
-    "label": "\ud83e\udd16 Lido DAO: SushiSwap LP Rewards Reward"
   },
   {
     "address": "0xadeeb9d09b8bcee10943198fb6f6a4229bab3675",
@@ -4582,10 +4370,6 @@
   {
     "address": "0x26c9fc612b005781127246bbc5dc39f823e3106e",
     "label": "\ud83e\udd13 dangywing.eth"
-  },
-  {
-    "address": "0x2f3f840d17eb61020680c1f4b00510c3caa7df63",
-    "label": "\ud83e\udd16 Proxy"
   },
   {
     "address": "0xfb5dacdd3511bfd3b16dd603d472bee88c68fee8",
@@ -4678,10 +4462,6 @@
   {
     "address": "0xee2826453a4fd5afeb7ceffeef3ffa2320081268",
     "label": "\ud83e\udd13 \"flomp\" on OpenSea"
-  },
-  {
-    "address": "0xfc064d2f178f95c86f0901b1700cd99d01968b44",
-    "label": "\ud83e\udd16 Vesper Finance: Uniswap GYSR Contract"
   },
   {
     "address": "0x947c0ed88b816f89abe92cb823d843b7d7310cc4",
@@ -4844,20 +4624,12 @@
     "label": "OpenSea User"
   },
   {
-    "address": "0x37adc35f7b12582240818df04aac04ca409d5913",
-    "label": "\ud83c\udfe6 \ud83e\udd16 DODO: EthProxy"
-  },
-  {
     "address": "0x26a22514d3ac0b05e2f4f04df96ef302ba434cbe",
     "label": "\ud83e\udd13 badgerpunk.eth"
   },
   {
     "address": "0x8afd8542540a2c5ce26d01ac3ae6cc1e9c32568f",
     "label": "High Activity"
-  },
-  {
-    "address": "0x7519c93fc5073e15d89131fd38118d73a72370f8",
-    "label": "\ud83e\udd16 Alchemix: Onsen ALCX Rewarder"
   },
   {
     "address": "0x68e32dcf3712f8cd34d069f73b4440de30206dc8",
@@ -4900,10 +4672,6 @@
     "label": "\ud83e\udd13 Smart LP: 0xe05"
   },
   {
-    "address": "0x4f9fbb3f1e99b56e0fe2892e623ed36a76fc605d",
-    "label": "\ud83e\udd16 Liquity: Liquity Staking"
-  },
-  {
     "address": "0x3509672ac4dc1de2b3f7030a1845d1a4269f608f",
     "label": "poogers.eth"
   },
@@ -4938,14 +4706,6 @@
   {
     "address": "0xf8091a1a3055c9a8a7492e7dcc31162d000747c7",
     "label": "\ud83e\udd13 fimmo.eth"
-  },
-  {
-    "address": "0xfd31c7d00ca47653c6ce64af53c1571f9c36566a",
-    "label": "\ud83e\udd16 OlympusDAO: Staking Manager"
-  },
-  {
-    "address": "0x49a4b8431fc24be4b22fb07d1683e2c52bc56088",
-    "label": "\ud83e\udd16 Perpetual Protocol: Perp Staking Reward Vesting"
   },
   {
     "address": "0x8e7fcc7a17f00f0f5f85f2d5964a581d0813c8a6",
@@ -5020,10 +4780,6 @@
     "label": "\ud83e\udd13 Smart NFT Hodler"
   },
   {
-    "address": "0x2882a5cd82ac49e06620382660f5ed932607c5f1",
-    "label": "\ud83e\udd16 OlympusDAO: Staking Warmup"
-  },
-  {
     "address": "0x0bd49f7cf4c919b34365e63863b867aa50b59fd7",
     "label": "EIP 1559 User"
   },
@@ -5094,10 +4850,6 @@
   {
     "address": "0x13cdd758c82bfdea29ab5c48b4524b8d2fbaef9e",
     "label": "NFT Collector"
-  },
-  {
-    "address": "0x47dc8e20c15f6deaa5cbfeae6cf9946acc89af59",
-    "label": "\ud83e\udd16 Proxy"
   },
   {
     "address": "0x7aaff03d60aeb937325783bf489a2d5aa10bb51d",
@@ -5484,10 +5236,6 @@
     "label": "\ud83e\udd13 doggybag.eth"
   },
   {
-    "address": "0x910b21abc15309ce41bc55458ca321d9c401e06d",
-    "label": "\ud83e\udd16 DSProxy"
-  },
-  {
     "address": "0xdeaffa0f07932c4d3ed875d62677d703425367f4",
     "label": "Uncommon NFT Collector"
   },
@@ -5498,10 +5246,6 @@
   {
     "address": "0xe56a6bca9fdc1aff667f44f7f92e1a90d4258359",
     "label": "\ud83e\udd13 Smart NFT Minter"
-  },
-  {
-    "address": "0x48bc302d8295fea1f8c3e7f57d4ddc9981fee410",
-    "label": "\ud83e\udd16 Convex Finance: CRV Rewards"
   },
   {
     "address": "0x4a3097cdaa8f93c8da1561328fdc13b64e710dcc",
@@ -6760,10 +6504,6 @@
     "label": "OpenSea User"
   },
   {
-    "address": "0x0458b93396fa2632ddbc6ab1046d2d87d1359e9f",
-    "label": "\ud83e\udd16 StakingWarmup"
-  },
-  {
     "address": "0xfa1f576caee7012d3bf8b959bbcca63cce28b47f",
     "label": "Uncommon NFT Collector"
   },
@@ -6862,10 +6602,6 @@
   {
     "address": "0xfd19f4276c0d6e4d228c28fc8a37ac17ce944d93",
     "label": "Rare NFT Collector"
-  },
-  {
-    "address": "0xb8790c911fa32132eddcfd250454dff0448682b8",
-    "label": "\ud83e\udd16 OnX Finance: OnSynthetics Contract Proxy ONSMine"
   },
   {
     "address": "0x69fb44f2d038ae5a54bde332175ef28a7a0ea9eb",
@@ -7016,10 +6752,6 @@
     "label": "hanbrolo.eth"
   },
   {
-    "address": "0x65e4992250b296790c07fadf0f0723902a07e91d",
-    "label": "\ud83e\udd16 Angle Protocol: agEUR Staking"
-  },
-  {
     "address": "0xcf38b9a90afca3eb6535d5c268006d77b51ba340",
     "label": "Uncommon NFT Collector"
   },
@@ -7126,10 +6858,6 @@
   {
     "address": "0x0eb04462d69b1d267d269377e34f60b9de1c8510",
     "label": "\ud83e\udd16 Sandbox: Land Sale Fee Recipient Vault"
-  },
-  {
-    "address": "0x47c6182b8afb58832b75f38dac2525e585fd7c59",
-    "label": "\ud83e\udd16 PopStaking"
   },
   {
     "address": "0xb9e500cf14b355f50217f1a89040df1765c5e70e",
@@ -7304,10 +7032,6 @@
     "label": "OpenSea User"
   },
   {
-    "address": "0x1a300c5a5639c4605c1b47f6e079e8b4056a9376",
-    "label": "\ud83e\udd16 StakingRewards"
-  },
-  {
     "address": "0xce113e6e2386197917d70d58ddde148bfa4f58ca",
     "label": "\ud83e\udd16 Epic NFT Collector"
   },
@@ -7476,10 +7200,6 @@
     "label": "Millionaire"
   },
   {
-    "address": "0x270b6aff561284ef380cdd6d8b036f4981049a86",
-    "label": "\ud83e\udd16 TransparentUpgradeableProxy"
-  },
-  {
     "address": "0x05d4a8286ef7211cf2570722def303c65b60f954",
     "label": "Uncommon NFT Collector"
   },
@@ -7502,10 +7222,6 @@
   {
     "address": "0xe9159fa01a8d096badaf537a530a51822824e76a",
     "label": "Uncommon NFT Collector"
-  },
-  {
-    "address": "0x0bf6eea205f46d796458d090f3aa333149287854",
-    "label": "\ud83e\udd16 PathRewards"
   },
   {
     "address": "0x50cde770461ef53b62e083313d64b5b274b4bb78",
@@ -7620,10 +7336,6 @@
     "label": "EIP 1559 User"
   },
   {
-    "address": "0xbd789beddb50f9231ea3e2ec76afeb80c3e43fc8",
-    "label": "\ud83e\udd16 AuctionHouseProxy"
-  },
-  {
     "address": "0xa3aecf5cd45ac410709b8a76a4f8328482e08e2c",
     "label": "OpenSea User"
   },
@@ -7642,10 +7354,6 @@
   {
     "address": "0xb37ed824f92989acf542f016c7b44b85acab7d21",
     "label": "NFT Collector"
-  },
-  {
-    "address": "0x004c3b813127246495d6719ed2aa1eaf29536e8d",
-    "label": "\ud83e\udd16 DSProxy"
   },
   {
     "address": "0x2c1b778297797ab95d782506d1e6711bd59fb10a",
@@ -7888,10 +7596,6 @@
     "label": "\ud83e\udd13 Smarter LP"
   },
   {
-    "address": "0x95deaf8dd30380acd6cc5e4e90e5eef94d258854",
-    "label": "\ud83e\udd16 OlympusStaking"
-  },
-  {
     "address": "0x51e70c202e2ae83463b197cecda10c7663971675",
     "label": "NFT Collector"
   },
@@ -8056,20 +7760,12 @@
     "label": "Rare NFT Collector"
   },
   {
-    "address": "0xa356867fdcea8e71aeaf87805808803806231fdc",
-    "label": "\ud83c\udfe6 \ud83e\udd16 DODO: Proxy V2 02"
-  },
-  {
     "address": "0xf43266f8a5cca54fdf645c1e5c9da46aa7740e66",
     "label": "\ud83e\udd13 OP Crypto"
   },
   {
     "address": "0xd87ecc6c74f486b044824a222326a96f696fcfa2",
     "label": "\ud83e\udd13 Smart LP: 0xd87"
-  },
-  {
-    "address": "0x883d651429b0829bc045a94f288f3b514021b8c1",
-    "label": "\ud83e\udd16 StakingThales"
   },
   {
     "address": "0xc11a4ab2247790e75e6e21368be0aa433add9d78",
@@ -8608,14 +8304,6 @@
     "label": "Uncommon NFT Collector"
   },
   {
-    "address": "0x9e01aac4b3e8781a85b21d9d9f848e72af77b362",
-    "label": "\ud83e\udd16 Convex Finance: CVX ETH Rewarder"
-  },
-  {
-    "address": "0x1583546c494134d5464b2f005cd2b0e0030a81f9",
-    "label": "\ud83e\udd16 BiosRewarder"
-  },
-  {
     "address": "0x7b7a2e684f5c7b1990576bccbc23cf6a1ead786e",
     "label": "Uncommon NFT Collector"
   },
@@ -8646,10 +8334,6 @@
   {
     "address": "0x86c28db1118c55ba85c562d5b0875f94d78b0c03",
     "label": "quilamir.eth"
-  },
-  {
-    "address": "0xa5025faba6e70b84f74e9b1113e5f7f4e7f4859f",
-    "label": "\ud83e\udd16 Multisender.app: EternalStorageProxy"
   },
   {
     "address": "0x5c2f72d1ad0ab5bedc1b44c964447a2a6929f6c3",
@@ -8910,10 +8594,6 @@
   {
     "address": "0x81bc389d02c3054649643e590ce57faaab3bf38b",
     "label": "Rare NFT Collector"
-  },
-  {
-    "address": "0x316834fac49396d7951b4b0c14956591b51709f8",
-    "label": "\ud83e\udd16 IMXRewarder"
   },
   {
     "address": "0x2fc7d7b32b5fbcbfe30081c3b1f7ba82ec5d2186",
@@ -9412,10 +9092,6 @@
     "label": "\ud83e\udd13 Smart LP: 0x79c"
   },
   {
-    "address": "0x53986d9ab11e53d491840007b3935d8a94e4b04b",
-    "label": "\ud83e\udd16 Rewards"
-  },
-  {
     "address": "0xf118c8f569bcdeff8ddc5a4c6232ceb447487e1c",
     "label": "\ud83e\udd16 High Activity"
   },
@@ -9574,10 +9250,6 @@
   {
     "address": "0x4e7e322cedd9c7c4a80fceb01f6a1e8b872a99c4",
     "label": "\ud83e\udd13 Smarter LP"
-  },
-  {
-    "address": "0xd92023e9d9911199a6711321d1277285e6d4e2db",
-    "label": "\ud83e\udd16 TransparentUpgradeableProxy"
   },
   {
     "address": "0xa6645cedc6e11d12c449c50aadc34f5c8112309b",
