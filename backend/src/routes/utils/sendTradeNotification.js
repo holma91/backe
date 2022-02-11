@@ -5,11 +5,13 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-const client = require('twilio');
+// const client = require('twilio');
 
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import connections from '../../connections.js';
 const { ETH } = connections;
+
+const dexscreenerUrl = 'https://dexscreener.com';
 
 const getHookInfo = (chain, dex) => {
     let hook = {};
@@ -18,7 +20,8 @@ const getHookInfo = (chain, dex) => {
         case 'ETH': {
             hook.img = ETH.img;
             hook.discordUrl = ETH.webhooks.newTrade;
-            hook.explorerUrl = `${ETH.explorer.url}/token/`;
+            hook.explorerUrl = `${ETH.explorer.url}/token`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/ethereum`;
             if (dex === 'uniswap') {
                 hook.dexUrl = ETH.dexes.uniswap.url;
             } else if (dex === 'sushiswap') {
@@ -35,40 +38,20 @@ const getHookInfo = (chain, dex) => {
     return hook;
 };
 
-const notificationWorthy = (liquidityUSD, chain) => {
+const notificationWorthy = (trade, valueUSD) => {
     // do research here to determine
     let worthy = false;
-    switch (chain) {
+    switch (trade.chain) {
         case 'ETH': {
-            if (liquidityUSD >= 500000) {
+            if (!trade.onCoingecko) {
+                worthy = true;
+            } else if (valueUSD >= 500000) {
                 worthy = true;
             }
             break;
         }
-        case 'AURORA': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
+        default:
             break;
-        }
-        case 'FUSE': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
-            break;
-        }
-        case 'METIS': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
-            break;
-        }
-        case 'OPTIMISM': {
-            if (liquidityUSD >= 15000) {
-                worthy = true;
-            }
-            break;
-        }
     }
     return worthy;
 };
@@ -82,7 +65,9 @@ const sendTradeNotification = async (trade) => {
 
     let color = '';
     const valueUSD = trade.token.amount * trade.token.priceUSD;
-    if (valueUSD >= 50000) {
+    if (!trade.token.onCoingecko) {
+        color = '#f207e7';
+    } else if (valueUSD >= 50000) {
         color = '#00ff00';
     } else if (valueUSD >= 5000) {
         color = '#ffff00';
@@ -98,13 +83,13 @@ const sendTradeNotification = async (trade) => {
         .addFields(
             {
                 name: 'Token information',
-                value: `${trade.token.name} (${trade.token.symbol}), ${trade.token.address}, ${hook.explorerUrl}${trade.token.address}`,
+                value: `${trade.token.name} (${trade.token.symbol})\n${trade.token.address}\n${hook.explorerUrl}/${trade.token.address}\navailable on coingecko: ${trade.token.onCoingecko}`,
             },
             {
                 name: 'Trade information',
                 value: `amount: ${trade.token.amount}, price per token: ${
                     trade.token.priceUSD
-                }\ntotal trade value: $${valueUSD.toFixed(2)}\navailable on coingecko: ${trade.token.onCoingecko}`,
+                }\ntotal trade value: $${valueUSD.toFixed(2)}`,
             },
             {
                 name: 'Buyer information',
@@ -112,7 +97,7 @@ const sendTradeNotification = async (trade) => {
             },
             {
                 name: 'Pair information',
-                value: `${trade.pair}, ${trade.pairAddress}, ${hook.explorerUrl}${trade.pairAddress}`,
+                value: `${trade.pair}\n${trade.pairAddress}\n${hook.explorerUrl}${trade.pairAddress}\n${hook.dexscreenerUrl}/${trade.token.address}`,
             }
         )
         .setTimestamp();
@@ -123,22 +108,22 @@ const sendTradeNotification = async (trade) => {
         embeds: [embed],
     });
 
-    // if (notificationWorthy(pair.liquidityUSD, pair.chain)) {
-    //     let webhookNotificationClient = new WebhookClient({ url: process.env.discord_newPairHookUrl });
-    //     webhookNotificationClient.send({
-    //         username: 'liquidity pair bot',
-    //         avatarURL: 'https://i.imgur.com/AfFp7pu.png',
-    //         embeds: [embed],
-    //     });
+    if (notificationWorthy(trade, valueUSD)) {
+        let webhookNotificationClient = new WebhookClient({ url: process.env.discord_newTradeHookUrl });
+        webhookNotificationClient.send({
+            username: 'trade tracker bot',
+            avatarURL: 'https://i.imgur.com/AfFp7pu.png',
+            embeds: [embed],
+        });
 
-    //     // phone call here lol. wake the fuck up
-    //     const cli = client(process.env.twilio_accountSid, process.env.twilio_authToken);
-    //     await cli.calls.create({
-    //         url: 'http://demo.twilio.com/docs/voice.xml',
-    //         from: process.env.twilio_fromNumber,
-    //         to: process.env.twilio_toNumber,
-    //     });
-    // }
+        // phone call here lol. wake the fuck up
+        // const cli = client(process.env.twilio_accountSid, process.env.twilio_authToken);
+        // await cli.calls.create({
+        //     url: 'http://demo.twilio.com/docs/voice.xml',
+        //     from: process.env.twilio_fromNumber,
+        //     to: process.env.twilio_toNumber,
+        // });
+    }
 };
 
 export default sendTradeNotification;
