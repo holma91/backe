@@ -2,9 +2,29 @@ import pool from '../pool.js';
 import toCamelCase from './utils/toCamelCase.js';
 
 class TradeRepo {
-    static async find() {
-        const { rows } = await pool.query('select * from trade;');
-        return toCamelCase(rows);
+    static async find(includeLabels) {
+        let res;
+        if (includeLabels === 'yes') {
+            res = await pool.query(
+                'select * from trade as t join account_label as al on al.address = t.sender_address;'
+            );
+        } else {
+            res = await pool.query('select * from trade;');
+        }
+        return toCamelCase(res.rows);
+    }
+
+    static async findByAddress(address, includeLabels) {
+        let res;
+        if (includeLabels === 'yes') {
+            res = await pool.query(
+                'select * from trade as t join account_label as al on al.address = t.sender_address where sender_address = $1;',
+                [address.toLowerCase()]
+            );
+        } else {
+            res = await pool.query('select * from trade where sender_address = $1;', [address.toLowerCase()]);
+        }
+        return toCamelCase(res.rows);
     }
 
     static async add(swap) {

@@ -8,7 +8,13 @@ const validate = validator.validate;
 const router = express.Router();
 
 router.get('/trades', async (req, res) => {
-    const trades = await TradeRepo.find();
+    const trades = await TradeRepo.find(req.query['include_labels']);
+
+    res.send(trades);
+});
+
+router.get('/trades/:address', async (req, res) => {
+    const trades = await TradeRepo.findByAddress(req.params.address, req.query['include_labels']);
 
     res.send(trades);
 });
@@ -18,8 +24,6 @@ router.post('/trades', async (req, res) => {
     if (validation.errors.length > 0) {
         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
     }
-
-    console.log('trade:', req.body);
 
     const trade0 = {
         chain: req.body.chain,
@@ -45,15 +49,5 @@ router.post('/trades', async (req, res) => {
     const trades = await Promise.all([TradeRepo.add(trade0), TradeRepo.add(trade1)]);
     res.send(trades);
 });
-
-// router.post('/test', async (req, res) => {
-//     console.log(req.body);
-//     const validation = validate(req.body, schemas.pair);
-//     if (validation.errors.length > 0) {
-//         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
-//     }
-
-//     res.send('success');
-// });
 
 export default router;
