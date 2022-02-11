@@ -9,7 +9,6 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import connections from '../../connections.js';
-import { log } from 'console';
 const { ETH } = connections;
 
 const dexscreenerUrl = 'https://dexscreener.com';
@@ -23,6 +22,7 @@ const getHookInfo = (chain, dex) => {
             hook.discordUrl = ETH.webhooks.newTrade;
             hook.explorerUrl = `${ETH.explorer.url}/token`;
             hook.dexscreenerUrl = `${dexscreenerUrl}/ethereum`;
+            hook.nativeToken = 'WETH';
             if (dex === 'uniswap') {
                 hook.dexUrl = ETH.dexes.uniswap.url;
             } else if (dex === 'sushiswap') {
@@ -58,7 +58,11 @@ const notificationWorthy = (trade, valueUSD) => {
 };
 
 const sendTradeNotification = async (trade) => {
+    // do not send anything if native token or stablecoin
+
     const hook = getHookInfo(trade.chain, trade.dex);
+
+    if ([hook.nativeToken, 'USDC', 'USDT', 'BUSD', 'UST', 'DAI'].includes(trade.token.symbol)) return;
 
     const webhookClient = new WebhookClient({
         url: hook.discordUrl,
