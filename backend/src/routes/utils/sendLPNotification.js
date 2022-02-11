@@ -148,7 +148,7 @@ const notificationWorthy = (liquidityUSD, chain) => {
     return worthy;
 };
 
-const sendNotifications = async (pair) => {
+const sendLPNotification = async (pair) => {
     const hook = getHookInfo(pair.chain, pair.dex);
 
     const webhookClient = new WebhookClient({
@@ -227,4 +227,4 @@ const sendNotifications = async (pair) => {
     }
 };
 
-export default sendNotifications;
+export default sendLPNotification;

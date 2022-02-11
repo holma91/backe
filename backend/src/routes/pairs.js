@@ -1,6 +1,6 @@
 import express from 'express';
 import PairRepo from '../repos/pairRepo.js';
-import sendNotifications from './utils/sendNotifications.js';
+import sendLPNotification from './utils/sendLPNotification.js';
 import schemas from './utils/requestSchemas.js';
 import validator from 'jsonschema';
 const validate = validator.validate;
@@ -37,7 +37,7 @@ router.post('/pairs', async (req, res) => {
 
     console.log('pair:', req.body);
 
-    sendNotifications(req.body);
+    sendLPNotification(req.body);
 
     const pair = await PairRepo.add(req.body);
     res.send(pair);
