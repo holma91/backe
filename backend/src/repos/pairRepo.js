@@ -25,8 +25,8 @@ class PairRepo {
             `insert into liquidity_pair 
                 (chain, dex, pair_address, token0_address, token0_name, token0_symbol, 
                 token0_decimals, token1_address, token1_name, token1_symbol, token1_decimals, 
-                liquidity_usd, updated_at)
-            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, now() at time zone 'utc') returning *;
+                liquidity_usd, created_at, updated_at)
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, now() at time zone 'utc') returning *;
                 `,
             [
                 pair.chain,
@@ -41,6 +41,7 @@ class PairRepo {
                 pair.token1.symbol,
                 pair.token1.decimals,
                 pair.liquidityUSD,
+                pair.createdAt || null,
             ]
         );
 

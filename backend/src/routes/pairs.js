@@ -10,7 +10,6 @@ const validate = validator.validate;
 const router = express.Router();
 
 const wss = new ws.WebSocketServer({ port: 8080 });
-
 wss.on('connection', function connection(ws) {
     ws.on('message', function message(msg) {
         console.log(msg.toString());
@@ -46,10 +45,9 @@ router.post('/pairs', async (req, res) => {
     }
 
     sendLPNotification(req.body);
+    req.body.createdAt = new Date().toUTCString();
 
     const pair = await PairRepo.add(req.body);
-
-    pair.createdAt = new Date();
 
     // need to notify the swapbot
     wss.clients.forEach((client) => {
