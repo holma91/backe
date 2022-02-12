@@ -9,7 +9,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import connections from '../../connections.js';
-const { ETH } = connections;
+const { ETH, BSC, FTM } = connections;
 
 const dexscreenerUrl = 'https://dexscreener.com';
 
@@ -32,6 +32,32 @@ const getHookInfo = (chain, dex) => {
             }
             break;
         }
+        case 'BSC': {
+            hook.img = BSC.img;
+            hook.discordUrl = BSC.webhooks.newTrade;
+            hook.explorerUrl = `${BSC.explorer.url}/token`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/bsc`;
+            hook.nativeToken = 'WBNB';
+            if (dex === 'pancakeswap') {
+                hook.dexUrl = BSC.dexes.pancakeswap.url;
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
+        case 'FTM': {
+            hook.img = FTM.img;
+            hook.discordUrl = FTM.webhooks.newTrade;
+            hook.explorerUrl = `${FTM.explorer.url}/token`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/fantom`;
+            hook.nativeToken = 'WFTM';
+            if (dex === 'spookyswap') {
+                hook.dexUrl = FTM.dexes.spookyswap.url;
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
 
         default:
             break;
@@ -41,20 +67,7 @@ const getHookInfo = (chain, dex) => {
 
 const notificationWorthy = (trade, valueUSD) => {
     // do research here to determine
-    let worthy = false;
-    switch (trade.chain) {
-        case 'ETH': {
-            if (!trade.token.onCoingecko) {
-                worthy = true;
-            } else if (valueUSD >= 500000) {
-                worthy = true;
-            }
-            break;
-        }
-        default:
-            break;
-    }
-    return worthy;
+    return !trade.token.onCoingecko;
 };
 
 const sendTradeNotification = async (trade) => {

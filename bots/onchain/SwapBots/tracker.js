@@ -26,6 +26,13 @@ const getPrice = async (chain, nativeTokenAddress) => {
                 data = await response.json();
                 price = data[nativeTokenAddress]['usd'];
                 break;
+            case 'FTM':
+                response = await fetch(
+                    `https://api.coingecko.com/api/v3/simple/token_price/fantom?contract_addresses=${nativeTokenAddress}&vs_currencies=usd`
+                );
+                data = await response.json();
+                price = data[nativeTokenAddress]['usd'];
+                break;
             default:
                 break;
         }
@@ -45,6 +52,9 @@ const existsOnCoingecko = async (chain, address) => {
             break;
         case 'BSC':
             network = 'binance-smart-chain';
+            break;
+        case 'FTM':
+            network = 'fantom';
             break;
         default:
             break;

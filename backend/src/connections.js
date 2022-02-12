@@ -17,6 +17,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.bsc_newpairhook,
+            newTrade: process.env.bsc_newtradehook,
         },
         dexes: {
             pancakeswap: {
@@ -55,6 +56,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.ftm_newpairhook,
+            newTrade: process.env.ftm_newtradehook,
         },
         dexes: {
             spookyswap: {
@@ -75,6 +77,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.aurora_newpairhook,
+            newTrade: process.env.aurora_newtradehook,
         },
         dexes: {
             trisolaris: {
@@ -94,6 +97,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.fuse_newpairhook,
+            newTrade: process.env.fuse_newtradehook,
         },
         dexes: {
             fusefi: {
@@ -111,6 +115,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.metis_newpairhook,
+            newTrade: process.env.metis_newtradehook,
         },
         dexes: {
             netswap: {
@@ -131,6 +136,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.optimism_newpairhook,
+            newTrade: process.env.optimism_newtradehook,
         },
         dexes: {
             zipswap: {
@@ -147,6 +153,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.arbitrum_newpairhook,
+            newTrade: process.env.arbitrum_newtradehook,
         },
         dexes: {
             uniswap: {
@@ -167,6 +174,7 @@ const connections = {
         },
         webhooks: {
             newPair: process.env.avax_newpairhook,
+            newTrade: process.env.avax_newtradehook,
         },
         dexes: {
             traderjoe: {
