@@ -195,6 +195,7 @@ const cachedBoringAddresses = new Set();
 
 const setUpPair = (pair, account, nativeTokenAddress, stablecoins) => {
     const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, account);
+    console.log('setting up', pair);
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
         sender = sender.toLowerCase();

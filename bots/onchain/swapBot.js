@@ -36,10 +36,25 @@ const stablecoins = {
             usdValue: new Big(1.0),
         },
     },
+    OPTIMISM: {
+        '0x94b008aa00579c1307b0ef2c499ad98a8ce58e58': {
+            symbol: 'USDT',
+            usdValue: new Big(1.0),
+        },
+        '0x7f5c764cbc14f9669b88837ca1490cca17c31607': {
+            symbol: 'USDC',
+            usdValue: new Big(1.0),
+        },
+        '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1': {
+            symbol: 'DAI',
+            usdValue: new Big(1.0),
+        },
+    },
 };
 
 const WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
 const WBNB = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
+const WETH_optimism = '0x4200000000000000000000000000000000000006';
 
 const getPairs = async (chain) => {
     const response = await fetch(`${URL}/pairs/${chain}/`);
@@ -47,11 +62,25 @@ const getPairs = async (chain) => {
     return pairs;
 };
 
+const setUpPairs = async (chain) => {};
+
 const main = async () => {
     const ethPairs = await getPairs('ETH');
-    const bscPairs = await getPairs('BSC');
     const ethAccount = getAccount('http', 'ETH');
+
+    const bscPairs = await getPairs('BSC');
     const bscAccount = getAccount('http', 'BSC');
+
+    const optimismPairs = await getPairs('OPTIMISM');
+    const optimismAccount = getAccount('http', 'OPTIMISM');
+
+    let chain = {
+        pairs: ethPairs,
+        account: ethAccount,
+        nativeTokenAddress: WETH,
+        stablecoins: stablecoins.ETH,
+    };
+
     // nativetoken and stables
 
     for (const pair of ethPairs) {
@@ -60,6 +89,10 @@ const main = async () => {
 
     for (const pair of bscPairs) {
         setUpPair(pair, bscAccount, WBNB, stablecoins.BSC);
+    }
+
+    for (const pair of optimismPairs) {
+        setUpPair(pair, optimismAccount, WETH_optimism, stablecoins.OPTIMISM);
     }
 
     const ws = new WebSocket('ws://localhost:8080/');

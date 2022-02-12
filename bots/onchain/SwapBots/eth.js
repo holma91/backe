@@ -1,9 +1,7 @@
 import { getAccount } from '../utils/utils.js';
 import fetch from 'node-fetch';
 import Big from 'big.js';
-import WebSocket from 'ws';
 import 'dotenv/config';
-import setUpPair from './tracker.js';
 
 const stablecoins = {
     '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
@@ -25,34 +23,30 @@ const stablecoins = {
 };
 
 const WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
+const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
 
-const main = async () => {
-    const response = await fetch('http://localhost:3005/pairs/eth/');
-    let pairs = await response.json();
+const response1 = await fetch(`${URL}/pairs/eth/uniswapV2`);
+let uniswapV2Pairs = await response1.json();
 
-    const account = getAccount('http', 'ETH');
+const response2 = await fetch(`${URL}/pairs/eth/sushiswap`);
+let sushiswapPairs = await response2.json();
 
-    for (const pair of pairs) {
-        setUpPair(pair, account, WETH, stablecoins);
-    }
+const account = getAccount('http', 'ETH');
 
-    const ws = new WebSocket('ws://localhost:8080/');
-
-    ws.on('open', function open() {
-        ws.send('socket opened succesfully in ethereum tracker');
-    });
-
-    ws.on('message', function message(msg) {
-        try {
-            const pair = JSON.parse(msg);
-            if (pair.chain === 'ETH') {
-                setUpPair(pair, account, WETH, stablecoins);
-            }
-        } catch (e) {
-            console.log(e);
-            console.log(msg.toString());
-        }
-    });
+const uniswapV2 = {
+    chain: 'ETH',
+    pairs: uniswapV2Pairs,
+    account,
+    nativeTokenAddress: WETH,
+    stablecoins,
 };
 
-await main();
+const sushiswap = {
+    chain: 'ETH',
+    pairs: sushiswapPairs,
+    account,
+    nativeTokenAddress: WETH,
+    stablecoins,
+};
+
+export { sushiswap, uniswapV2 };

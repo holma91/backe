@@ -1,9 +1,7 @@
 import { getAccount } from '../utils/utils.js';
 import fetch from 'node-fetch';
 import Big from 'big.js';
-import WebSocket from 'ws';
 import 'dotenv/config';
-import setUpPair from './tracker.js';
 
 const stablecoins = {
     '0xe9e7cea3dedca5984780bafc599bd69add087d56': {
@@ -18,33 +16,19 @@ const stablecoins = {
 
 const WBNB = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
 
-const main = async () => {
-    const response = await fetch('http://localhost:3005/pairs/bsc/');
-    let pairs = await response.json();
+const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
 
-    const account = getAccount('http', 'BSC');
+const response = await fetch(`${URL}/pairs/bsc/pancakeswap`);
+let pairs = await response.json();
 
-    for (const pair of pairs) {
-        setUpPair(pair, account, WBNB, stablecoins);
-    }
+const account = getAccount('http', 'BSC');
 
-    const ws = new WebSocket('ws://localhost:8080/');
-
-    ws.on('open', function open() {
-        ws.send('socket opened succesfully in binance smart chain tracker');
-    });
-
-    ws.on('message', function message(msg) {
-        try {
-            const pair = JSON.parse(msg);
-            if (pair.chain === 'BSC') {
-                setUpPair(pair, account, WBNB, stablecoins);
-            }
-        } catch (e) {
-            console.log(e);
-            console.log(msg.toString());
-        }
-    });
+const pancakeswap = {
+    chain: 'BSC',
+    pairs,
+    account,
+    nativeTokenAddress: WBNB,
+    stablecoins,
 };
 
-await main();
+export { pancakeswap };
