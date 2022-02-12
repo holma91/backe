@@ -5,6 +5,8 @@ import WebSocket from 'ws';
 import 'dotenv/config';
 import setUpPair from './SwapBots/tracker.js';
 
+const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
+
 const stablecoins = {
     ETH: {
         '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
@@ -40,7 +42,7 @@ const WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
 const WBNB = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
 
 const getPairs = async (chain) => {
-    const response = await fetch(`http://localhost:3005/pairs/${chain}/`);
+    const response = await fetch(`${URL}/pairs/${chain}/`);
     let pairs = await response.json();
     return pairs;
 };
