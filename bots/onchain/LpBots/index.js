@@ -9,19 +9,19 @@ import { uniswapV3, uniswapV2, sushiswap } from './ethereum.js';
 import { uniswapARBITRUM, sushiswapARBITRUM } from './arbitrum.js';
 
 let uniswapV2Dexes = [
-    // pancakeswap,
-    // trisolaris,
-    // wannaswap,
-    // spookyswap,
-    // fusefi,
-    // netswap,
-    // tethys,
-    // zipswap,
+    pancakeswap,
+    trisolaris,
+    wannaswap,
+    spookyswap,
+    fusefi,
+    netswap,
+    tethys,
+    zipswap,
     traderjoe,
     pangolin,
-    // sushiswap,
-    // uniswapV2,
-    // sushiswapARBITRUM,
+    sushiswap,
+    uniswapV2,
+    sushiswapARBITRUM,
 ];
 
 let uniswapV3Dexes = []; // [uniswap, uniswapARBITRUM];
