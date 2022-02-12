@@ -3,8 +3,9 @@ import { uniswapV2, sushiswap } from './eth.js';
 import { spookyswap } from './ftm.js';
 import { zipswap } from './optimism.js';
 import { sushiswapARBITRUM } from './arbitrum.js';
+import { trisolaris } from './aurora.js';
 
-let uniswapV2Dexes = [pancakeswap, uniswapV2, sushiswap, spookyswap, zipswap, sushiswapARBITRUM];
+let uniswapV2Dexes = [pancakeswap, uniswapV2, sushiswap, spookyswap, zipswap, sushiswapARBITRUM, trisolaris];
 
 let uniswapV3Dexes = []; // [uniswap, uniswapARBITRUM];
 
