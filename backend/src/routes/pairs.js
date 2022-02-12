@@ -4,6 +4,7 @@ import sendLPNotification from './utils/sendLPNotification.js';
 import schemas from './utils/requestSchemas.js';
 import validator from 'jsonschema';
 import ws from 'ws';
+import 'dotenv/config';
 
 const validate = validator.validate;
 
@@ -43,8 +44,9 @@ router.post('/pairs', async (req, res) => {
     if (validation.errors.length > 0) {
         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
     }
-
-    sendLPNotification(req.body);
+    if (process.env.environment === 'PROD') {
+        sendLPNotification(req.body);
+    }
     req.body.createdAt = new Date().toUTCString();
 
     const pair = await PairRepo.add(req.body);

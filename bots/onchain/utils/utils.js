@@ -74,9 +74,9 @@ const getTokenMetadata = async (tokenAddress, account) => {
             token.deployerAddress = contract.address;
             success = true;
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             console.log(`sleeping at ${token.address}`);
-            await sleep(1000);
+            await sleep(3000 * (count + 1));
             if (count > 10) break;
         }
     }

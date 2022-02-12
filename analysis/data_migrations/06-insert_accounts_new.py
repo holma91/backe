@@ -13,6 +13,8 @@ def account_is_interesting(accounts, address, exchanges, bridges):
                or 'factory' in accounts[address] or 'reward' in accounts[address]
                or 'token' in accounts[address] or 'proxy' in accounts[address]
                or 'contract' in accounts[address] or 'staking' in accounts[address]
+               or 'exchange' in accounts[address] or 'paraswap' in accounts[address]
+               or '1inch' in accounts[address] or 'deposit' in accounts[address]
                or address in exchanges or address in bridges)
 
 

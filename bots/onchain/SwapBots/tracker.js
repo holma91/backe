@@ -190,10 +190,10 @@ const onNewSwap = async (
     });
 };
 
+// global cache
 const cachedBoringAddresses = new Set();
 
 const setUpPair = (pair, account, nativeTokenAddress, stablecoins) => {
-    console.log('setting up', pair);
     const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, account);
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
