@@ -4,9 +4,20 @@ import { spookyswap } from './ftm.js';
 import { zipswap } from './optimism.js';
 import { sushiswapARBITRUM } from './arbitrum.js';
 import { trisolaris } from './aurora.js';
+import { netswap, tethys } from './metis.js';
 
-let uniswapV2Dexes = [pancakeswap, uniswapV2, sushiswap, spookyswap, zipswap, sushiswapARBITRUM, trisolaris];
+const uniswapV2Dexes = [
+    pancakeswap,
+    uniswapV2,
+    sushiswap,
+    spookyswap,
+    zipswap,
+    sushiswapARBITRUM,
+    trisolaris,
+    netswap,
+    tethys,
+];
 
-let uniswapV3Dexes = []; // [uniswap, uniswapARBITRUM];
+const uniswapV3Dexes = []; // [uniswap, uniswapARBITRUM];
 
 export { uniswapV2Dexes, uniswapV3Dexes };
