@@ -2,34 +2,22 @@ import ethers from 'ethers';
 import { uniV2Factory, getAccount } from '../utils/utils.js';
 
 const addresses = {
-    WBNB: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    trisolarisFactory: '0xc66F594268041dB60507F00703b152492fb176E7',
-    wannaswapFactory: '0x7928D4FeA7b2c90C732c10aFF59cf403f0C38246',
+    WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+    trisolarisFactory: '0xc66f594268041db60507f00703b152492fb176e7',
+    wannaswapFactory: '0x7928d4fea7b2c90c732c10aff59cf403f0c38246',
 };
 
 const knownTokens = {
-    NEAR: {
-        address: '0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d',
-        inUSD: 12,
-    },
-    USDC: {
-        address: '0xB12BFcA5A55806AaF64E99521918A4bf0fC40802',
-        inUSD: 1.0,
-    },
-    USDT: {
-        address: '0x4988a896b1227218e4A686fdE5EabdcAbd91571f',
-        inUSD: 1.0,
-    },
-    AURORA: {
-        address: '0x8BEc47865aDe3B172A928df8f990Bc7f2A3b9f79',
-        inUSD: 12,
-    },
+    NEAR: { address: '0xc42c30ac6cc15fac9bd938618bcaa1a1fae8501d', inUSD: 12 },
+    USDC: { address: '0xb12bfca5a55806aaf64e99521918a4bf0fc40802', inUSD: 1 },
+    USDT: { address: '0x4988a896b1227218e4a686fde5eabdcabd91571f', inUSD: 1 },
+    AURORA: { address: '0x8bec47865ade3b172a928df8f990bc7f2a3b9f79', inUSD: 12 },
     TRI: {
-        address: '0xFa94348467f64D5A457F75F8bc40495D33c65aBB',
+        address: '0xfa94348467f64d5a457f75f8bc40495d33c65abb',
         inUSD: 0.85,
     },
     WETH: {
-        address: '0xC9BdeEd33CD01541e1eeD10f90519d2C06Fe3feB',
+        address: '0xc9bdeed33cd01541e1eed10f90519d2c06fe3feb',
         inUSD: 3200,
     },
 };
