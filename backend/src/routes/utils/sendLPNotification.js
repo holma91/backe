@@ -9,7 +9,8 @@ const client = require('twilio');
 
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import connections from '../../connections.js';
-const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM } = connections;
+const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM, ARBITRUM } = connections;
+const dexscreenerUrl = 'https://dexscreener.com';
 
 const getHookInfo = (chain, dex) => {
     let hook = {};
@@ -19,6 +20,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = BSC.img;
             hook.greenUrl = BSC.webhooks.newPair;
             hook.explorerUrl = `${BSC.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/bsc`;
             if (dex === 'pancakeswap') {
                 hook.dexUrl = BSC.dexes.pancakeswap.url;
             } else {
@@ -30,6 +32,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = ETH.img;
             hook.greenUrl = ETH.webhooks.newPair;
             hook.explorerUrl = `${ETH.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/ethereum`;
             if (dex === 'uniswapV2') {
                 hook.dexUrl = ETH.dexes.uniswap.url;
             } else if (dex === 'sushiswap') {
@@ -43,6 +46,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = AVAX.img;
             hook.greenUrl = AVAX.webhooks.newPair;
             hook.explorerUrl = `${AVAX.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/avalanche`;
             if (dex === 'traderjoe') {
                 hook.dexUrl = AVAX.dexes.uniswap.url;
             } else if (dex === 'pangolin') {
@@ -56,6 +60,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = FTM.img;
             hook.greenUrl = FTM.webhooks.newPair;
             hook.explorerUrl = `${FTM.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/fantom`;
             if (dex === 'spookyswap') {
                 hook.dexUrl = FTM.dexes.spookyswap.url;
             } else if (dex === 'spiritswap') {
@@ -67,6 +72,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = AURORA.img;
             hook.greenUrl = AURORA.webhooks.newPair;
             hook.explorerUrl = `${AURORA.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/aurora`;
             if (dex === 'trisolaris') {
                 hook.dexUrl = AURORA.dexes.trisolaris.url;
             } else if (dex == 'wannaswap') {
@@ -78,6 +84,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = FUSE.img;
             hook.greenUrl = FUSE.webhooks.newPair;
             hook.explorerUrl = `${FUSE.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/fuse`;
             if (dex === 'fuse.fi') {
                 hook.dexUrl = FUSE.dexes.fusefi.url;
             }
@@ -87,6 +94,7 @@ const getHookInfo = (chain, dex) => {
             hook.img = METIS.img;
             hook.greenUrl = METIS.webhooks.newPair;
             hook.explorerUrl = `${METIS.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/metis`;
             if (dex === 'netswap') {
                 hook.dexUrl = METIS.dexes.netswap.url;
             } else if (dex === 'tethys') {
@@ -98,8 +106,19 @@ const getHookInfo = (chain, dex) => {
             hook.img = OPTIMISM.img;
             hook.greenUrl = OPTIMISM.webhooks.newPair;
             hook.explorerUrl = `${OPTIMISM.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/optimism`;
             if (dex === 'zipswap') {
                 hook.dexUrl = OPTIMISM.dexes.zipswap.url;
+            }
+            break;
+        }
+        case 'ARBITRUM': {
+            hook.img = ARBITRUM.img;
+            hook.greenUrl = ARBITRUM.webhooks.newPair;
+            hook.explorerUrl = `${ARBITRUM.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/optimism`;
+            if (dex === 'sushiswap') {
+                hook.dexUrl = ARBITRUM.dexes.sushiswap.url;
             }
             break;
         }
@@ -188,7 +207,7 @@ const sendLPNotification = async (pair) => {
         .addFields(
             {
                 name: 'Pair information',
-                value: `${symbolOldToken}/${symbolNewToken}\n${pair.address}\n${hook.explorerUrl}${pair.address}`,
+                value: `${symbolOldToken}/${symbolNewToken}\n${pair.address}\n${hook.explorerUrl}${pair.address}\n\n${hook.dexscreenerUrl}/${pair.address}`,
             },
             {
                 name: 'Token information',

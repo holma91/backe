@@ -48,7 +48,14 @@ const schemas = {
                     order: { type: 'string' },
                     amount: { type: 'string' },
                     priceUSD: { type: 'string' },
-                    onCoingecko: { type: 'boolean' },
+                    coingecko: {
+                        type: { type: 'object' },
+                        properties: {
+                            exists: { type: 'boolean' },
+                            marketCapRank: { type: 'number' },
+                        },
+                        minProperties: 1,
+                    },
                 },
                 minProperties: 7,
             },
@@ -61,7 +68,14 @@ const schemas = {
                     order: { type: 'string' },
                     amount: { type: 'string' },
                     priceUSD: { type: 'string' },
-                    onCoingecko: { type: 'boolean' },
+                    coingecko: {
+                        type: { type: 'object' },
+                        properties: {
+                            exists: { type: 'boolean' },
+                            marketCapRank: { type: 'number' },
+                        },
+                        minProperties: 1,
+                    },
                 },
                 minProperties: 7,
             },

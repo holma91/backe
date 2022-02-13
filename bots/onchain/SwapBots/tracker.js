@@ -198,11 +198,11 @@ const onNewSwap = async (
         log(e);
     }
 
-    // fetch(`${URL}/trades`, {
-    //     method: 'post',
-    //     body: JSON.stringify(swap),
-    //     headers: { 'Content-Type': 'application/json' },
-    // });
+    fetch(`${URL}/trades`, {
+        method: 'post',
+        body: JSON.stringify(swap),
+        headers: { 'Content-Type': 'application/json' },
+    });
 };
 
 // global cache
@@ -214,13 +214,13 @@ const setUpPair = (pair, account, nativeTokenAddress, stablecoins) => {
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
         sender = sender.toLowerCase();
-        // if (cachedBoringAddresses.has(sender)) return;
+        if (cachedBoringAddresses.has(sender)) return;
 
-        // if (!(await isSenderInteresting(sender))) {
-        //     console.log(`${sender} is not of interest`);
-        //     cachedBoringAddresses.add(sender);
-        //     return;
-        // }
+        if (!(await isSenderInteresting(sender))) {
+            console.log(`${sender} is not of interest`);
+            cachedBoringAddresses.add(sender);
+            return;
+        }
 
         await onNewSwap(pair, sender, amount0In, amount1In, amount0Out, amount1Out, nativeTokenAddress, stablecoins);
     });

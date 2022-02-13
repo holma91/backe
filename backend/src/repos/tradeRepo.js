@@ -43,7 +43,7 @@ class TradeRepo {
                     swap.token.symbol,
                     swap.token.priceUSD,
                     swap.token.amount,
-                    swap.token.onCoingecko,
+                    swap.token.coingecko.exists,
                     swap.token.order,
                 ]
             );

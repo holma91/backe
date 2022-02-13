@@ -9,7 +9,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import connections from '../../connections.js';
-const { ETH, BSC, FTM } = connections;
+const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM, ARBITRUM } = connections;
 
 const dexscreenerUrl = 'https://dexscreener.com';
 
@@ -58,6 +58,80 @@ const getHookInfo = (chain, dex) => {
             }
             break;
         }
+        case 'AVAX': {
+            hook.img = AVAX.img;
+            hook.discordUrl = AVAX.webhooks.newTrade;
+            hook.explorerUrl = `${AVAX.explorer.url}/token`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/avalanche`;
+            hook.nativeToken = 'WAVAX';
+            if (dex === 'traderjoe') {
+                hook.dexUrl = AVAX.dexes.uniswap.url;
+            } else if (dex === 'pangolin') {
+                hook.dexUrl = AVAX.dexes.sushiswap.url;
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
+        case 'AURORA': {
+            hook.img = AURORA.img;
+            hook.discordUrl = AURORA.webhooks.newTrade;
+            hook.explorerUrl = `${AURORA.explorer.url}/token`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/aurora`;
+            hook.nativeToken = 'WETH';
+            if (dex === 'trisolaris') {
+                hook.dexUrl = AURORA.dexes.trisolaris.url;
+            } else {
+                hook.dexUrl = '';
+            }
+            break;
+        }
+        case 'FUSE': {
+            hook.img = FUSE.img;
+            hook.greenUrl = FUSE.webhooks.newTrade;
+            hook.explorerUrl = `${FUSE.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/fuse`;
+            hook.nativeToken = 'WFUSE';
+            if (dex === 'fuse.fi') {
+                hook.dexUrl = FUSE.dexes.fusefi.url;
+            }
+            break;
+        }
+        case 'METIS': {
+            hook.img = METIS.img;
+            hook.greenUrl = METIS.webhooks.newTrade;
+            hook.explorerUrl = `${METIS.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/metis`;
+            hook.nativeToken = 'METIS';
+            if (dex === 'netswap') {
+                hook.dexUrl = METIS.dexes.netswap.url;
+            } else if (dex === 'tethys') {
+                hook.dexUrl = METIS.dexes.tethys.url;
+            }
+            break;
+        }
+        case 'OPTIMISM': {
+            hook.img = OPTIMISM.img;
+            hook.greenUrl = OPTIMISM.webhooks.newTrade;
+            hook.explorerUrl = `${OPTIMISM.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/optimism`;
+            hook.nativeToken = 'WETH';
+            if (dex === 'zipswap') {
+                hook.dexUrl = OPTIMISM.dexes.zipswap.url;
+            }
+            break;
+        }
+        case 'ARBITRUM': {
+            hook.img = ARBITRUM.img;
+            hook.greenUrl = ARBITRUM.webhooks.newTrade;
+            hook.explorerUrl = `${ARBITRUM.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/optimism`;
+            hook.nativeToken = 'WETH';
+            if (dex === 'sushiswap') {
+                hook.dexUrl = ARBITRUM.dexes.sushiswap.url;
+            }
+            break;
+        }
 
         default:
             break;
@@ -67,7 +141,7 @@ const getHookInfo = (chain, dex) => {
 
 const notificationWorthy = (trade, valueUSD) => {
     // do research here to determine
-    return !trade.token.onCoingecko;
+    return !trade.token.coingecko.exists;
 };
 
 const sendTradeNotification = async (trade) => {
@@ -83,7 +157,7 @@ const sendTradeNotification = async (trade) => {
 
     let color = '';
     const valueUSD = trade.token.amount * trade.token.priceUSD;
-    if (!trade.token.onCoingecko) {
+    if (!trade.token.coingecko.exists) {
         color = '#f207e7';
     } else if (valueUSD >= 50000) {
         color = '#00ff00';
@@ -95,13 +169,16 @@ const sendTradeNotification = async (trade) => {
 
     const embed = new MessageEmbed()
         .setColor(color)
-        .setTitle(`${trade.token.symbol}`)
+        .setTitle(`${trade.token.symbol} bought by ${trade.senderLabel}`)
         .setURL(hook.dexUrl)
         .setAuthor({ name: `${trade.chain}-BOT`, iconURL: hook.img, url: 'https://discord.js.org' })
         .addFields(
             {
                 name: 'Token information',
-                value: `${trade.token.name} (${trade.token.symbol})\n${trade.token.address}\n${hook.explorerUrl}/${trade.token.address}\navailable on coingecko: ${trade.token.onCoingecko}`,
+                value: `${trade.token.name} (${trade.token.symbol})\n${trade.token.address}\n${hook.explorerUrl}/${
+                    trade.token.address
+                }\navailable on coingecko: ${trade.token.coingecko.exists}
+                \nmarket cap rank: ${trade.token.coingecko.exists ? trade.token.coingecko.marketCapRank : 'N/A'}`,
             },
             {
                 name: 'Trade information',
@@ -115,7 +192,7 @@ const sendTradeNotification = async (trade) => {
             },
             {
                 name: 'Pair information',
-                value: `${trade.pair}\n${trade.pairAddress}\n${hook.explorerUrl}${trade.pairAddress}\n${hook.dexscreenerUrl}/${trade.token.address}`,
+                value: `${trade.pair}\n${trade.pairAddress}\n${hook.explorerUrl}/${trade.pairAddress}\n${hook.dexscreenerUrl}/${trade.pairAddress}`,
             }
         )
         .setTimestamp();
