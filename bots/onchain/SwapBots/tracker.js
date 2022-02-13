@@ -84,6 +84,7 @@ const onNewSwap = async (
     nativeTokenAddress,
     stablecoins
 ) => {
+    console.log('new interesting swap!');
     const stablecoinAddresses = Object.keys(stablecoins);
     amount0In = ethers.utils.formatUnits(amount0In, pair.token0Decimals);
     amount0Out = ethers.utils.formatUnits(amount0Out, pair.token0Decimals);
@@ -207,7 +208,6 @@ const setUpPair = (pair, account, nativeTokenAddress, stablecoins, interestingAd
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
         sender = sender.toLowerCase();
         if (!interestingAddresses.has(sender)) {
-            console.log(`${sender} is NOT of interest`);
             return;
         }
 

@@ -3,14 +3,15 @@ import { sleep } from './utils.js';
 import pool from '../../pool.js';
 
 const getAndInsertPairs = async (account, factory, chain, dex, knownTokens, liqTreshold) => {
+    // console.log(await factory.allPairsLength());
     const allPairsLength = (await factory.allPairsLength()).toNumber();
 
-    // console.log(allPairsLength);
+    console.log(allPairsLength);
 
     // get all pairs
     let promises = [];
     let pairs = [];
-    for (let i = 740500; i < 741000; i++) {
+    for (let i = 40000; i < 41000; i++) {
         try {
             promises.push(getPairMetadata(account, factory, i, chain, dex));
             // make the calls in batches to prevent stack overflow

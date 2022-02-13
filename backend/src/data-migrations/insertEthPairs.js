@@ -33,7 +33,7 @@ const main = async () => {
     // await getAndInsertPairs(account, sushiswapFactory, 'ETH', 'sushiswap', knownTokens, 100000);
 
     const uniswapV2Factory = new ethers.Contract(addresses.uniswapV2Factory, factoryABI, account);
-    await getAndInsertPairs(account, uniswapV2Factory, 'ETH', 'uniswapv2', knownTokens, 100000);
+    await getAndInsertPairs(account, uniswapV2Factory, 'ETH', 'uniswapv2', knownTokens, 500000);
 };
 
 await main();

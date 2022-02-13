@@ -20,6 +20,7 @@ router.get('/trades/:address', async (req, res) => {
 });
 
 router.post('/trades', async (req, res) => {
+    console.log(req.body);
     const validation = validate(req.body, schemas.trade);
     if (validation.errors.length > 0) {
         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
