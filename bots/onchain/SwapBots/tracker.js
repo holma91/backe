@@ -74,11 +74,6 @@ const coingeckoStats = async (chain, address) => {
     }
 };
 
-const isSenderInteresting = async (sender) => {
-    const response = await fetch(`${URL}/accounts/${sender}/`);
-    return response.status !== 404;
-};
-
 const onNewSwap = async (
     pair,
     sender,
@@ -205,20 +200,14 @@ const onNewSwap = async (
     });
 };
 
-// global cache
-const cachedBoringAddresses = new Set();
-
-const setUpPair = (pair, account, nativeTokenAddress, stablecoins) => {
+const setUpPair = (pair, account, nativeTokenAddress, stablecoins, interestingAddresses) => {
     const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, account);
     console.log('setting up', pair);
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
         sender = sender.toLowerCase();
-        if (cachedBoringAddresses.has(sender)) return;
-
-        if (!(await isSenderInteresting(sender))) {
-            console.log(`${sender} is not of interest`);
-            cachedBoringAddresses.add(sender);
+        if (!interestingAddresses.includes(sender)) {
+            console.log(`${sender} is NOT of interest`);
             return;
         }
 
