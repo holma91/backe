@@ -43,37 +43,39 @@ const getPrice = async (chain, nativeTokenAddress) => {
     return price;
 };
 
-const existsOnCoingecko = async (chain, address) => {
-    let network;
-
-    switch (chain) {
-        case 'ETH':
-            network = 'ethereum';
-            break;
-        case 'BSC':
-            network = 'binance-smart-chain';
-            break;
-        case 'FTM':
-            network = 'fantom';
-            break;
-        default:
-            break;
-    }
+const coingeckoStats = async (chain, address) => {
+    let coinToNetwork = {
+        ETH: 'ethereum',
+        BSC: 'binance-smart-chain',
+        FTM: 'fantom',
+        AVAX: 'avalanche',
+        AURORA: 'aurora',
+        OPTIMISM: 'optimistic-ethereum',
+        ARBITRUM: 'arbitrum-one',
+        FUSE: 'fuse',
+        METIS: 'metis-andromeda',
+    };
 
     try {
         let response = await fetch(
-            `https://api.coingecko.com/api/v3/simple/token_price/${network}?contract_addresses=${address}&vs_currencies=usd`
+            `https://api.coingecko.com/api/v3/coins/${coinToNetwork[chain]}/contract/${address}`
+            // `https://api.coingecko.com/api/v3/simple/token_price/${coinToNetwork[chain]}?contract_addresses=${address}&vs_currencies=usd`
         );
         let data = await response.json();
 
-        return data[address] !== undefined;
+        if (data.error) return { exists: false };
+
+        let marketCapRank = data['market_cap_rank'];
+        // let marketCap = data['market_data']['market_cap']['usd'];
+
+        return { exists: true, marketCapRank };
     } catch (e) {
         console.log(e);
     }
 };
 
 const isSenderInteresting = async (sender) => {
-    const response = await fetch(`http://localhost:3005/accounts/${sender}/`);
+    const response = await fetch(`${URL}/accounts/${sender}/`);
     return response.status !== 404;
 };
 
@@ -106,7 +108,7 @@ const onNewSwap = async (
             order: '',
             amount: 0,
             priceUSD: 0,
-            onCoingecko: false,
+            coingecko: { exists: false },
         },
         token1: {
             name: pair.token1Name,
@@ -115,7 +117,7 @@ const onNewSwap = async (
             order: '',
             amount: 0,
             priceUSD: 0,
-            onCoingecko: false,
+            coingecko: { exists: false },
         },
     };
 
@@ -150,8 +152,8 @@ const onNewSwap = async (
         }
 
         swap.token0.priceUSD = swap.token0.priceUSD.toPrecision(6);
-        swap.token0.onCoingecko = true;
-        swap.token1.onCoingecko = await existsOnCoingecko(swap.chain, swap.token1.address);
+        swap.token0.coingecko.exists = true;
+        swap.token1.coingecko = await coingeckoStats(swap.chain, swap.token1.address);
     } else if (pair.token1Address === nativeTokenAddress || stablecoinAddresses.includes(pair.token1Address)) {
         swap.token1.priceUSD =
             pair.token1Address === nativeTokenAddress
@@ -180,24 +182,27 @@ const onNewSwap = async (
                 .toPrecision(6);
         }
         swap.token1.priceUSD = swap.token1.priceUSD.toPrecision(6);
-        swap.token1.onCoingecko = true;
-        swap.token0.onCoingecko = await existsOnCoingecko(swap.chain, swap.token0.address);
+        swap.token1.coingecko.exists = true;
+        swap.token0.coingecko = await coingeckoStats(swap.chain, swap.token0.address);
     }
 
     swap.token0.amount = new Big(swap.token0.amount).toPrecision(6);
     swap.token1.amount = new Big(swap.token1.amount).toPrecision(6);
 
-    // console.log(swap);
+    console.log(swap);
+    try {
+        let response = await fetch(`${URL}/accounts/${swap.senderAddress}?include_labels=yes`);
+        let account = await response.json();
+        swap.senderLabel = account.labelId;
+    } catch (e) {
+        log(e);
+    }
 
-    let response = await fetch(`${URL}/accounts/${swap.senderAddress}?include_labels=yes`);
-    let account = await response.json();
-    swap.senderLabel = account.labelId;
-
-    fetch(`${URL}/trades`, {
-        method: 'post',
-        body: JSON.stringify(swap),
-        headers: { 'Content-Type': 'application/json' },
-    });
+    // fetch(`${URL}/trades`, {
+    //     method: 'post',
+    //     body: JSON.stringify(swap),
+    //     headers: { 'Content-Type': 'application/json' },
+    // });
 };
 
 // global cache
@@ -209,13 +214,13 @@ const setUpPair = (pair, account, nativeTokenAddress, stablecoins) => {
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
         sender = sender.toLowerCase();
-        if (cachedBoringAddresses.has(sender)) return;
+        // if (cachedBoringAddresses.has(sender)) return;
 
-        if (!(await isSenderInteresting(sender))) {
-            console.log(`${sender} is not of interest`);
-            cachedBoringAddresses.add(sender);
-            return;
-        }
+        // if (!(await isSenderInteresting(sender))) {
+        //     console.log(`${sender} is not of interest`);
+        //     cachedBoringAddresses.add(sender);
+        //     return;
+        // }
 
         await onNewSwap(pair, sender, amount0In, amount1In, amount0Out, amount1Out, nativeTokenAddress, stablecoins);
     });
