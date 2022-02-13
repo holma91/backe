@@ -31,7 +31,7 @@ let uniswapV2Pairs = await response1.json();
 const response2 = await fetch(`${URL}/pairs/eth/sushiswap`);
 let sushiswapPairs = await response2.json();
 
-const account = getAccount('http', 'ETH');
+const account = getAccount('ws', 'ETH');
 
 const uniswapV2 = {
     chain: 'ETH',
