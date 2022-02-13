@@ -9,7 +9,7 @@ const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.e
 const getInterestingAddresses = async () => {
     const response = await fetch(`${URL}/accounts/`);
     const accounts = await response.json();
-    return accounts.map((acc) => acc.address);
+    return new Set(accounts.map((acc) => acc.address));
 };
 
 const main = async () => {

@@ -206,7 +206,7 @@ const setUpPair = (pair, account, nativeTokenAddress, stablecoins, interestingAd
 
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
         sender = sender.toLowerCase();
-        if (!interestingAddresses.includes(sender)) {
+        if (!interestingAddresses.has(sender)) {
             console.log(`${sender} is NOT of interest`);
             return;
         }
