@@ -17,6 +17,7 @@ const TopNavigation = () => (
 const ThemeIcon = () => {
   const [darkTheme, setDarkTheme] = useDarkMode();
   const handleMode = () => setDarkTheme(!darkTheme);
+
   return (
     <button type="button" onClick={handleMode}>
       {darkTheme ? (

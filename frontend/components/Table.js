@@ -21,6 +21,11 @@ function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) 
     setGlobalFilter(val || undefined);
   }, 200);
 
+  const handleChange = (event) => {
+    setValue(event.target.value);
+    onChange(event.target.value);
+  };
+
   return (
     <div>
       <label htmlFor="search-input" className="flex gap-x-2 items-baseline">
@@ -30,11 +35,8 @@ function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) 
           type="text"
           className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           value={value || ''}
-          onChange={(e) => {
-            setValue(e.target.value);
-            onChange(e.target.value);
-          }}
           placeholder={`${count} records...`}
+          onChange={handleChange}
         />
       </label>
     </div>
@@ -58,6 +60,20 @@ export function SelectColumnFilter({
     return [...ops.values()];
   }, [id, preFilteredRows]);
 
+  const handleChange = (event) => {
+    setFilter(event.target.value || undefined);
+  };
+
+  const Options = () => (
+    options
+      .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
+      .map((option) => (
+        <option className="" key={option.id} value={option}>
+          {option}
+        </option>
+
+      )));
+
   // Render a multi-select box
   return (
     <label htmlFor="selection-field" className="flex gap-x-2 items-baseline">
@@ -72,21 +88,10 @@ export function SelectColumnFilter({
         className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
         name={id}
         value={filterValue}
-        onChange={(e) => {
-          setFilter(e.target.value || undefined);
-        }}
+        onChange={handleChange}
       >
         <option value="">All</option>
-
-        {
-                options
-                  .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
-                  .map((option) => (
-                    <option className="" key="{option.id}" value={option}>
-                      {option}
-                    </option>
-                  ))
-}
+        <Options />
       </select>
     </label>
   );
@@ -117,6 +122,18 @@ export function AvatarCell({ value, column, row }) {
     </div>
   );
 }
+
+const PageCounter = ({ pageCurrent, pageMax }) => (
+  <>
+    Page
+    {' '}
+    <span className="font-medium">{pageCurrent}</span>
+    {' '}
+    of
+    {' '}
+    <span className="font-medium">{pageMax}</span>
+  </>
+);
 
 function Table({ columns, data }) {
   const {
@@ -149,19 +166,24 @@ function Table({ columns, data }) {
     usePagination,
   );
 
+  // This has been separated but needs to be rewritten
+  const Headers = () => (
+    headerGroups.map((headerGroup) => headerGroup.headers.map((column) => (column.Filter ? (
+      <div className="mt-2 sm:mt-0" key={column.id}>
+        {column.render('Filter')}
+      </div>
+    ) : null)))
+  );
+
   return (
-    <>
+    <div>
       <div className="sm:flex sm:gap-x-2">
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
           globalFilter={state.globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
-        {headerGroups.map((headerGroup) => headerGroup.headers.map((column) => (column.Filter ? (
-          <div className="mt-2 sm:mt-0" key={column.id}>
-            {column.render('Filter')}
-          </div>
-        ) : null)))}
+        <Headers />
       </div>
       {/* table */}
       <div className="mt-4 flex flex-col">
@@ -242,13 +264,7 @@ function Table({ columns, data }) {
         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
           <div className="flex gap-x-2 items-baseline">
             <span className="text-sm text-gray-700">
-              Page
-              {' '}
-              <span className="font-medium">{state.pageIndex + 1}</span>
-              {' '}
-              of
-              {' '}
-              <span className="font-medium">{pageOptions.length}</span>
+              <PageCounter pageCurrent={state.pageIndex + 1} pageMax={pageOptions.length} />
             </span>
             <label htmlFor="item-count-selector">
               <span className="sr-only">Items Per Page</span>
@@ -303,7 +319,7 @@ function Table({ columns, data }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
