@@ -56,7 +56,9 @@ const ChevronIcon = ({ expanded }) => {
 const TopicSelection = ({ selection }) => (
     <div className="dropdown-selection">
         <BsHash size="24" className="text-gray-400" />
-        <h5 className="dropdown-selection-text">{selection}</h5>
+        <div className="dropdown-selection-text">
+            <h5 className=" hover:text-blue-400">{selection}</h5>
+        </div>
     </div>
 );
 
