@@ -1,10 +1,9 @@
 import MainContainer from './MainContainer';
 
 const ContentContainer = () => (
-    <div className="content-container">
-        <MainContainer />
-    </div>
+  <div className="content-container">
+    <MainContainer />
+  </div>
 );
-
 
 export default ContentContainer;
