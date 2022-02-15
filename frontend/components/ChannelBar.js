@@ -18,26 +18,37 @@ const ChannelBar = () => (
 const Dropdown = ({ header, selections }) => {
   const [expanded, setExpanded] = useState(false);
 
+  const handleExpand = () => {
+    setExpanded(!expanded);
+  };
+
+  const Selections = () => {
+    if (expanded && selections) {
+      return (
+        selections.map((selection) => (
+          <TopicSelection key={selection[0]} selection={selection} />
+        )));
+    }
+    return null;
+  };
+
+  const headerClass = `hover:text-blue-400 hover:cursor-pointer ${
+    expanded
+      ? 'dropdown-header-text-selected'
+      : 'dropdown-header-text'}`;
+
   return (
     <div className="dropdown">
-      <button type="button" onClick={() => setExpanded(!expanded)} className="dropdown-header">
+      <button type="button" onClick={handleExpand} className="dropdown-header">
         <ChevronIcon expanded={expanded} />
-        <h5
-          className={`hover:text-blue-400 hover:cursor-pointer ${
-            expanded
-              ? 'dropdown-header-text-selected'
-              : 'dropdown-header-text'
-          }`}
-        >
+        <h5 className={headerClass}>
           {header}
         </h5>
 
       </button>
-      {expanded
-        && selections
-        && selections.map(
-          (selection) => <TopicSelection key={selection[0]} selection={selection} />,
-        )}
+      <div>
+        <Selections />
+      </div>
     </div>
   );
 };
