@@ -135,6 +135,63 @@ const PageCounter = ({ pageCurrent, pageMax }) => (
   </>
 );
 
+const TableHeader = ({ headerGroups }) => (
+  headerGroups.map((headerGroup) => (
+    <tr {...headerGroup.getHeaderGroupProps()}>
+      {headerGroup.headers.map((column) => (
+        // Add the sorting props to control sorting. For this example
+        // we can add them into the header props
+        <th
+          scope="col"
+          className="group px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          {...column.getHeaderProps(column.getSortByToggleProps())}
+        >
+          <div className="flex items-center justify-between">
+            {column.render('Header')}
+            {/* Add a sort direction indicator */}
+            <span>
+              {column.isSorted ? (
+                column.isSortedDesc ? (
+                  <SortDownIcon className="w-4 h-4 text-gray-400" />
+                ) : (
+                  <SortUpIcon className="w-4 h-4 text-gray-400" />
+                )
+              ) : (
+                <SortIcon className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100" />
+              )}
+            </span>
+          </div>
+        </th>
+      ))}
+    </tr>
+  ))
+);
+
+const TableBody = ({page, prepareRow}) => (
+  page.map((row) => {
+    prepareRow(row);
+    return (
+      <tr {...row.getRowProps()}>
+        {row.cells.map((cell) => (
+          <td
+            {...cell.getCellProps()}
+            className="px-3 py-1 whitespace-nowrap"
+            role="cell"
+          >
+            {cell.column.Cell.name === 'defaultRenderer' ? (
+              <div className="text-sm text-gray-500">
+                {cell.render('Cell')}
+              </div>
+            ) : (
+              cell.render('Cell')
+            )}
+          </td>
+        ))}
+      </tr>
+    );
+  })
+);
+
 function Table({ columns, data }) {
   const {
     getTableProps,
@@ -192,59 +249,10 @@ function Table({ columns, data }) {
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table {...getTableProps()} className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
-                  {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column) => (
-                        // Add the sorting props to control sorting. For this example
-                        // we can add them into the header props
-                        <th
-                          scope="col"
-                          className="group px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          {...column.getHeaderProps(column.getSortByToggleProps())}
-                        >
-                          <div className="flex items-center justify-between">
-                            {column.render('Header')}
-                            {/* Add a sort direction indicator */}
-                            <span>
-                              {column.isSorted ? (
-                                column.isSortedDesc ? (
-                                  <SortDownIcon className="w-4 h-4 text-gray-400" />
-                                ) : (
-                                  <SortUpIcon className="w-4 h-4 text-gray-400" />
-                                )
-                              ) : (
-                                <SortIcon className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100" />
-                              )}
-                            </span>
-                          </div>
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
+                  <TableHeader headerGroups={headerGroups} />
                 </thead>
                 <tbody {...getTableBodyProps()} className="bg-white divide-y divide-gray-200">
-                  {page.map((row) => {
-                    prepareRow(row);
-                    return (
-                      <tr {...row.getRowProps()}>
-                        {row.cells.map((cell) => (
-                          <td
-                            {...cell.getCellProps()}
-                            className="px-3 py-1 whitespace-nowrap"
-                            role="cell"
-                          >
-                            {cell.column.Cell.name === 'defaultRenderer' ? (
-                              <div className="text-sm text-gray-500">
-                                {cell.render('Cell')}
-                              </div>
-                            ) : (
-                              cell.render('Cell')
-                            )}
-                          </td>
-                        ))}
-                      </tr>
-                    );
-                  })}
+                  <TableBody page={page} prepareRow={prepareRow} />
                 </tbody>
               </table>
             </div>
