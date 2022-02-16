@@ -219,6 +219,44 @@ const PageSelector = ({ state, setPageSize, pageOptions }) => (
   </div>
 );
 
+const ChangePage = (
+  {
+    canPreviousPage, canNextPage, previousPage, nextPage, gotoPage, pageCount,
+  },
+) => (
+  <div>
+    <nav
+      className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+      aria-label="Pagination"
+    >
+      <PageButton
+        className="rounded-l-md"
+        onClick={() => gotoPage(0)}
+        disabled={!canPreviousPage}
+      >
+        <span className="sr-only">First</span>
+        <ChevronDoubleLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+      </PageButton>
+      <PageButton onClick={() => previousPage()} disabled={!canPreviousPage}>
+        <span className="sr-only">Previous</span>
+        <ChevronLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+      </PageButton>
+      <PageButton onClick={() => nextPage()} disabled={!canNextPage}>
+        <span className="sr-only">Next</span>
+        <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+      </PageButton>
+      <PageButton
+        className="rounded-r-md"
+        onClick={() => gotoPage(pageCount - 1)}
+        disabled={!canNextPage}
+      >
+        <span className="sr-only">Last</span>
+        <ChevronDoubleRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+      </PageButton>
+    </nav>
+  </div>
+);
+
 function Table({ columns, data }) {
   const {
     getTableProps,
@@ -298,37 +336,14 @@ function Table({ columns, data }) {
         </div>
         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
           <PageSelector state={state} setPageSize={setPageSize} pageOptions={pageOptions} />
-          <div>
-            <nav
-              className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-              aria-label="Pagination"
-            >
-              <PageButton
-                className="rounded-l-md"
-                onClick={() => gotoPage(0)}
-                disabled={!canPreviousPage}
-              >
-                <span className="sr-only">First</span>
-                <ChevronDoubleLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </PageButton>
-              <PageButton onClick={() => previousPage()} disabled={!canPreviousPage}>
-                <span className="sr-only">Previous</span>
-                <ChevronLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </PageButton>
-              <PageButton onClick={() => nextPage()} disabled={!canNextPage}>
-                <span className="sr-only">Next</span>
-                <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </PageButton>
-              <PageButton
-                className="rounded-r-md"
-                onClick={() => gotoPage(pageCount - 1)}
-                disabled={!canNextPage}
-              >
-                <span className="sr-only">Last</span>
-                <ChevronDoubleRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-              </PageButton>
-            </nav>
-          </div>
+          <ChangePage
+            canPreviousPage
+            canNextPage
+            previousPage
+            nextPage
+            gotoPage
+            pageCount
+          />
         </div>
       </div>
     </div>
