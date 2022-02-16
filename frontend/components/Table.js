@@ -167,7 +167,7 @@ const TableHeader = ({ headerGroups }) => (
   ))
 );
 
-const TableBody = ({page, prepareRow}) => (
+const TableBody = ({ page, prepareRow }) => (
   page.map((row) => {
     prepareRow(row);
     return (
@@ -190,6 +190,33 @@ const TableBody = ({page, prepareRow}) => (
       </tr>
     );
   })
+);
+
+const PageSelector = ({ state, setPageSize, pageOptions }) => (
+  <div className="flex gap-x-2 items-baseline">
+    <span className="text-sm text-gray-700">
+      <PageCounter pageCurrent={state.pageIndex + 1} pageMax={pageOptions.length} />
+    </span>
+    <label htmlFor="item-count-selector">
+      <span className="sr-only">Items Per Page</span>
+      <select
+        id="item-count-selector"
+        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        value={state.pageSize}
+        onChange={(e) => {
+          setPageSize(Number(e.target.value));
+        }}
+      >
+        {[5, 10, 20].map((pageSize) => (
+          <option key={pageSize} value={pageSize}>
+            Show
+            {' '}
+            {pageSize}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
 );
 
 function Table({ columns, data }) {
@@ -270,30 +297,7 @@ function Table({ columns, data }) {
           </Button>
         </div>
         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-          <div className="flex gap-x-2 items-baseline">
-            <span className="text-sm text-gray-700">
-              <PageCounter pageCurrent={state.pageIndex + 1} pageMax={pageOptions.length} />
-            </span>
-            <label htmlFor="item-count-selector">
-              <span className="sr-only">Items Per Page</span>
-              <select
-                id="item-count-selector"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                value={state.pageSize}
-                onChange={(e) => {
-                  setPageSize(Number(e.target.value));
-                }}
-              >
-                {[5, 10, 20].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
-                    Show
-                    {' '}
-                    {pageSize}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+          <PageSelector state={state} setPageSize={setPageSize} pageOptions={pageOptions} />
           <div>
             <nav
               className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
