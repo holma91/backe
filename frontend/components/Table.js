@@ -326,23 +326,15 @@ function Table({ columns, data }) {
       </div>
       {/* Pagination */}
       <div className="py-3 flex items-center justify-between">
-        <div className="flex-1 flex justify-between sm:hidden">
-          <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
-            Previous
-          </Button>
-          <Button onClick={() => nextPage()} disabled={!canNextPage}>
-            Next
-          </Button>
-        </div>
         <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
           <PageSelector state={state} setPageSize={setPageSize} pageOptions={pageOptions} />
           <ChangePage
-            canPreviousPage
-            canNextPage
-            previousPage
-            nextPage
-            gotoPage
-            pageCount
+            canPreviousPage={canPreviousPage}
+            canNextPage={canNextPage}
+            previousPage={previousPage}
+            nextPage={nextPage}
+            gotoPage={gotoPage}
+            pageCount={pageCount}
           />
         </div>
       </div>
