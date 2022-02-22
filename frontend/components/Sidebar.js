@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import Link from 'next/link';
 
@@ -40,7 +39,9 @@ const Dropdown = ({ header, section, selections }) => {
         <div className="dropdown">
             <button type="button" onClick={handleExpand} className="dropdown-header">
                 <ChevronIcon expanded={expanded} />
-                <h5 className={headerClass}>{header}</h5>
+                <Link href={`/${section}`}>
+                    <a className={headerClass}>{header}</a>
+                </Link>
             </button>
             <div>
                 <Selections />
@@ -65,9 +66,6 @@ const TopicSelection = ({ section, selection }) => (
                 <a className=" hover:text-gray-600 dark:hover:text-gray-400">{selection}</a>
             </Link>
         </div>
-        {/* <div className="dropdown-selection-text">
-            <h5 className=" hover:text-gray-600 dark:hover:text-gray-400">{selection}</h5>
-        </div> */}
     </div>
 );
 
