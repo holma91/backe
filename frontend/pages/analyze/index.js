@@ -1,5 +1,5 @@
 import Sidebar from '../../components/Sidebar';
-import ContentContainer from '../../components/ContentContainer';
+import AnalyzeTable from './AnalyzeTable';
 import TopNavigation from '../../components/TopNavigation';
 
 export default function Home() {
@@ -8,7 +8,11 @@ export default function Home() {
             <Sidebar />
             <div className="content-container">
                 <TopNavigation />
-                <ContentContainer />
+                <div className="content-container">
+                    <div className="grid grid-cols-4 gap-4 m-5">
+                        <AnalyzeTable />
+                    </div>
+                </div>
             </div>
         </div>
     );

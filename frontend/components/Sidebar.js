@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const chains = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance-smart-chain'];
 
-const ChannelBar = () => (
+const Sidebar = () => (
     <div className="channel-bar shadow-lg h-screen">
         <ChannelBlock />
         <div className="channel-container">
@@ -77,4 +77,4 @@ const ChannelBlock = () => (
     </div>
 );
 
-export default ChannelBar;
+export default Sidebar;

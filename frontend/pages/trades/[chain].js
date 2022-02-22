@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import Channelbar from '../../components/ChannelBar';
+import Sidebar from '../../components/Sidebar';
 import TopNavigation from '../../components/TopNavigation';
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
 
     return (
         <div className="flex">
-            <Channelbar />
+            <Sidebar />
             <div className="content-container">
                 <TopNavigation />
                 {chain}
@@ -16,3 +16,4 @@ export default function Home() {
         </div>
     );
 }
+Sidebar;
