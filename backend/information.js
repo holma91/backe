@@ -1,8 +1,9 @@
 const information = {
     BSC: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1839.png',
-        explorer: {
-            url: 'https://bscscan.com',
+        urls: {
+            explorer: 'https://bscscan.com',
+            chart: 'https://dexscreener.com/bsc/',
         },
         dexes: {
             pancakeswap: {
@@ -12,8 +13,9 @@ const information = {
     },
     ETH: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png',
-        explorer: {
-            url: 'https://etherscan.io',
+        urls: {
+            explorer: 'https://etherscan.io',
+            chart: 'https://dexscreener.com/ethereum/',
         },
         dexes: {
             uniswap: {
@@ -26,8 +28,9 @@ const information = {
     },
     FTM: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/3513.png',
-        explorer: {
-            url: 'https://ftmscan.com',
+        urls: {
+            explorer: 'https://ftmscan.com',
+            chart: 'https://dexscreener.com/fantom/',
         },
         dexes: {
             spookyswap: {
@@ -41,9 +44,9 @@ const information = {
 
     AURORA: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png',
-        explorer: {
-            url: 'https://explorer.mainnet.aurora.dev',
-            apikey: '',
+        urls: {
+            explorer: 'https://explorer.mainnet.aurora.dev',
+            chart: 'https://dexscreener.com/aurora/',
         },
         dexes: {
             trisolaris: {
@@ -56,8 +59,9 @@ const information = {
     },
     FUSE: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/5634.png',
-        explorer: {
-            url: 'https://explorer.fuse.io',
+        urls: {
+            explorer: 'https://explorer.fuse.io',
+            chart: 'https://dexscreener.com/fuse/',
         },
         dexes: {
             fusefi: {
@@ -67,9 +71,9 @@ const information = {
     },
     METIS: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/9640.png',
-        explorer: {
-            url: 'https://andromeda-explorer.metis.io',
-            apikey: '',
+        urls: {
+            explorer: 'https://andromeda-explorer.metis.io',
+            chart: 'https://dexscreener.com/metis/',
         },
         dexes: {
             netswap: {
@@ -82,8 +86,9 @@ const information = {
     },
     OPTIMISM: {
         img: 'https://user-images.githubusercontent.com/14298799/122151157-0b197500-ce2d-11eb-89d8-6240e3ebe130.png',
-        explorer: {
-            url: 'https://optimistic.etherscan.io',
+        urls: {
+            explorer: 'https://optimistic.etherscan.io',
+            chart: 'https://dexscreener.com/optimism/',
         },
         dexes: {
             zipswap: {
@@ -93,8 +98,9 @@ const information = {
     },
     ARBITRUM: {
         img: 'https://assets.trustwalletapp.com/blockchains/arbitrum/info/logo.png',
-        explorer: {
-            url: 'https://arbiscan.io',
+        urls: {
+            explorer: 'https://arbiscan.io',
+            chart: 'https://dexscreener.com/arbitrum/',
         },
         dexes: {
             uniswap: {
@@ -107,8 +113,9 @@ const information = {
     },
     AVAX: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/5805.png',
-        explorer: {
-            url: 'https://snowtrace.io/',
+        urls: {
+            explorer: 'https://snowtrace.io',
+            chart: 'https://dexscreener.com/avalanche/',
         },
         dexes: {
             traderjoe: {
@@ -121,9 +128,9 @@ const information = {
     },
     ROPSTEN: {
         img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png',
-        explorer: {
-            url: 'https://rinkeby.etherscan.io',
-            apikey: '',
+        urls: {
+            explorer: 'https://rinkeby.etherscan.io',
+            chart: '',
         },
         webhooks: {
             newPair: '',

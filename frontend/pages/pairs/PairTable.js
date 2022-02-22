@@ -68,8 +68,8 @@ const PairTableContainer = () => {
         return {
             ...pair,
             pair: `${pair.token0Symbol}/${pair.token1Symbol}`,
-            blockExplorerUrl: `${information[pair.chain]['explorer']['url']}/address/${pair.pairAddress}`,
-            dexscreenerUrl: `https://dexscreener.com/${pair.chain}/${pair.pairAddress}`,
+            blockExplorerUrl: `${information[pair.chain]['urls']['explorer']}/address/${pair.pairAddress}`,
+            dexscreenerUrl: `${information[pair.chain]['urls']['chart']}/${pair.pairAddress}`,
         };
     });
 
@@ -209,7 +209,9 @@ const TableBody = ({ page, prepareRow }) => {
                     <td {...cell.getCellProps()} className="px-3 py-1 whitespace-nowrap" role="cell">
                         <div className="text-sm text-gray-500">
                             {cell.column.isLink ? (
-                                <a href={`${cell.value}`}>to {cell.column.Header}</a>
+                                <a href={`${cell.value}`} target="_blank">
+                                    to {cell.column.Header}
+                                </a>
                             ) : (
                                 <>{cell.render('Cell')}</>
                             )}
