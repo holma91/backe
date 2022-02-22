@@ -10,52 +10,43 @@ const AnalyzeTable = () => {
     const columns = React.useMemo(
         () => [
             {
-                Header: 'Account',
-                accessor: 'label',
-                Cell: AvatarCell,
-                imgAccessor: 'imgUrl',
-                addressAccessor: 'address',
+                Header: 'Pair',
+                accessor: 'pair',
+                addressAccessor: 'pairAddress',
             },
             {
-                Header: 'Profit (USD)',
-                accessor: 'profit-in-usd',
+                Header: 'Liquidity (USD)',
+                accessor: 'liquidity-in-usd',
             },
             {
-                Header: 'Profit (ETH)',
-                accessor: 'profit-in-eth',
+                Header: 'DEX',
+                accessor: 'dex',
             },
             {
-                Header: 'Account Value (USD)',
-                accessor: 'account-value',
+                Header: 'Token0',
+                accessor: 'token0',
             },
             {
-                Header: 'Activity',
-                accessor: 'activity',
-                Cell: StatusPill,
+                Header: 'Token1',
+                accessor: 'token1',
             },
             {
-                Header: 'Age',
-                accessor: 'age',
+                Header: 'Block Explorer Pair',
+                accessor: 'block-explorer-pair',
             },
             {
-                Header: 'Connections',
-                accessor: 'connections',
+                Header: 'Block Explorer New Token',
+                accessor: 'block-explorer-new-token',
             },
             {
-                Header: 'Top Holding',
-                accessor: 'top-erc20-holding',
-            },
-            {
-                Header: 'Chains',
-                accessor: 'chains',
-                Filter: SelectColumnFilter,
-                filter: 'includes',
+                Header: 'Dexscreener',
+                accessor: 'dexscreener',
             },
         ],
         []
     );
 
-    const data = React.useMemo(() => getAddresses(), []);
+    const data = React.useMemo(() => getPairs(), []);
 
     return (
         <div className="col-span-4 m-5">
