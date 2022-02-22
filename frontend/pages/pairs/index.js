@@ -1,14 +1,26 @@
-import Channelbar from '../../components/ChannelBar';
-import ContentContainer from '../../components/ContentContainer';
+import Sidebar from '../../components/Sidebar';
 import TopNavigation from '../../components/TopNavigation';
+import useFetch from '../../hooks/useFetch';
+import Pair from '../../components/Pair';
 
-export default function Home() {
+export default function Pairs() {
+    // get all pairs
+    const { data, isLoading, isError } = useFetch('pairs/');
+    console.log(isError);
+    if (isError) return <div>failed to load</div>;
+    if (isLoading) return <div>loading...</div>;
+
+    // render data
+    console.log(data);
+
     return (
         <div className="flex">
-            <Channelbar />
+            <Sidebar />
             <div className="content-container">
                 <TopNavigation />
-                <ContentContainer />
+                {data.map((pair) => (
+                    <Pair pair={pair} />
+                ))}
             </div>
         </div>
     );

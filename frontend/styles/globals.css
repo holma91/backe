@@ -91,4 +91,14 @@
  cursor-pointer pl-5;
 }
 
+/* PAIR */
+
+.pair-card {
+    @apply flex flex-col-reverse;
+}
+
+.always-visible {
+    @apply flex pl-2 space-x-2;
+}
+
 @tailwind utilities;
