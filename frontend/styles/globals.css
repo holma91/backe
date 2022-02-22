@@ -20,8 +20,8 @@
 }
 
 .top-navigation-icon {
-    @apply text-gray-500 mr-3 ml-4 transition duration-300 
-  ease-in-out hover:text-pink-400 cursor-pointer;
+    @apply text-gray-400 mr-3 ml-4 transition duration-300 
+  ease-in-out hover:text-gray-600 dark:hover:text-white cursor-pointer;
 }
 
 .top-navigation-icon:first {
@@ -78,7 +78,7 @@
 }
 
 .dropdown-header-text-selected {
-    @apply text-blue-500 text-opacity-90 text-lg font-bold;
+    @apply text-gray-600 dark:text-gray-400 text-opacity-90 text-lg font-bold;
 }
 
 .dropdown-selection {
@@ -88,7 +88,7 @@
 
 .dropdown-selection-text {
     @apply text-gray-500 font-semibold tracking-wide mr-auto transition duration-300 ease-in-out 
-hover:text-pink-500 dark:hover:text-gray-500 cursor-pointer;
+hover:text-white dark:hover:text-gray-500 cursor-pointer;
 }
 
 @tailwind utilities;
