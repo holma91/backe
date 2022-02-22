@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import Link from 'next/link';
 
-const chains = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance smart chain'];
+const chains = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance-smart-chain'];
 
 const ChannelBar = () => (
     <div className="channel-bar shadow-lg h-screen">
         <ChannelBlock />
         <div className="channel-container">
-            <Dropdown header="new pairs" selections={chains} />
-            <Dropdown header="new trades" selections={chains} />
-            <Dropdown header="analyze addresses" selections={chains} />
+            <Dropdown header="new pairs" section="pairs" selections={chains} />
+            <Dropdown header="new trades" section="trades" selections={chains} />
+            <Dropdown header="analyze addresses" section="analyze" selections={chains} />
         </div>
     </div>
 );
 
-const Dropdown = ({ header, selections }) => {
+const Dropdown = ({ header, section, selections }) => {
     const [expanded, setExpanded] = useState(false);
 
     const handleExpand = () => {
@@ -24,7 +25,9 @@ const Dropdown = ({ header, selections }) => {
 
     const Selections = () => {
         if (expanded && selections) {
-            return selections.map((selection) => <TopicSelection key={selection[0]} selection={selection} />);
+            return selections.map((selection) => (
+                <TopicSelection key={selection[0]} section={section} selection={selection} />
+            ));
         }
         return null;
     };
@@ -55,12 +58,16 @@ const ChevronIcon = ({ expanded }) => {
     );
 };
 
-const TopicSelection = ({ selection }) => (
+const TopicSelection = ({ section, selection }) => (
     <div className="dropdown-selection">
-        <BsHash size="24" className="text-gray-400" />
         <div className="dropdown-selection-text">
-            <h5 className=" hover:text-gray-600 dark:hover:text-gray-400">{selection}</h5>
+            <Link href={`/${section}/${selection}`}>
+                <a className=" hover:text-gray-600 dark:hover:text-gray-400">{selection}</a>
+            </Link>
         </div>
+        {/* <div className="dropdown-selection-text">
+            <h5 className=" hover:text-gray-600 dark:hover:text-gray-400">{selection}</h5>
+        </div> */}
     </div>
 );
 
