@@ -3,8 +3,11 @@ import React from 'react';
 // WARNING: IF THE LINE BELOW IS REMOVED IT WONT COMPILE,
 // because of "ReferenceError: regeneratorRuntime is not defined"
 import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-unused-vars
-import getAddresses from '../../dummydata/getAddresses';
+import useFetch from '../../hooks/useFetch';
 import Table, { AvatarCell, SelectColumnFilter, StatusPill } from '../../components/Table';
+import LoadingPage from '../../components/LoadingPage';
+import ErrorPage from '../../components/ErrorPage';
+import getAddresses from '../../dummydata/getAddresses';
 
 const AnalyzeTable = () => {
     const columns = React.useMemo(
