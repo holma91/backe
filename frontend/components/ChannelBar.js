@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 
-const livestream = ['Overview', 'Adjust'];
-const accounts = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance smart chain'];
+const chains = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance smart chain'];
 
 const ChannelBar = () => (
     <div className="channel-bar shadow-lg h-screen">
         <ChannelBlock />
         <div className="channel-container">
-            <Dropdown header="Address Live Stream" selections={livestream} />
-            <Dropdown header="Accounts" selections={accounts} />
+            <Dropdown header="new pairs" selections={chains} />
+            <Dropdown header="new trades" selections={chains} />
+            <Dropdown header="analyze addresses" selections={chains} />
         </div>
     </div>
 );
@@ -59,14 +59,14 @@ const TopicSelection = ({ selection }) => (
     <div className="dropdown-selection">
         <BsHash size="24" className="text-gray-400" />
         <div className="dropdown-selection-text">
-            <h5 className=" hover:text-blue-400">{selection}</h5>
+            <h5 className=" hover:text-gray-600 dark:hover:text-gray-400">{selection}</h5>
         </div>
     </div>
 );
 
 const ChannelBlock = () => (
     <div className="channel-block">
-        <h5 className="channel-block-text hover:cursor-default">Placeholder</h5>
+        <h5 className="channel-block-text hover:cursor-default">placeholder</h5>
     </div>
 );
 
