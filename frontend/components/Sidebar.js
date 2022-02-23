@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const chains = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance-smart-chain'];
 
@@ -12,13 +13,13 @@ const Sidebar = ({ currentPage }) => {
                 <Dropdown
                     header="new pairs"
                     section="pairs"
-                    selections={['live feed', 'statistics']}
+                    selections={['live-feed', 'statistics']}
                     startExpanded={currentPage == 'pairs' && true}
                 />
                 <Dropdown
                     header="new trades"
                     section="trades"
-                    selections={['live feed', 'statistics']}
+                    selections={['live-feed', 'statistics']}
                     startExpanded={currentPage == 'trades' && true}
                 />
                 <Dropdown
@@ -76,15 +77,23 @@ const ChevronIcon = ({ expanded }) => {
     );
 };
 
-const TopicSelection = ({ section, selection }) => (
-    <div className="dropdown-selection">
-        <div className="dropdown-selection-text">
-            <Link href={`/${section}/${selection}`}>
-                <a className=" hover:text-gray-600 dark:hover:text-gray-400">{selection}</a>
-            </Link>
+const TopicSelection = ({ section, selection }) => {
+    const router = useRouter();
+
+    const selectionClass = `hover:text-gray-600 dark:hover:text-gray-400 hover:cursor-pointer ${
+        router.pathname === `/pairs/${selection}` ? 'dropdown-selection-text-selected' : 'dropdown-selection-text'
+    }`;
+
+    return (
+        <div className="dropdown-selection">
+            <div className="dropdown-selection-text">
+                <Link href={`/${section}/${selection}`}>
+                    <a className={selectionClass}>{selection}</a>
+                </Link>
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const ChannelBlock = () => (
     <div className="channel-block">

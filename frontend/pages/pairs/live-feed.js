@@ -7,9 +7,6 @@ export default function Home() {
     const [pairs, setPairs] = useState([]);
     const [isConnectionOpen, setConnectionOpen] = useState(false);
 
-    const router = useRouter();
-    const { chain } = router.query;
-
     const ws = useRef();
 
     useEffect(() => {
@@ -28,6 +25,7 @@ export default function Home() {
         return () => {
             // clean up function
             ws.current.close();
+            setConnectionOpen(false);
         };
     }, []);
 
