@@ -12,13 +12,13 @@ const Sidebar = ({ currentPage }) => {
                 <Dropdown
                     header="new pairs"
                     section="pairs"
-                    selections={chains}
+                    selections={['live feed', 'statistics']}
                     startExpanded={currentPage == 'pairs' && true}
                 />
                 <Dropdown
                     header="new trades"
                     section="trades"
-                    selections={chains}
+                    selections={['live feed', 'statistics']}
                     startExpanded={currentPage == 'trades' && true}
                 />
                 <Dropdown

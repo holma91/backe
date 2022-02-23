@@ -44,6 +44,7 @@ const addPair = async (chain, dex, pairAddress, token0, token1, liquidity, liqui
         liquidityUSD,
         newToken,
     };
+    console.log('in add pair');
 
     fetch(`${URL}/pairs`, {
         method: 'post',
