@@ -8,7 +8,7 @@ export default function Home() {
 
     return (
         <div className="flex">
-            <Sidebar />
+            <Sidebar currentPage={'pairs'} />
             <div className="content-container">
                 <TopNavigation />
                 {chain}
