@@ -28,10 +28,16 @@ const PairTableContainer = () => {
             {
                 Header: 'dex',
                 accessor: 'dex',
+                Filter: SelectColumnFilter,
+                filter: 'includes',
+                startValueFilter: 'all dexes',
             },
             {
                 Header: 'chain',
                 accessor: 'chain',
+                Filter: SelectColumnFilter,
+                filter: 'includes',
+                startValueFilter: 'all chains',
             },
             {
                 Header: 'token0',
@@ -73,10 +79,10 @@ const PairTableContainer = () => {
         return {
             ...pair,
             pair: `${pair.token0Symbol}/${pair.token1Symbol}`,
-            liquidityUsd: '$' + pair.liquidityUsd,
+            liquidityUsd: pair.liquidityUsd,
             blockExplorerUrl: `${information[pair.chain]['urls']['explorer']}/address/${pair.pairAddress}`,
             dexscreenerUrl: `${information[pair.chain]['urls']['chart']}/${pair.pairAddress}`,
-            createdAt: pair.createdAt ? pair.createdAt.slice(0, pair.createdAt.length - 5) : 'Not recently',
+            createdAt: pair.createdAt ? pair.createdAt.slice(0, pair.createdAt.length - 5) : 'not recently',
         };
     });
 
@@ -86,6 +92,36 @@ const PairTableContainer = () => {
         </div>
     );
 };
+
+function SelectColumnFilter({ column: { filterValue, setFilter, preFilteredRows, id, startValueFilter } }) {
+    // Calculate the options for filtering
+    // using the preFilteredRows
+    const options = React.useMemo(() => {
+        const options = new Set();
+        preFilteredRows.forEach((row) => {
+            options.add(row.values[id]);
+        });
+        return [...options.values()];
+    }, [id, preFilteredRows]);
+
+    // Render a multi-select box
+    return (
+        <select
+            value={filterValue}
+            onChange={(e) => {
+                setFilter(e.target.value || undefined);
+            }}
+            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        >
+            <option value="">{startValueFilter}</option>
+            {options.map((option, i) => (
+                <option key={i} value={option}>
+                    {option}
+                </option>
+            ))}
+        </select>
+    );
+}
 
 function Table({ columns, data }) {
     const {

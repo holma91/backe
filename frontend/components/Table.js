@@ -27,7 +27,7 @@ export const GlobalFilter = ({ preGlobalFilteredRows, globalFilter, setGlobalFil
     return (
         <div>
             <label htmlFor="search-input" className="flex gap-x-2 items-baseline">
-                <span className="text-gray-700">Search: </span>
+                <span className="text-gray-700">search: </span>
                 <input
                     id="search-input"
                     type="text"
