@@ -4,19 +4,36 @@ import Link from 'next/link';
 
 const chains = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance-smart-chain'];
 
-const Sidebar = () => (
-    <div className="channel-bar shadow-lg h-screen">
-        <ChannelBlock />
-        <div className="channel-container">
-            <Dropdown header="new pairs" section="pairs" selections={chains} />
-            <Dropdown header="new trades" section="trades" selections={chains} />
-            <Dropdown header="analyze addresses" section="analyze" selections={chains} />
+const Sidebar = ({ currentPage }) => {
+    return (
+        <div className="channel-bar shadow-lg h-screen">
+            <ChannelBlock />
+            <div className="channel-container">
+                <Dropdown
+                    header="new pairs"
+                    section="pairs"
+                    selections={chains}
+                    startExpanded={currentPage == 'pairs' && true}
+                />
+                <Dropdown
+                    header="new trades"
+                    section="trades"
+                    selections={chains}
+                    startExpanded={currentPage == 'trades' && true}
+                />
+                <Dropdown
+                    header="analyze addresses"
+                    section="analyze"
+                    selections={chains}
+                    startExpanded={currentPage == 'analyze' && true}
+                />
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
-const Dropdown = ({ header, section, selections }) => {
-    const [expanded, setExpanded] = useState(false);
+const Dropdown = ({ header, section, selections, startExpanded }) => {
+    const [expanded, setExpanded] = useState(startExpanded);
 
     const handleExpand = () => {
         setExpanded(!expanded);

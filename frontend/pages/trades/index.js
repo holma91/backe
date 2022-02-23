@@ -4,7 +4,7 @@ import TopNavigation from '../../components/TopNavigation';
 export default function Home() {
     return (
         <div className="flex">
-            <Sidebar />
+            <Sidebar currentPage={'trades'} />
             <div className="content-container">
                 <TopNavigation />
             </div>

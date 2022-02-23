@@ -6,7 +6,7 @@ import PairTable from './PairTable';
 export default function Pairs() {
     return (
         <div className="flex">
-            <Sidebar />
+            <Sidebar currentPage={'pairs'} />
             <div className="content-container">
                 <TopNavigation />
                 <div className="content-container">
