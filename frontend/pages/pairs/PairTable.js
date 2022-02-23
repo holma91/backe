@@ -16,30 +16,35 @@ const PairTableContainer = () => {
     const columns = React.useMemo(
         () => [
             {
-                Header: 'Pair',
+                Header: 'pair',
                 accessor: 'pair',
                 Cell: AvatarCell,
                 addressAccessor: 'pairAddress',
             },
             {
-                Header: 'Liquidity (USD)',
+                Header: 'liquidity',
                 accessor: 'liquidityUsd',
             },
             {
-                Header: 'DEX',
+                Header: 'dex',
                 accessor: 'dex',
             },
             {
-                Header: 'Chain',
+                Header: 'chain',
                 accessor: 'chain',
             },
             {
-                Header: 'Token0',
+                Header: 'token0',
                 accessor: 'token0Name',
             },
             {
-                Header: 'Token1',
+                Header: 'token1',
                 accessor: 'token1Name',
+            },
+            {
+                Header: 'created at (utc)',
+                accessor: 'createdAt',
+                id: 'createdAt',
             },
             {
                 Header: 'block explorer',
@@ -68,8 +73,10 @@ const PairTableContainer = () => {
         return {
             ...pair,
             pair: `${pair.token0Symbol}/${pair.token1Symbol}`,
+            liquidityUsd: '$' + pair.liquidityUsd,
             blockExplorerUrl: `${information[pair.chain]['urls']['explorer']}/address/${pair.pairAddress}`,
             dexscreenerUrl: `${information[pair.chain]['urls']['chart']}/${pair.pairAddress}`,
+            createdAt: pair.createdAt ? pair.createdAt.slice(0, pair.createdAt.length - 5) : 'Not recently',
         };
     });
 
@@ -104,6 +111,14 @@ function Table({ columns, data }) {
         {
             columns,
             data,
+            initialState: {
+                sortBy: [
+                    {
+                        id: 'createdAt',
+                        desc: true,
+                    },
+                ],
+            },
         },
         useFilters,
         useGlobalFilter,
