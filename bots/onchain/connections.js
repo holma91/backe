@@ -38,6 +38,23 @@ const connections = {
             },
         },
     },
+    EVMOS: {
+        http: process.env.evmos_http,
+        ws: process.env.evmos_ws,
+        img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/1027.png',
+        explorer: {
+            // url: 'https://etherscan.io',
+            // apikey: process.env.etherscan_apikey,
+        },
+        webhooks: {
+            newPair: process.env.evmos_newpairhook,
+        },
+        dexes: {
+            diffusion: {
+                // url: 'https://app.uniswap.org/#/swap',
+            },
+        },
+    },
     FTM: {
         http: process.env.ftm_http,
         ws: process.env.ftm_ws,
