@@ -7,19 +7,19 @@ const validate = validator.validate;
 
 const router = express.Router();
 
-router.get('/trades', async (req, res) => {
+router.get('/', async (req, res) => {
     const trades = await TradeRepo.find(req.query['include_labels']);
 
     res.send(trades);
 });
 
-router.get('/trades/:address', async (req, res) => {
+router.get('/:address', async (req, res) => {
     const trades = await TradeRepo.findByAddress(req.params.address, req.query['include_labels']);
 
     res.send(trades);
 });
 
-router.post('/trades', async (req, res) => {
+router.post('/', async (req, res) => {
     console.log(req.body);
     const validation = validate(req.body, schemas.trade);
     if (validation.errors.length > 0) {

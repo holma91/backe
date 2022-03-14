@@ -11,11 +11,11 @@ const app = () => {
 
     app.use(express.json());
     app.use(cors());
-    app.use(accountsRouter);
-    app.use(tokensRouter);
-    app.use(pairsRouter);
-    app.use(tradesRouter);
-    app.use(twitterRouter);
+    app.use('/accounts', accountsRouter);
+    app.use('/tokens', tokensRouter);
+    app.use('/pairs', pairsRouter);
+    app.use('/trades', tradesRouter);
+    app.use('/twitter', twitterRouter);
 
     return app;
 };
