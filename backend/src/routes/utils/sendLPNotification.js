@@ -12,6 +12,10 @@ import connections from '../../connections.js';
 const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM, ARBITRUM } = connections;
 const dexscreenerUrl = 'https://dexscreener.com';
 
+/**
+ * every pair belongs to a chain
+ * getHookInfo populates a hook object with chain info and returns it
+ */
 const getHookInfo = (chain, dex) => {
     let hook = {};
 
@@ -129,8 +133,12 @@ const getHookInfo = (chain, dex) => {
     return hook;
 };
 
+/**
+ * notificationWorthy researches if the new pair is interesting
+ * for now, it just checks for arbitrary liquidity tresholds
+ * could in the future check for more stuff, e.g who created the new token?
+ */
 const notificationWorthy = (liquidityUSD, chain) => {
-    // do research here to determine
     let worthy = false;
     switch (chain) {
         case 'ETH': {
@@ -167,6 +175,13 @@ const notificationWorthy = (liquidityUSD, chain) => {
     return worthy;
 };
 
+/**
+ * sendLPNotification retrieves all possible info about the pair and then
+ * - sends out a msg to my discord server in a chain specific channel
+ * if the pair deems worthy of a notification:
+ *     - send a msg to a specific and channel
+ *    - make a phone call to my number with the twilio api
+ */
 const sendLPNotification = async (pair) => {
     const hook = getHookInfo(pair.chain, pair.dex);
 
@@ -236,7 +251,6 @@ const sendLPNotification = async (pair) => {
             embeds: [embed],
         });
 
-        // phone call here lol. wake the fuck up
         const cli = client(process.env.twilio_accountSid, process.env.twilio_authToken);
         await cli.calls.create({
             url: 'http://demo.twilio.com/docs/voice.xml',

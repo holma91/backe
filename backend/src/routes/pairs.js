@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
         return res.status(400).send({ messages: validation.errors.map((error) => error.stack) });
     }
     if (process.env.environment === 'PROD') {
-        // send a notification in the discord server
+        // sends out notifications via chosen channels
         sendLPNotification(req.body);
     }
 
