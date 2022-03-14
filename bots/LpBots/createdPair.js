@@ -1,7 +1,7 @@
 import ethers from 'ethers';
 import 'dotenv/config';
 import fetch from 'node-fetch';
-import { sleep } from './utils.js';
+import { sleep } from '../utils.js';
 
 /*
  * onPairCreated is the starting point for every newly found pair

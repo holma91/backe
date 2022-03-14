@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { getProvider, uniV2Factory } from '../utils.js';
+import { getProvider, uniV2Factory } from '../../utils.js';
 
 const addresses = {
     WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',

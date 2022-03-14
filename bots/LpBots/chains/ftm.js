@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { getProvider, uniV2Factory } from '../utils.js';
+import { getProvider, uniV2Factory } from '../../utils.js';
 
 const addresses = {
     spookyswapFactory: '0x152ee697f2e276fa89e96742e9bb9ab1f2e61be3',

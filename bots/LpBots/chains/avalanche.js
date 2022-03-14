@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { getProvider, uniV2Factory } from '../utils.js';
+import { getProvider, uniV2Factory } from '../../utils.js';
 
 const addresses = {
     traderjoeFactory: '0x9ad6c38be94206ca50bb0d90783181662f0cfa10',
