@@ -1,8 +1,7 @@
 import ethers from 'ethers';
-import { getAccount, uniV2Factory, uniV3Factory } from '../createdPair.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
-    uniswapFactory: '0x1f98431c8ad98523631ae4a59f267346ea31f984',
     sushiswapFactory: '0xc35dadb65012ec5796536bd9864ed8773abc74c4',
 };
 
@@ -16,22 +15,14 @@ const knownTokens = {
     DAI: { address: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1', inUSD: 1 },
 };
 
-const account = getAccount('http', 'ARBITRUM');
-
-const uniswapARBITRUM = {
-    factory: new ethers.Contract(addresses.uniswapFactory, uniV3Factory, account),
-    account: account,
-    knownTokens: knownTokens,
-    dexName: 'uniswapARBITRUM',
-    chainName: 'ETH',
-};
+const provider = getProvider('http', 'ARBITRUM');
 
 const sushiswapARBITRUM = {
-    factory: new ethers.Contract(addresses.sushiswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.sushiswapFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'sushiswapARBITRUM',
     chainName: 'ETH',
 };
 
-export { uniswapARBITRUM, sushiswapARBITRUM };
+export { sushiswapARBITRUM };

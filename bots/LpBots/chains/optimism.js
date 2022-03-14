@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { getAccount, uniV2Factory } from '../createdPair.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     zipswapFactory: '0x8bcedd62dd46f1a76f8a1633d4f5b76e0cda521e',
@@ -23,12 +23,12 @@ const knownTokens = {
     DAI: { address: '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1', inUSD: 1 },
 };
 
-const account = getAccount('http', 'OPTIMISM');
+const provider = getProvider('http', 'OPTIMISM');
 
 const zipswap = {
-    factory: new ethers.Contract(addresses.zipswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.zipswapFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'zipswap',
     chainName: 'OPTIMISM',
 };

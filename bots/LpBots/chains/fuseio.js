@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { getAccount, uniV2Factory } from '../createdPair.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     fusefiFactory: '0x1d1f1a7280d67246665bb196f38553b469294f3a',
@@ -14,12 +14,12 @@ const knownTokens = {
     USDT: { address: '0xfadbbf8ce7d5b7041be672561bba99f79c532e10', inUSD: 1 },
 };
 
-const account = getAccount('http', 'FUSE');
+const provider = getProvider('http', 'FUSE');
 
 const fusefi = {
-    factory: new ethers.Contract(addresses.fusefiFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.fusefiFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'fusefi',
     chainName: 'FUSE',
 };

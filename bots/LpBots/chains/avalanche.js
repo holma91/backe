@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { getAccount, uniV2Factory } from '../createdPair.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     traderjoeFactory: '0x9ad6c38be94206ca50bb0d90783181662f0cfa10',
@@ -14,20 +14,20 @@ const knownTokens = {
     USDTe: { address: '0xc7198437980c041c805a1edcba50c1ce5db95118', inUSD: 1 },
 };
 
-const account = getAccount('http', 'AVAX');
+const provider = getProvider('http', 'AVAX');
 
 const traderjoe = {
-    factory: new ethers.Contract(addresses.traderjoeFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.traderjoeFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'traderjoe',
     chainName: 'AVAX',
 };
 
 const pangolin = {
-    factory: new ethers.Contract(addresses.pangolinFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.pangolinFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'pangolin',
     chainName: 'AVAX',
 };

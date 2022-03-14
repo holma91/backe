@@ -1,24 +1,18 @@
-import connections from '../connections.js';
 import ethers from 'ethers';
 import 'dotenv/config';
 import fetch from 'node-fetch';
-
-const uniV2Factory = ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'];
-const uniV3Factory = ['event PoolCreated(address token0, address token1, uint24 fee, int24 tickSpacing, address pool)'];
-const uniV2Pair = [
-    'event Swap(address indexed sender, uint amount0In, uint amount1In, uint amount0Out, uint amount1Out, address indexed to)',
-];
+import { sleep } from './utils.js';
 
 /*
  * onPairCreated is the starting point for every newly found pair
  * it retrieves metadata about the pairs and tokens
  * it retrieves liquidity data about the pair
  */
-const onPairCreated = async (account, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
-    let promises = [getTokenMetadata(token0Address, account), getTokenMetadata(token1Address, account)];
+const onPairCreated = async (provider, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
+    let promises = [getTokenMetadata(token0Address, provider), getTokenMetadata(token1Address, provider)];
     let [token0, token1] = await Promise.all(promises);
 
-    [token0.liq, token1.liq] = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, account);
+    [token0.liq, token1.liq] = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, provider);
 
     try {
         let pairInfo = getPairInfo(token0, token1, addressPair, chain, dex, knownTokens);
@@ -58,10 +52,10 @@ const addPair = async (chain, dex, pairAddress, token0, token1, liquidity, liqui
 };
 
 /*
-given a tokenAddress and a initialized account
+given a tokenAddress and a initialized provider
 return a token object with an address, name, symbol and decimals
 */
-const getTokenMetadata = async (tokenAddress, account) => {
+const getTokenMetadata = async (tokenAddress, provider) => {
     let token = {
         address: tokenAddress,
         name: '',
@@ -81,7 +75,7 @@ const getTokenMetadata = async (tokenAddress, account) => {
     while (!success) {
         try {
             count++;
-            let contract = new ethers.Contract(token.address, tokenInfoABI, account);
+            let contract = new ethers.Contract(token.address, tokenInfoABI, provider);
             let promises = [contract.name(), contract.symbol(), contract.decimals()];
             [token.name, token.symbol, token.decimals] = await Promise.all(promises);
             success = true;
@@ -99,14 +93,14 @@ const getTokenMetadata = async (tokenAddress, account) => {
 /*
 given the pair address, retrieve the available liquidity
 */
-const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, account) => {
+const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, provider) => {
     // getReserves() returns the number of tokens in a uniswap V2 Pair
     const pairContract = new ethers.Contract(
         addressPair,
         [
             'function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)',
         ],
-        account
+        provider
     );
 
     let success = false;
@@ -217,29 +211,4 @@ const displayPair = (pairInfo) => {
     );
 };
 
-function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-const getAccount = (connectionType, chain) => {
-    let provider;
-    if (connectionType === 'ws') {
-        provider = new ethers.providers.WebSocketProvider(connections[chain][connectionType]);
-    } else if (connectionType === 'http') {
-        provider = new ethers.providers.JsonRpcProvider(connections[chain][connectionType]);
-    }
-    const wallet = ethers.Wallet.fromMnemonic(process.env.mnemonic);
-    return wallet.connect(provider);
-};
-
-export {
-    getTokenMetadata,
-    getPairLiquidity,
-    displayPair,
-    onPairCreated,
-    uniV2Factory,
-    uniV3Factory,
-    uniV2Pair,
-    getAccount,
-    sleep,
-};
+export default onPairCreated;

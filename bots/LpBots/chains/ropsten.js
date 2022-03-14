@@ -1,6 +1,6 @@
 import ethers from 'ethers';
 import { MNEMONIC, ROPSTEN_WEBSOCKET } from '../env.js';
-import { getPairLiquidity, onPairCreated, uniV2Factory, uniV3Factory } from '../utils/utils.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     sushiswapFactory: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
@@ -20,9 +20,6 @@ const sushiswapFactory = new ethers.Contract(addresses.sushiswapFactory, uniV2Fa
 console.log('ethereum ropsten DEX sync started\nsupported dexes: UniSwap, SushiSwap');
 
 sushiswapFactory.on('PairCreated', async (token0Address, token1Address, addressPair) => {
-    // console.log(`token0Address = ${token0Address}`);
-    // console.log(`token1Address = ${token1Address}`);
-    // console.log(`addressPair = ${addressPair}`);
     const { token0Decimals, token1Decimals } = await onPairCreated(
         account,
         token0Address,

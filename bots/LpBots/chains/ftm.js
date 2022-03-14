@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { uniV2Factory, getAccount } from '../createdPair.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     spookyswapFactory: '0x152ee697f2e276fa89e96742e9bb9ab1f2e61be3',
@@ -20,12 +20,12 @@ const knownTokens = {
     MIM: { address: '0x82f0b8b456c1a451378467398982d4834b6829c1', inUSD: 1 },
 };
 
-const account = getAccount('http', 'FTM');
+const provider = getProvider('http', 'FTM');
 
 const spookyswap = {
-    factory: new ethers.Contract(addresses.spookyswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.spookyswapFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'spookyswap',
     chainName: 'FTM',
 };

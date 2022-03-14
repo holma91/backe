@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { uniV2Factory, getAccount } from '../utils/utils.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     diffusionFactory: '0xca143ce32fe78f1f7019d7d551a6402fc5350c73',
@@ -11,12 +11,12 @@ const knownTokens = {
     BUSD: { address: '0xe9e7cea3dedca5984780bafc599bd69add087d56', inUSD: 1 },
 };
 
-const account = getAccount('http', 'EVMOS');
+const provider = getProvider('http', 'EVMOS');
 
 const diffusion = {
-    factory: new ethers.Contract(addresses.diffusionFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.diffusionFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'diffusion',
     chainName: 'EVMOS',
 };

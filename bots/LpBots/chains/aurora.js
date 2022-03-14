@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { uniV2Factory, getAccount } from '../createdPair.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
@@ -22,20 +22,20 @@ const knownTokens = {
     },
 };
 
-const account = getAccount('http', 'AURORA');
+const provider = getProvider('http', 'AURORA');
 
 const trisolaris = {
-    factory: new ethers.Contract(addresses.trisolarisFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.trisolarisFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'trisolaris',
     chainName: 'AURORA',
 };
 
 const wannaswap = {
-    factory: new ethers.Contract(addresses.wannaswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.wannaswapFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'wannaswap',
     chainName: 'AURORA',
 };

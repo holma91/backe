@@ -1,5 +1,5 @@
 import ethers from 'ethers';
-import { getAccount, uniV2Factory } from '../createdPair.js';
+import { getProvider, uniV2Factory } from '../utils.js';
 
 const addresses = {
     netswapFactory: '0x70f51d68d16e8f9e418441280342bd43ac9dff9f',
@@ -16,20 +16,20 @@ const knownTokens = {
     mUSDT: { address: '0xbb06dca3ae6887fabf931640f67cab3e3a16f4dc', inUSD: 1 },
 };
 
-const account = getAccount('http', 'METIS');
+const provider = getProvider('http', 'METIS');
 
 const netswap = {
-    factory: new ethers.Contract(addresses.netswapFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.netswapFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'netswap',
     chainName: 'METIS',
 };
 
 const tethys = {
-    factory: new ethers.Contract(addresses.tethysFactory, uniV2Factory, account),
-    account: account,
-    knownTokens: knownTokens,
+    factory: new ethers.Contract(addresses.tethysFactory, uniV2Factory, provider),
+    provider,
+    knownTokens,
     dexName: 'tethys',
     chainName: 'METIS',
 };
