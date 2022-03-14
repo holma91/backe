@@ -3,6 +3,7 @@
 .dbenv
 pseudo.txt
 notes.txt
+node_modules
 
 ### ANALYSIS ###
 analysis/env
@@ -18,8 +19,7 @@ backend/node_modules
 
 ### BOTS ###
 
-bots/onchain/env.js
-bots/onchain/node_modules
+bots/node_modules
 bots/social/twitter/twitter_env.py
 bots/social/twitter/env
 bots/social/twitter/__pycache__

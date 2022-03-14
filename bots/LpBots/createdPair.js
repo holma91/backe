@@ -27,9 +27,9 @@ const onPairCreated = async (provider, token0Address, token1Address, addressPair
     }
 };
 
-/*
-gets a pair and sends a post request to the backend with the content
-*/
+/**
+ * gets a pair and sends a post request to the backend with the content
+ */
 const addPair = async (chain, dex, pairAddress, token0, token1, liquidity, liquidityUSD, newToken) => {
     const requestBody = {
         chain,
@@ -51,10 +51,10 @@ const addPair = async (chain, dex, pairAddress, token0, token1, liquidity, liqui
     });
 };
 
-/*
-given a tokenAddress and a initialized provider
-return a token object with an address, name, symbol and decimals
-*/
+/**
+ * given a tokenAddress and a initialized provider
+ * return a token object with an address, name, symbol and decimals
+ */
 const getTokenMetadata = async (tokenAddress, provider) => {
     let token = {
         address: tokenAddress,
@@ -90,9 +90,9 @@ const getTokenMetadata = async (tokenAddress, provider) => {
     return token;
 };
 
-/*
-given the pair address, retrieve the available liquidity
-*/
+/**
+ * given the pair address, retrieve the available liquidity
+ */
 const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, provider) => {
     // getReserves() returns the number of tokens in a uniswap V2 Pair
     const pairContract = new ethers.Contract(
@@ -133,11 +133,11 @@ const getPairLiquidity = async (token0Decimals, token1Decimals, addressPair, pro
     return [liq0, liq1];
 };
 
-/*
-get more info about the pair
-determine which of the tokens in the pair that is the new one
-get the liquidity in usd
-*/
+/**
+ * get more info about the pair
+ * determine which of the tokens in the pair that is the new one
+ * get the liquidity in usd
+ */
 const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
     let pairInfo = {
         liquidity: 0,
@@ -184,9 +184,9 @@ const getPairInfo = (token0, token1, addressPair, chain, dex, knownTokens) => {
     return pairInfo;
 };
 
-/*
-display the pair info in the CLI
-*/
+/**
+ * display the pair info in the CLI
+ */
 const displayPair = (pairInfo) => {
     const FgRed = '\x1b[31m';
     const FgGreen = '\x1b[32m';
