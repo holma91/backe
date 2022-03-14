@@ -1,9 +1,8 @@
-AUTOMATIC AUDIT
+how to perform an automated audit on a newly created token?
 
 check the contract deployer
     - is it a new account?
     - what is the account activity?
-    - multisig account could be super bullish?
     - whitelist accounts from all succesful projects ever
     
 
@@ -14,7 +13,6 @@ check for scammish behaviour
     - check website and when was is created? whois.domaintools.com
     - check social media
     - token sniffer
-    - 
 
 check if the contract is verified by a block explorer
     - doesn't seem to help much against rugs
@@ -27,20 +25,16 @@ sample on 50 scams
     - 100% had verified contracts...
 
 CHECK FOR HONEYPOT
-    - write a selenium bot that checks on rugdoc, honeypot.is, tokensniffer. (not sure which site is the most reliable)
-    - or can I figure out how to do it natively? fork da ting
+    - fork the chain locally and test buy/sell
 
 CHECK FOR CONTRACT OWNERSHIP
     - 
 
-CHECK FOR LIQUIDITY
-    - should be able to this natively
-    - check percentage of the supply in the LP
-    - minimum amount of the native token in the LP
+CHECK FOR LIQUIDITY - DONE
 
 CHECK FOR LOCKED LIQUIDITY
     - need 3rd party probably?
 
 CHECK FOR BUY AND SELL FEES
     - might be available in the contract?
-    - otherwise, selenium bot on tokensniffer? (not optimal)
+    - otherwise, fork locally and test

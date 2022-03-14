@@ -1,12 +1,11 @@
-import { uniswapV2Dexes, uniswapV3Dexes } from './SwapBots/index.js';
+import { uniswapV2Dexes } from './SwapBots/index.js';
 import WebSocket from 'ws';
 import 'dotenv/config';
 import fetch from 'node-fetch';
 import setUpPair from './SwapBots/tracker.js';
 
-const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
-
 const getInterestingAddresses = async () => {
+    const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
     const response = await fetch(`${URL}/accounts/`);
     const accounts = await response.json();
     return new Set(accounts.map((acc) => acc.address));
@@ -14,22 +13,29 @@ const getInterestingAddresses = async () => {
 
 const main = async () => {
     let stablecoins = {};
-    let accounts = {};
-    let nativeTokenAddresses = {};
+    let providers = {};
+    let nativeTokenAddresses = {}; // e.g for ethereum this will be {WETH: <weth-address>}
 
+    // we have a collection of "interesting" addresses in the database
     const interestingAddresses = await getInterestingAddresses();
 
     for (const dex of uniswapV2Dexes) {
         stablecoins[dex.chain] = dex.stablecoins;
         nativeTokenAddresses[dex.chain] = dex.nativeTokenAddress;
-        accounts[dex.chain] = dex.account;
+        providers[dex.chain] = dex.provider;
+
+        // set up a listener for every saved pair we have for this particular dex, e.g. WETH-USDC on uniswap V2
         for (const pair of dex.pairs) {
-            setUpPair(pair, dex.account, dex.nativeTokenAddress, dex.stablecoins, interestingAddresses);
+            setUpPair(pair, dex.provider, dex.nativeTokenAddress, dex.stablecoins, interestingAddresses);
         }
     }
 
-    const ws = new WebSocket('ws://localhost:8080/');
+    /*
+    we also want a ws connection to our backend so when a new pair is added to the DB
+    we want to notify our bot currently running here that there is a new pair we should listen to
+    */
 
+    const ws = new WebSocket('ws://localhost:8080/');
     ws.on('open', function open() {
         ws.send('socket opened succesfully in multi tracker');
     });
@@ -39,7 +45,7 @@ const main = async () => {
             const pair = JSON.parse(msg);
             setUpPair(
                 pair,
-                accounts[pair.chain],
+                providers[pair.chain],
                 nativeTokenAddresses[pair.chain],
                 stablecoins[pair.chain],
                 interestingAddresses

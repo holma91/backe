@@ -1,4 +1,4 @@
-import { getAccount } from '../utils/utils.js';
+import { getProvider } from '../../utils.js';
 import fetch from 'node-fetch';
 import Big from 'big.js';
 import 'dotenv/config';
@@ -31,12 +31,12 @@ let uniswapV2Pairs = await response1.json();
 const response2 = await fetch(`${URL}/pairs/eth/sushiswap`);
 let sushiswapPairs = await response2.json();
 
-const account = getAccount('ws', 'ETH');
+const provider = getProvider('ws', 'ETH');
 
 const uniswapV2 = {
     chain: 'ETH',
     pairs: uniswapV2Pairs,
-    account,
+    provider,
     nativeTokenAddress: WETH,
     stablecoins,
 };
@@ -44,7 +44,7 @@ const uniswapV2 = {
 const sushiswap = {
     chain: 'ETH',
     pairs: sushiswapPairs,
-    account,
+    provider,
     nativeTokenAddress: WETH,
     stablecoins,
 };

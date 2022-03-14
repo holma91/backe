@@ -1,4 +1,4 @@
-import { getAccount } from '../utils/utils.js';
+import { getProvider } from '../../utils.js';
 import fetch from 'node-fetch';
 import Big from 'big.js';
 import 'dotenv/config';
@@ -21,12 +21,12 @@ const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.e
 const response = await fetch(`${URL}/pairs/aurora/trisolaris`);
 let pairs = await response.json();
 
-const account = getAccount('http', 'AURORA');
+const provider = getProvider('http', 'AURORA');
 
 const trisolaris = {
     chain: 'AURORA',
     pairs,
-    account,
+    provider,
     nativeTokenAddress: WETH,
     stablecoins,
 };

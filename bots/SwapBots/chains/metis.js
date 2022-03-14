@@ -1,4 +1,4 @@
-import { getAccount } from '../utils/utils.js';
+import { getProvider } from '../../utils.js';
 import fetch from 'node-fetch';
 import Big from 'big.js';
 import 'dotenv/config';
@@ -23,12 +23,12 @@ let netswapPairs = await response1.json();
 const response2 = await fetch(`${URL}/pairs/metis/tethys`);
 let tethysPairs = await response2.json();
 
-const account = getAccount('http', 'METIS');
+const provider = getProvider('http', 'METIS');
 
 const netswap = {
     chain: 'METIS',
     pairs: netswapPairs,
-    account,
+    provider,
     nativeTokenAddress: METIS,
     stablecoins,
 };
@@ -36,7 +36,7 @@ const netswap = {
 const tethys = {
     chain: 'METIS',
     pairs: tethysPairs,
-    account,
+    provider,
     nativeTokenAddress: METIS,
     stablecoins,
 };

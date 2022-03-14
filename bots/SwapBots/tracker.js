@@ -2,9 +2,7 @@ import ethers from 'ethers';
 import fetch from 'node-fetch';
 import Big from 'big.js';
 import 'dotenv/config';
-import { uniV2Pair } from '../utils/utils.js';
-
-const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
+import { uniV2Pair } from '../utils.js';
 
 const getPrice = async (chain, nativeTokenAddress) => {
     let response;
@@ -43,7 +41,12 @@ const getPrice = async (chain, nativeTokenAddress) => {
     return price;
 };
 
-const coingeckoStats = async (chain, address) => {
+/**
+ * getCoingecko stats checks if the swapped token exists on cg
+ * if yes, returns the market cap rank as well
+ */
+const getCoingeckoStats = async (chain, address) => {
+    // mapping to the network ids at coingecko
     let coinToNetwork = {
         ETH: 'ethereum',
         BSC: 'binance-smart-chain',
@@ -118,7 +121,6 @@ const onNewSwap = async (
     };
 
     // everything is from the pool's perspective, so selling and buying need to be reversed for the user
-
     if (pair.token0Address === nativeTokenAddress || stablecoinAddresses.includes(pair.token0Address)) {
         swap.token0.priceUSD =
             pair.token0Address === nativeTokenAddress
@@ -149,7 +151,7 @@ const onNewSwap = async (
 
         swap.token0.priceUSD = swap.token0.priceUSD.toPrecision(6);
         swap.token0.coingecko.exists = true;
-        swap.token1.coingecko = await coingeckoStats(swap.chain, swap.token1.address);
+        swap.token1.coingecko = await getCoingeckoStats(swap.chain, swap.token1.address);
     } else if (pair.token1Address === nativeTokenAddress || stablecoinAddresses.includes(pair.token1Address)) {
         swap.token1.priceUSD =
             pair.token1Address === nativeTokenAddress
@@ -179,13 +181,15 @@ const onNewSwap = async (
         }
         swap.token1.priceUSD = swap.token1.priceUSD.toPrecision(6);
         swap.token1.coingecko.exists = true;
-        swap.token0.coingecko = await coingeckoStats(swap.chain, swap.token0.address);
+        swap.token0.coingecko = await getCoingeckoStats(swap.chain, swap.token0.address);
     }
 
     swap.token0.amount = new Big(swap.token0.amount).toPrecision(6);
     swap.token1.amount = new Big(swap.token1.amount).toPrecision(6);
 
     console.log(swap);
+    const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
+
     try {
         let response = await fetch(`${URL}/accounts/${swap.senderAddress}?include_labels=yes`);
         let account = await response.json();
@@ -201,13 +205,15 @@ const onNewSwap = async (
     });
 };
 
-const setUpPair = (pair, account, nativeTokenAddress, stablecoins, interestingAddresses) => {
-    const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, account);
+const setUpPair = (pair, provider, nativeTokenAddress, stablecoins, interestingAddresses) => {
+    const pairContract = new ethers.Contract(pair.pairAddress, uniV2Pair, provider);
     console.log('setting up', pair);
 
+    // listen for emitted Swap events
     pairContract.on('Swap', async (sender, amount0In, amount1In, amount0Out, amount1Out, to) => {
         sender = sender.toLowerCase();
         if (!interestingAddresses.has(sender)) {
+            // we do not care about these swaps
             return;
         }
 

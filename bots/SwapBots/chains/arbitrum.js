@@ -1,4 +1,4 @@
-import { getAccount } from '../utils/utils.js';
+import { getProvider } from '../../utils.js';
 import fetch from 'node-fetch';
 import Big from 'big.js';
 import 'dotenv/config';
@@ -25,12 +25,12 @@ const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.e
 const response = await fetch(`${URL}/pairs/arbitrum/sushiswap`);
 let pairs = await response.json();
 
-const account = getAccount('http', 'ARBITRUM');
+const provider = getProvider('http', 'ARBITRUM');
 
 const sushiswapARBITRUM = {
     chain: 'ARBITRUM',
     pairs,
-    account,
+    provider,
     nativeTokenAddress: WETH,
     stablecoins,
 };

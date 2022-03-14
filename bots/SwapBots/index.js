@@ -1,10 +1,10 @@
-import { pancakeswap } from './bsc.js';
-import { uniswapV2, sushiswap } from './eth.js';
-import { spookyswap } from './ftm.js';
-import { zipswap } from './optimism.js';
-import { sushiswapARBITRUM } from './arbitrum.js';
-import { trisolaris } from './aurora.js';
-import { netswap, tethys } from './metis.js';
+import { pancakeswap } from './chains/bsc.js';
+import { uniswapV2, sushiswap } from './chains/eth.js';
+import { spookyswap } from './chains/ftm.js';
+import { zipswap } from './chains/optimism.js';
+import { sushiswapARBITRUM } from './chains/arbitrum.js';
+import { trisolaris } from './chains/aurora.js';
+import { netswap, tethys } from './chains/metis.js';
 
 const uniswapV2Dexes = [
     pancakeswap,
@@ -18,6 +18,4 @@ const uniswapV2Dexes = [
     tethys,
 ];
 
-const uniswapV3Dexes = []; // [uniswap, uniswapARBITRUM];
-
-export { uniswapV2Dexes, uniswapV3Dexes };
+export { uniswapV2Dexes };

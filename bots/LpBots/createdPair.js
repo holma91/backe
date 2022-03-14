@@ -3,7 +3,7 @@ import 'dotenv/config';
 import fetch from 'node-fetch';
 import { sleep } from '../utils.js';
 
-/*
+/**
  * onPairCreated is the starting point for every newly found pair
  * it retrieves metadata about the pairs and tokens
  * it retrieves liquidity data about the pair
