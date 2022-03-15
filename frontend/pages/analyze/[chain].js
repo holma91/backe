@@ -6,13 +6,5 @@ export default function Home() {
     const router = useRouter();
     const { chain } = router.query;
 
-    return (
-        <div className="flex">
-            <Sidebar currentPage={'analyze'} />
-            <div className="content-container">
-                <TopNavigation />
-                {chain}
-            </div>
-        </div>
-    );
+    return <div>{chain}</div>;
 }

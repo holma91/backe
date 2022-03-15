@@ -23,7 +23,6 @@ export default function Home() {
         };
 
         return () => {
-            // clean up function
             ws.current.close();
             setConnectionOpen(false);
         };
@@ -31,12 +30,10 @@ export default function Home() {
 
     return (
         <div className="flex">
-            <Sidebar currentPage={'pairs'} />
-            <div className="content-container">
-                <TopNavigation />
+            <div>
                 {pairs.map((pair) => (
                     <div className="message-container">
-                        <p>{JSON.stringify(pair)}</p>
+                        <pre>{JSON.stringify(pair, undefined, 2)}</pre>
                     </div>
                 ))}
             </div>

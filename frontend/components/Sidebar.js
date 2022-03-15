@@ -1,53 +1,57 @@
-import { useEffect, useState } from 'react';
-import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-const chains = ['ethereum', 'avalanche', 'fantom', 'harmony', 'binance-smart-chain'];
+const Sidebar = () => {
+    const menuItems = [
+        {
+            href: '/pairs',
+            title: 'pairs',
+            accessor: 'pairs',
+            inner: [
+                { outerHref: '/pairs', href: '', title: 'all pairs', accessor: 'all-pairs' },
+                { outerHref: '/pairs', href: '/live-feed', title: 'live feed', accessor: 'live-feed' },
+            ],
+        },
+        {
+            href: '/trades',
+            title: 'trades',
+            accessor: 'trades',
+            inner: [
+                { outerHref: '/trades', href: '', title: 'all trades', accessor: '' },
+                { outerHref: '/trades', href: '/live-feed', title: 'live feed', accessor: 'live-feed' },
+            ],
+        },
+        {
+            href: '/analyze',
+            title: 'analyze addresses',
+            accessor: 'analyze',
+            inner: [
+                { outerHref: '/analyze', href: '', title: 'all chains', accessor: '' },
+                { outerHref: '/analyze', href: '/ethereum', title: 'ethereum', accessor: 'ethereum' },
+                { outerHref: '/analyze', href: '/bsc', title: 'binance smart chain', accessor: 'bsc' },
+                { outerHref: '/analyze', href: '/fantom', title: 'fantom', accessor: 'fantom' },
+            ],
+        },
+    ];
 
-const Sidebar = ({ currentPage }) => {
     return (
         <div className="channel-bar shadow-lg h-screen">
-            <ChannelBlock />
+            <HeaderBlock />
             <div className="channel-container">
-                <Dropdown
-                    header="new pairs"
-                    section="pairs"
-                    selections={['live-feed', 'statistics']}
-                    startExpanded={currentPage == 'pairs' && true}
-                />
-                <Dropdown
-                    header="new trades"
-                    section="trades"
-                    selections={['live-feed', 'statistics']}
-                    startExpanded={currentPage == 'trades' && true}
-                />
-                <Dropdown
-                    header="analyze addresses"
-                    section="analyze"
-                    selections={chains}
-                    startExpanded={currentPage == 'analyze' && true}
-                />
+                {menuItems.map((menuItem) => (
+                    <Dropdown menuItem={menuItem} />
+                ))}
             </div>
         </div>
     );
 };
 
-const Dropdown = ({ header, section, selections, startExpanded }) => {
-    const [expanded, setExpanded] = useState(startExpanded);
-
-    const handleExpand = () => {
-        setExpanded(!expanded);
-    };
-
-    const Selections = () => {
-        if (expanded && selections) {
-            return selections.map((selection) => (
-                <TopicSelection key={selection[0]} section={section} selection={selection} />
-            ));
-        }
-        return null;
-    };
+const Dropdown = ({ menuItem }) => {
+    const router = useRouter();
+    const firstPartUrl = router.asPath.split('/')[1];
+    console.log('fpu:', firstPartUrl);
+    const expanded = firstPartUrl === menuItem.accessor;
 
     const headerClass = `hover:text-gray-600 dark:hover:text-gray-400 hover:cursor-pointer ${
         expanded ? 'dropdown-header-text-selected' : 'dropdown-header-text'
@@ -55,47 +59,43 @@ const Dropdown = ({ header, section, selections, startExpanded }) => {
 
     return (
         <div className="dropdown">
-            <button type="button" onClick={handleExpand} className="dropdown-header">
-                <ChevronIcon expanded={expanded} />
-                <Link href={`/${section}`}>
-                    <a className={headerClass}>{header}</a>
+            <button type="button" className="dropdown-header">
+                <Link href={menuItem.href}>
+                    <a className={headerClass}>{menuItem.title}</a>
                 </Link>
             </button>
             <div>
-                <Selections />
+                {expanded
+                    ? menuItem.inner.map((innerMenuItem) => (
+                          <InnerSelection key={innerMenuItem.href} innerMenuItem={innerMenuItem} />
+                      ))
+                    : null}
             </div>
         </div>
     );
 };
 
-const ChevronIcon = ({ expanded }) => {
-    const chevClass = 'text-accent text-opacity-80 my-auto mr-1';
-    return expanded ? (
-        <FaChevronDown size="14" className={chevClass} />
-    ) : (
-        <FaChevronRight size="14" className={chevClass} />
-    );
-};
-
-const TopicSelection = ({ section, selection }) => {
+const InnerSelection = ({ innerMenuItem }) => {
     const router = useRouter();
-
+    let selected = router.asPath === innerMenuItem.outerHref + innerMenuItem.href;
     const selectionClass = `hover:text-gray-600 dark:hover:text-gray-400 hover:cursor-pointer ${
-        router.pathname === `/pairs/${selection}` ? 'dropdown-selection-text-selected' : 'dropdown-selection-text'
+        selected ? 'dropdown-selection-text-selected' : 'dropdown-selection-text'
     }`;
 
     return (
         <div className="dropdown-selection">
             <div className="dropdown-selection-text">
-                <Link href={`/${section}/${selection}`}>
-                    <a className={selectionClass}>{selection}</a>
-                </Link>
+                <button type="button" className="dropdown-header">
+                    <Link href={innerMenuItem.outerHref + innerMenuItem.href}>
+                        <a className={selectionClass}>{innerMenuItem.title}</a>
+                    </Link>
+                </button>
             </div>
         </div>
     );
 };
 
-const ChannelBlock = () => (
+const HeaderBlock = () => (
     <div className="channel-block">
         <h5 className="channel-block-text hover:cursor-default">placeholder</h5>
     </div>
