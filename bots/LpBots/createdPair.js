@@ -80,10 +80,10 @@ const getTokenMetadata = async (tokenAddress, provider) => {
             [token.name, token.symbol, token.decimals] = await Promise.all(promises);
             success = true;
         } catch (e) {
-            // too early, the information is not yet available on the pinged node. sleep and try again 10 times
+            // too early, the information is not yet available on the pinged node. sleep and try again 5 times
             console.log(`sleeping at ${token.address}`);
             await sleep(3000 * (count + 1));
-            if (count > 10) break;
+            if (count > 5) break;
         }
     }
 
