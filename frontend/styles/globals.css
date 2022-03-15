@@ -94,6 +94,14 @@
     @apply text-gray-600 dark:text-gray-400 text-opacity-90 font-bold cursor-default pl-2;
 }
 
+.dropdown-inner-selection-text {
+    @apply text-gray-500  text-opacity-90 font-bold cursor-default pl-2 tracking-wide mr-auto;
+}
+
+.dropdown-inner-selection-text-selected {
+    @apply text-gray-600 dark:text-gray-400 text-opacity-90 font-bold cursor-default pl-2 tracking-wide mr-auto;
+}
+
 /* .dropdown-selection-text {
     @apply text-gray-500 font-semibold tracking-wide mr-auto transition duration-300 ease-in-out 
  cursor-pointer pl-2;

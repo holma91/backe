@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 
 const Sidebar = () => {
     const menuItems = [
@@ -52,7 +53,7 @@ const Dropdown = ({ menuItem }) => {
     console.log('fpu:', firstPartUrl);
     const expanded = firstPartUrl === menuItem.accessor;
 
-    const headerClass = `hover:text-gray-600 dark:hover:text-gray-400 hover:cursor-pointer ${
+    const headerClass = `flex hover:text-gray-600 dark:hover:text-gray-400 hover:cursor-pointer ${
         expanded ? 'dropdown-header-text-selected' : 'dropdown-header-text'
     }`;
 
@@ -60,7 +61,10 @@ const Dropdown = ({ menuItem }) => {
         <div className="dropdown">
             <button type="button" className="dropdown-header">
                 <Link href={menuItem.href}>
-                    <a className={headerClass}>{menuItem.title}</a>
+                    <a className={headerClass}>
+                        <ChevronIcon expanded={expanded} />
+                        {menuItem.title}
+                    </a>
                 </Link>
             </button>
             <div>
@@ -78,12 +82,12 @@ const InnerSelection = ({ innerMenuItem }) => {
     const router = useRouter();
     let selected = router.asPath === innerMenuItem.outerHref + innerMenuItem.href;
     const selectionClass = `hover:text-gray-600 dark:hover:text-gray-400 hover:cursor-pointer ${
-        selected ? 'dropdown-selection-text-selected' : 'dropdown-selection-text'
+        selected ? 'dropdown-inner-selection-text-selected' : 'dropdown-inner-selection-text'
     }`;
 
     return (
         <div className="dropdown-selection">
-            <div className="dropdown-selection-text">
+            <div className="dropdown-inner-selection-text">
                 <button type="button" className="dropdown-header">
                     <Link href={innerMenuItem.outerHref + innerMenuItem.href}>
                         <a className={selectionClass}>{innerMenuItem.title}</a>
@@ -91,6 +95,15 @@ const InnerSelection = ({ innerMenuItem }) => {
                 </button>
             </div>
         </div>
+    );
+};
+
+const ChevronIcon = ({ expanded }) => {
+    const chevClass = 'text-accent text-opacity-80 my-auto mr-2';
+    return expanded ? (
+        <FaChevronDown size="14" className={chevClass + ' text-gray-600 dark:text-gray-400'} />
+    ) : (
+        <FaChevronRight size="14" className={chevClass} />
     );
 };
 
