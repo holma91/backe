@@ -50,7 +50,6 @@ const Sidebar = () => {
 const Dropdown = ({ menuItem }) => {
     const router = useRouter();
     const firstPartUrl = router.asPath.split('/')[1];
-    console.log('fpu:', firstPartUrl);
     const expanded = firstPartUrl === menuItem.accessor;
 
     const headerClass = `flex hover:text-gray-600 dark:hover:text-gray-400 hover:cursor-pointer ${

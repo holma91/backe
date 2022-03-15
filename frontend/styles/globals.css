@@ -110,7 +110,7 @@
 /* PAIR */
 
 .pair-card {
-    @apply flex flex-col-reverse;
+    @apply flex border-solid border-2 border-black p-4;
 }
 
 .always-visible {

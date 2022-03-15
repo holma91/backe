@@ -9,8 +9,10 @@ import { sleep } from '../utils.js';
  * it retrieves liquidity data about the pair
  */
 const onPairCreated = async (provider, token0Address, token1Address, addressPair, chain, dex, knownTokens) => {
-    let promises = [getTokenMetadata(token0Address, provider), getTokenMetadata(token1Address, provider)];
-    let [token0, token1] = await Promise.all(promises);
+    // let promises = [getTokenMetadata(token0Address, provider), getTokenMetadata(token1Address, provider)];
+    // let [token0, token1] = await Promise.all(promises);
+    let token0 = await getTokenMetadata(token0Address, provider);
+    let token1 = await getTokenMetadata(token1Address, provider);
 
     [token0.liq, token1.liq] = await getPairLiquidity(token0.decimals, token1.decimals, addressPair, provider);
 
