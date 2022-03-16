@@ -4,21 +4,25 @@ import AccountRepo from '../repos/accountRepo.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const accounts = await AccountRepo.find(req.query['include_labels']);
+    let accounts;
+    if (req.query['address']) {
+        accounts = await AccountRepo.findByAddress(req.query['address']);
+    } else {
+        accounts = await AccountRepo.find();
+    }
 
     res.send(accounts);
 });
 
-router.get('/:address', async (req, res) => {
-    const { address } = req.params;
-
-    const account = await AccountRepo.findByAddress(address, req.query['include_labels']);
-
-    if (account) {
-        res.send(account);
+router.get('/stats', async (req, res) => {
+    let accountWithStats;
+    if (req.query['address']) {
+        accountWithStats = await AccountRepo.findWithStatsByAddress(req.query['address']);
     } else {
-        res.sendStatus(404);
+        accountWithStats = await AccountRepo.findWithStats();
     }
+
+    res.send(accountWithStats);
 });
 
 export default router;
