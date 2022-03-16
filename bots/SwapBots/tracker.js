@@ -195,7 +195,7 @@ const onNewSwap = async (
         let account = await response.json();
         swap.senderLabel = account.labelId;
     } catch (e) {
-        log(e);
+        console.log(e);
     }
 
     fetch(`${URL}/trades`, {
