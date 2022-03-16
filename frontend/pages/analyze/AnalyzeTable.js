@@ -9,6 +9,21 @@ import LoadingPage from '../../components/LoadingPage';
 import ErrorPage from '../../components/ErrorPage';
 import getAddresses from '../../dummydata/getAddresses';
 
+const stats = {
+    id: 18,
+    address: '0x01f0831120ab81f91109e099afb551a091c4c05a',
+    startValueUsd: '238956.18711267613',
+    startValueEth: '71.01336629817602',
+    endValueUsd: '768921.0171309289',
+    endValueEth: '196.55452483096178',
+    profitUsd: '529964.8300182528',
+    profitEth: '125.54115853278576',
+    againstUsd: '3.2178326346007355',
+    againstEth: '2.767852519561663',
+    txCount: '112',
+    year: '2021',
+};
+
 const AnalyzeTable = () => {
     const columns = React.useMemo(
         () => [
@@ -21,15 +36,15 @@ const AnalyzeTable = () => {
             },
             {
                 Header: 'Profit (USD)',
-                accessor: 'profit-in-usd',
+                accessor: 'profitUsd',
             },
             {
                 Header: 'Profit (ETH)',
-                accessor: 'profit-in-eth',
+                accessor: 'profitEth',
             },
             {
-                Header: 'Account Value (USD)',
-                accessor: 'account-value',
+                Header: 'Transactions',
+                accessor: 'txCount',
             },
             {
                 Header: 'Activity',
@@ -37,20 +52,20 @@ const AnalyzeTable = () => {
                 Cell: StatusPill,
             },
             {
-                Header: 'Age',
-                accessor: 'age',
+                Header: 'Against USD',
+                accessor: 'againstUsd',
             },
             {
-                Header: 'Connections',
-                accessor: 'connections',
+                Header: 'Against ETH',
+                accessor: 'againstEth',
             },
             {
                 Header: 'Top Holding',
                 accessor: 'top-erc20-holding',
             },
             {
-                Header: 'Chains',
-                accessor: 'chains',
+                Header: 'Year',
+                accessor: 'year',
                 Filter: SelectColumnFilter,
                 filter: 'includes',
             },
