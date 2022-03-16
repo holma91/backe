@@ -1,4 +1,5 @@
 import json
+from analysis.data_migrations.utils.EthAccount import EthAccount
 
 from utils.env import APIKEY_ETHERSCAN
 from utils.helpers import fix_address, get_account_type

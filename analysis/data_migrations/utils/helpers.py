@@ -18,6 +18,7 @@ def get_type(address):
 
 
 def get_account_type(address):
+    """checks with alchemy if the provided accounts contains any code"""
     response = get_type(address)
 
     try:
