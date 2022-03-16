@@ -117,4 +117,10 @@
     @apply flex pl-2 space-x-2;
 }
 
+/* TEXT */
+
+.text-card {
+    @apply ml-10 mt-5 mb-1 mr-5;
+}
+
 @tailwind utilities;
