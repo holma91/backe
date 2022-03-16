@@ -119,8 +119,11 @@
 
 /* TEXT */
 
-.text-card {
+.text-card-container {
     @apply ml-10 mt-5 mb-1 mr-5;
+}
+.text-card {
+    @apply ml-7 mt-1 mb-1 mr-5;
 }
 
 @tailwind utilities;
