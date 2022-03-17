@@ -3,6 +3,18 @@ import TwitterRepo from '../repos/TwitterRepo.js';
 
 const router = express.Router();
 
+router.get('/ticker-mentions', async (req, res) => {
+    const mentions = await TwitterRepo.findTickerMentions();
+
+    res.send(mentions);
+});
+
+router.get('/tokens', async (req, res) => {
+    const tokens = await TwitterRepo.findTokens();
+
+    res.send(tokens);
+});
+
 router.get('/accounts', async (req, res) => {
     const accounts = await TwitterRepo.find();
 

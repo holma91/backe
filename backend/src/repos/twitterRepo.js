@@ -8,6 +8,24 @@ class TwitterRepo {
         return toCamelCase(res.rows);
     }
 
+    static async findTokens() {
+        const res = await pool.query(
+            'select ticker, count(*) from ticker_mention group by ticker order by count(*) desc;'
+        );
+
+        return toCamelCase(res.rows);
+    }
+
+    static async findTickerMentions() {
+        const res = await pool.query(
+            `select tm.tweet_id, ta.twitter_id, ta.username, tm.ticker, tm.tweet_timestamp 
+            from ticker_mention as tm join 
+            twitter_account as ta on tm.user_id = ta.twitter_id;`
+        );
+
+        return toCamelCase(res.rows);
+    }
+
     static async findByUsername(username, includeFollowers) {
         let res;
         if (includeFollowers === 'yes') {

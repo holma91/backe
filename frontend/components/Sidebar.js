@@ -10,6 +10,7 @@ const Sidebar = () => {
             accessor: 'analyze',
             inner: [
                 { outerHref: '/analyze', href: '', title: 'all chains', accessor: '' },
+                { outerHref: '/analyze', href: '/twitter', title: 'twitter', accessor: 'twitter' },
                 { outerHref: '/analyze', href: '/coming-soon', title: 'coming soon', accessor: 'coming-soon' },
             ],
         },
