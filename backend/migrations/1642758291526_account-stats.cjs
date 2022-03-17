@@ -17,9 +17,11 @@ exports.up = (pgm) => {
             against_eth numeric,
             tx_count numeric,
             year varchar(4),
+            chain varchar not null,
             unique(address, year)
         );
     `);
+    // change to unique(address, year, chain)
 };
 
 exports.down = (pgm) => {
