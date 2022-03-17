@@ -3,7 +3,7 @@ import React from 'react';
 // because of "ReferenceError: regeneratorRuntime is not defined"
 import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-unused-vars
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy, usePagination } from 'react-table';
-import { AvatarCell, GlobalFilter, PageSelector, ChangePage } from '../../components/Table';
+import { AvatarCell, GlobalFilter, PageSelector, ChangePage, StatusPillOrder } from '../../components/Table';
 import LoadingPage from '../../components/LoadingPage';
 import ErrorPage from '../../components/ErrorPage';
 import useFetch from '../../hooks/useFetch';
@@ -14,12 +14,12 @@ const TradeTableContainer = () => {
     const columns = React.useMemo(
         () => [
             {
-                Header: 'token',
-                accessor: 'tokenSymbol',
-            },
-            {
                 Header: 'from',
                 accessor: 'senderAddress',
+            },
+            {
+                Header: 'token',
+                accessor: 'tokenSymbol',
             },
             {
                 Header: 'order',
@@ -27,6 +27,7 @@ const TradeTableContainer = () => {
                 Filter: SelectColumnFilter,
                 filter: 'includes',
                 startValueFilter: 'all orders',
+                Cell: StatusPillOrder,
             },
             {
                 Header: 'amount',
@@ -43,6 +44,10 @@ const TradeTableContainer = () => {
             {
                 Header: 'on coingecko',
                 accessor: 'onCoingecko',
+            },
+            {
+                Header: 'chain',
+                accessor: 'chain',
             },
             {
                 Header: 'timestamp (utc)',

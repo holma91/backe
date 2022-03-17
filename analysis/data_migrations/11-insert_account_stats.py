@@ -465,13 +465,16 @@ def main():
     addresses = get_addresses()
     # for acc in accs
     # only using accounts with less than 10k tx and or 10k ttes because of etherscan limitations
-    for address in addresses[:3]:
-        print(f"Currently working with: {address}")
-        acc1 = EthAccount(address, APIKEY_ETHERSCAN)
-        snapshots = get_snapshots(acc1, exchanges, bridges)
-        # import json
-        # print(json.dumps(snapshots, indent=2))
-        print(f"Done with: {address}")
+    for address in addresses[9:]:
+        try:
+            print(f"Currently working with: {address}")
+            acc1 = EthAccount(address, APIKEY_ETHERSCAN)
+            snapshots = get_snapshots(acc1, exchanges, bridges)
+            # import json
+            # print(json.dumps(snapshots, indent=2))
+            print(f"Done with: {address}")
+        except:
+            print(f"exception with: {address}")
 
 
 if __name__ == '__main__':

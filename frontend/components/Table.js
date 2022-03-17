@@ -101,6 +101,20 @@ export const StatusPill = ({ value }) => {
     );
 };
 
+export const StatusPillOrder = ({ value }) => {
+    return (
+        <span
+            className={classNames(
+                'py-1 uppercase leading-wide font-bold text-xs rounded-full shadow-sm',
+                value === 'buy' ? 'text-green-600' : null,
+                value === 'sell' ? 'text-red-600' : null
+            )}
+        >
+            {value}
+        </span>
+    );
+};
+
 export const AvatarCell = ({ value, column, row }) => {
     return (
         <div className="flex items-center">

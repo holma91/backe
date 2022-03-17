@@ -18,7 +18,7 @@ const TextSection = () => {
 
     return (
         <section className="text-card-container">
-            <h1 className="text-2xl text-black">listen for new liquidity pairs</h1>
+            <h1 className="text-2xl text-black">analyze addresses</h1>
             <button onClick={() => setShowText(!showText)} className="flex font-bold mt-2 text-lg">
                 <ChevronIcon expanded={showText} /> how and why?
             </button>
@@ -30,7 +30,6 @@ const TextSection = () => {
 const TextCard = () => {
     return (
         <div className="text-card">
-            <h1 className="text-2xl text-black">analyze addresses</h1>
             <p className="font-bold">how?</p>
             <p>
                 first of all an address needs to be found, and that can be done by for example looking at volume,
@@ -70,7 +69,7 @@ const TextCard = () => {
             <p>
                 the 100 or so addresses that are on display here have been chosen mainly by studying the addresses with
                 highest volume. the code for the analysis can be found here
-                https://github.com/holma91/backe/tree/main/analysis/data_migrations
+                https://github.com/holma91/backe/tree/main/analysis/data_migrations. Only ethereum is supported atm.
             </p>
         </div>
     );
