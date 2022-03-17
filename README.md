@@ -1,102 +1,67 @@
-# Översikt
+# Overview
 
-Några nice resurser:
+the project is basically in four parts
 
--   https://ethereum.org/en/whitepaper/
--   https://ethereum.org/en/developers/docs/
--   https://github.com/ethereumbook/ethereumbook
--   https://danromero.org/crypto-reading/
--   https://a16z.com/crypto-startup-school/
--   https://a16z.com/2019/11/08/crypto-glossary/
-
-defi
-
--   https://ethereum.org/en/defi/
--   https://academy.binance.com/en/articles/what-is-uniswap-and-how-does-it-work
-
-solidity
-
--   cryptozombies.io
--   buildspace.io
--   https://docs.soliditylang.org/en/v0.8.11/
-
-MEV
-
--   https://github.com/flashbots/pm
-
-projektet är i princip uppdelat i 4 delar
-
--   /analys
+-   /analysis
 -   /bots
 -   /backend
 -   /frontend
 
-mål
-![alt text](shitcoinsauron.png)
-
-arkitektur
+architecture
 ![alt text](architecture.png)
 
-### Analys
+## Analysis
 
-Flowet ska vara att en address kommer in, addressen analyseras, addressen sparas om den bedöms vara intressant. Utifrån analysen ger vi addressen labels. Exempel på saker som kan analyseras hos en address:
+The flow should be: receive address, analyze the address, save the address if it's deemed interesting. Example of stuff that we can analyze on an address:
 
 -   profitability
-    -   totalt sedan kontot "skapades", men även under perioder. T.ex. kan det vara intressant att veta vilka konton som var lönsamma under senaste bear perioden.
-    -   hur har addressen varit lönsam? erc20-tokens? NFTs? memecoins? är det en trader? är det en developer? Finns många alternativ, givetvis intressant att veta vad detta kontots "profil" är. T.ex. följer man en adress som har varit tidig till dogecoin, shib osv så kan det vara ett tecken på att man kaaaanske borde följa efter nästa gång adressen köper ett nytt dogcoin.
+    -   in total since the account was "created", but also during certain periods. E.g. it could be interesting too see which accounts were profitable during the last long bear period.
+    -   how has the address been profitable? tokens? NFTs? memecoins? is it a trader? a dev? There are many alternatives, and it's without a doubt interesting too see what the "profile" of an account is.
 -   connections
-    -   vilka andra adresser är denna adress kopplad till? vilka tokens är den kopplad till? vilka nfts? osv.
-    -   vilka andra kedjor är denna address kopplad till? (Väldigt intressant). Alla EVM-compatible kedjor delar addresser, så om man ser att en ethereum whale "bridgear" till t.ex. avalanche kan det vara bra att följa dens rörelser.
+    -   what other addresses is this address connected to? what tokens? what nfts? etc.
+    -   what other chains are this address connected to (Could be interesting)? It's ofc easy to follow accounts across bridges on evm-compatible chains, but it should also be possible to for example connect a NEAR address with a ETH address.
 -   portfolio
-    -   vad har denna adress haft genom åren? vad håller den just nu?
+    -   what has this address been holding during years? what is it holding right now?
 
-### Bots
+Analyzing the profitability is the hard part since you can never be sure if you have labelled all exchanges and bridges, and you could also probably be spoofed by the address if the owner tried.
 
--   On-chain bots
-    -   detta är bottarna som härjar på blockkedjorna, exempel på vad de gör/ska göra är
-        -   lyssna på olika DEXes när nya par skapas
-        -   analysera en token utifrån all information som är tillgänglig när den skapas
-            -   till exempel så kan skaparen av denna token hittas, och om man ser att denna address är legit kan det vara värt att köpa medan om man ser att denna adress "skapades" för 10 minuter sedan så finns det en större risk att det är en scam.
-        -   lyssna på olika addresser för att se vad de köper och säljer
-        -   köpa och sälja automatiskt utifrån analysen ovan (kommer endast gå i vissa fall, men målet är att automatisera så mycket som möjligt)
-            -   exempelscenario: Vi har en adress som enligt våra uträkningar har dessa stats (bland annat):
-                active_since = 2017
-                profit_usd = $100m
-                current_account_value_usd = $10m
-                Vi har också information om att denna adress har varit framgångsrik på över 5 olika kedjor (tyder på att det inte är någon val som endast köpte eth 2015 och är rik pga det). Våran bot får nu en notis om att denna adress har köpt en token med ett market cap på $10m och en simpel slutsats man kan dra är att detta med stor sannolikhet är något man bör copytradea. (inte ovanligt att tokens i denna storlek kan gå upp 10x på en vecka)
-        -   generera ett feed för frontenden med allt som händer på blockkedjorna vi följer (ska vara i real-time)
-            -   detta är bland annat hjälpsamt i de fallen där köpandet/säljandet ej går att automatisera och manuell analys måste göras. Till exempel i exempelscenariot ovan kan det vara nice att göra research (kolla twitter, deras hemsida etc) innan man köper. (såklart hade det varit nice om man lyckas automatisera även detta)
--   MEV-bots
-    -   "Miner extractable value" är ett visst värde för varje transaktion (ibland 0), och detta värde är tillgängligt för den som letar. Som "mev-searcher" kan man antingen leta arbitrages, liquidations och göra sandwich attacks. Nackdelarna med dessa bottar är att jag tror att de är väldigt svårt att få dem till den nivå då man kan tävla med de bästa och faktiskt få ta del av MEV, men fördelen blir att man kan hitta trades där man är garanterad en vinst OCH att detta funkar oavsett hur marknaden går i allmänhet. Bitcoin och ethereum går ner 50%? Spelar ingen roll då det fortfarande kommer att finnas MEV. Inte researchat tillräckligt mycket om detta än, men min uppfattning är att man måste vara rätt bra på solidity för att kunna ta MEV på ett effektivt sätt. Jävligt intressant dock och kan vara en bra utmaning. Dessa lever också onchain givetvis och om man lyckas skriva effektiva bottar här tror jag man kan ha stor edge vid vanlig "altcoin" trading också.
--   Off-chain bots
-    -   bots som tradear på exchanges (coinbase, binance, kraken, ftx etc).
-    -   ytterst tveksamt om detta ens är värt det, barrier to entry är låg (enkelt att göra dessa bottar) och det finns bara större tokens tillgängliga. Skulle tro att edgen man kan få här jämfört med on-chain bottar inte ens är en tiondel.
--   information bots
-    -   bots som har syftet att bara leta internet för information gällande tokens.
-    -   twitter
-        -   exempeltillämpning:
-            väljer alla vettiga konton från twitter samt alla dom följer. Kolla alla deras tweets (ex från jan 2021 till nu), spara alla tokens som har nämnts i tweets samt hur många gånger de har nämnts. Vi har nu en hashmap med alla tokens som någonsin har nämnts av dessa konton (som enligt bedömningen är vettiga) och kan nu lyssna på twitter efter tokens som dessa konton aldrig har nämnt (om ingen av dessa konton har nämnt en token så är man med nästan all sannolikhet tidig). Lyssnandet bör göras inte bara på denna grupp av vettiga konton och dom som dom följer, utan även på de som följer dessa vettiga konton. (jättemycket shitcoins kommer dyka upp ja, men även vettiga saker och om man kan frontrunna twitter är det något man bör göra)
-    -   discord
-        -   exempeltillämpning:
-            bots som är kryptorelaterade discords och som dels kan göra liknande saker som i twitterexemplet, men även till exempel analysera i vilka kanaler som det är mesta aktivitet i. Till exempel, om en discord har 10 kanaler för olika blockkedjor och vi ser att en stor del av diskussionen rör sig till en någorlunda ny kedja så kan slutsatsen dras att folk är intresserade av denna kedja och då är det nog fördelaktigt att sätta upp bottar som lyssnar på denna nya kedja.
-    *   och massor mer
+## Bots
 
-### backend
+### on-chain
 
-I princip en REST API bara, som exponerar databasens innehåll. Bottarna och klienten kommer att använda sig av denna API. Denna databas är alltså den där allting från analysen hamnar. Just nu en postgressql databas och en API i python med fastAPI. Inte så mycket som kommer in i databasen här ifrån, om ens något. Kanske hjälpsamt att kunna göra saker manuellt från klienten, t.ex. lägga in en ny address man vill följa.
+Scripts that run on different blockchains. The goal is to get a good view over what is happening before others.
 
-### frontend
+Currently two bots/scripts running:
 
-Först och främst en dashboard/trading view som visar vad som försiggår i databasen, men även som visar vad som försiggår on-chain rent generellt också. Så att denna dashboard ska visa allt som finns i databasen är givet, men den ska även annan information som går att få via olika api-tjänster t.ex.
+-   lpBot.js (on most EVM chains)
+    listens to all newly emitted newPair events, and sends a post request to the server who in turn sends it to the frontend and the discord server.
+-   swapBot.js (on ethereum mainnet)
+    -   listens for emitted Swap events from a set of followed liquidity pairs. When receiving a swap event, it checks the senderAddress against our saved addresses and proceeds if the sender is interesting. The liquidity pairs we are listening to have been chosen pretty arbitrarily so far apart from the the new ones that notifies the lpBot.
 
--   defillama.com för stats om defi i allmänhet
--   dexscreener.com som har charts för mindre tokens
--   etherscan.com, bscscan.com, ftmscan.com osv. för information om det mesta
+TODO: - mev stuff?
 
-Målet är denna app ska kunna ge så mycket information som möjligt på så liten yta som möjligt. Inte UI/UX för nybörjare, det ska vara en rätt avancerad "trading view". Saker man ska kunna göra i real-time (med websockets) är bland annat:
+### off-chain
 
--   se vad addresser man följer gör
--   se nya tokens
--   se vad bottarna gör
+Mainly have different kind of social media information bots in mind.
 
-Är en react app med nextjs.org
+-   twitterbot (not running but kinda works)
+    works like this:
+    1. handpick 100 accounts that are deemed "good"
+    2. create a list of all the accounts that these 100 accounts follow (is around 15k accounts)
+    3. check all their previous tweets and save everything into a hashmap
+    4. we can now see easily what has been mentioned the most by somewhat respectable accounts and our data is not ruined by spambots.
+       There are some problems, mainly the fact that the twitter API only lets you retrieve data from the last 7 days if you don't have a "research account" which from the looks of it is difficult to get. Could get around by running this script once a week and save up the data from now on, but the historical data would then of course never be included. If the historical data is somehow retrievable, I think you could do some really interesting analysis if you combine the twitter shilling together with prices.
+
+## Backend
+
+A node.js REST API that exposes what's inside the postgres DB. Everything the bots "receive" goes through the node server before being inserted to the DB. On receving stuff, the server also sends out messages to both the web client and a discord server.
+
+## Frontend
+
+### web client
+
+A react.js (next.js) app that acts like a dashboard for everything else. Not much else going on there.
+
+### discord server
+
+Thought a discord server would be nice to have as a frontend as well, since you integrate notifications and stuff super easy.
