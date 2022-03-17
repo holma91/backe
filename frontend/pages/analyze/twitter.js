@@ -68,7 +68,7 @@ const TextCard = () => {
                     href="https://github.com/holma91/backe/tree/main/analysis/handpicked_twtaccs.txt"
                     target={'_blank'}
                 >
-                    github.com/holma91/backe/tree/main/analysis/handpicked_twtaccs.json
+                    github.com/holma91/backe/tree/main/analysis/handpicked_twtaccs.txt
                 </a>{' '}
             </p>
             <p className="font-bold">why?</p>
