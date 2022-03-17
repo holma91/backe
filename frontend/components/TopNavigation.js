@@ -6,9 +6,6 @@ const TopNavigation = () => (
     <div className="top-navigation">
         <Title />
         <ThemeIcon />
-        <Search />
-        <BellIcon />
-        <UserCircle />
     </div>
 );
 
@@ -27,15 +24,6 @@ const ThemeIcon = () => {
     );
 };
 
-const Search = () => (
-    <div className="search">
-        <input className="search-input border-none focus:ring-transparent" type="text" placeholder="Search..." />
-        <FaSearch size="18" className="text-secondary my-auto" />
-    </div>
-);
-const BellIcon = () => <FaRegBell size="24" className="top-navigation-icon" />;
-const UserCircle = () => <FaUserCircle size="24" className="top-navigation-icon" />;
-const HashtagIcon = () => <FaHashtag size="20" className="title-hashtag" />;
 const Title = () => {
     const router = useRouter();
     console.log(router);

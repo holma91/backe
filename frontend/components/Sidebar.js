@@ -24,13 +24,11 @@ const Sidebar = () => {
         },
         {
             href: '/analyze',
-            title: 'analyze addresses',
+            title: 'analyze',
             accessor: 'analyze',
             inner: [
                 { outerHref: '/analyze', href: '', title: 'all chains', accessor: '' },
-                { outerHref: '/analyze', href: '/ethereum', title: 'ethereum', accessor: 'ethereum' },
-                { outerHref: '/analyze', href: '/bsc', title: 'binance smart chain', accessor: 'bsc' },
-                { outerHref: '/analyze', href: '/fantom', title: 'fantom', accessor: 'fantom' },
+                { outerHref: '/analyze', href: '/coming-soon', title: 'coming soon', accessor: 'coming-soon' },
             ],
         },
     ];
@@ -109,7 +107,7 @@ const ChevronIcon = ({ expanded }) => {
 const HeaderBlock = () => (
     <div className="channel-block">
         <Link href="/">
-            <a className="channel-block-text hover:cursor-pointer">placeholder</a>
+            <a className="channel-block-text hover:cursor-pointer">hassebacke</a>
         </Link>
     </div>
 );
