@@ -1,13 +1,13 @@
-import AnalyzeChainTable from '../../components/AnalyzeChainTable';
+import AnalyzeTwitterTable from '../../components/AnalyzeTwitterTable';
 import { useState } from 'react';
 import { ChevronIcon } from '../../components/shared/Icons';
 
 export default function Home() {
     return (
         <div className="content-container">
-            <TextSection />
+            {/* <TextSection /> */}
             <div className="grid grid-cols-4 gap-4 mr-5 ml-5 mb-5">
-                <AnalyzeChainTable />
+                <AnalyzeTwitterTable />
             </div>
         </div>
     );

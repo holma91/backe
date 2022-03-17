@@ -115,6 +115,21 @@ export const StatusPillOrder = ({ value }) => {
     );
 };
 
+export const StatusPillProfit = ({ value }) => {
+    return (
+        <span
+            className={classNames(
+                'py-1 uppercase leading-wide font-bold text-xs rounded-full shadow-sm',
+                parseInt(value) > 100000 ? 'text-green-700' : null,
+                parseInt(value) < 100000 && parseInt(value) > 0 ? 'text-yellow-700' : null,
+                parseInt(value) < 0 ? 'text-red-700' : null
+            )}
+        >
+            {value}
+        </span>
+    );
+};
+
 export const AvatarCell = ({ value, column, row }) => {
     return (
         <div className="flex items-center">

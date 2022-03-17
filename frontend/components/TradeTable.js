@@ -2,11 +2,11 @@ import React from 'react';
 // WARNING: IF THE LINE BELOW IS REMOVED IT WONT COMPILE,
 // because of "ReferenceError: regeneratorRuntime is not defined"
 import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-unused-vars
-import { StatusPillOrder } from '../../components/Table';
-import LoadingPage from '../../components/LoadingPage';
-import ErrorPage from '../../components/ErrorPage';
-import useFetch from '../../hooks/useFetch';
-import Table, { SelectColumnFilter } from '../../components/Table';
+import { StatusPillOrder } from './Table';
+import LoadingPage from './LoadingPage';
+import ErrorPage from './ErrorPage';
+import useFetch from '../hooks/useFetch';
+import Table, { SelectColumnFilter } from './Table';
 
 const TradeTableContainer = () => {
     const columns = React.useMemo(
@@ -68,7 +68,7 @@ const TradeTableContainer = () => {
     const initialState = {
         sortBy: [
             {
-                id: 'createdAt',
+                id: 'tradeTimestamp',
                 desc: true,
             },
         ],

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PairTable from './PairTable';
+import PairTable from '../../components/PairTable';
 import { ChevronIcon } from '../../components/shared/Icons';
 
 export default function Pairs() {

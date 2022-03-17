@@ -1,36 +1,15 @@
 import React from 'react';
-
+import useFetch from '../hooks/useFetch';
+import LoadingPage from './LoadingPage';
+import ErrorPage from './ErrorPage';
 // WARNING: IF THE LINE BELOW IS REMOVED IT WONT COMPILE,
 // because of "ReferenceError: regeneratorRuntime is not defined"
 import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-unused-vars
-import Table, { AvatarCell, SelectColumnFilter, StatusPill } from '../../components/Table';
-import getAddresses from '../../dummydata/getAddresses';
-
-const stats = {
-    id: 18,
-    address: '0x01f0831120ab81f91109e099afb551a091c4c05a',
-    startValueUsd: '238956.18711267613',
-    startValueEth: '71.01336629817602',
-    endValueUsd: '768921.0171309289',
-    endValueEth: '196.55452483096178',
-    profitUsd: '529964.8300182528',
-    profitEth: '125.54115853278576',
-    againstUsd: '3.2178326346007355',
-    againstEth: '2.767852519561663',
-    txCount: '112',
-    year: '2021',
-};
+import Table, { AvatarCell, SelectColumnFilter, StatusPillProfit } from './Table';
 
 const AnalyzeTable = () => {
     const columns = React.useMemo(
         () => [
-            // {
-            //     Header: 'Account',
-            //     accessor: 'label',
-            //     Cell: AvatarCell,
-            //     imgAccessor: 'imgUrl',
-            //     addressAccessor: 'address',
-            // },
             {
                 Header: 'Account',
                 accessor: 'address',
@@ -38,6 +17,7 @@ const AnalyzeTable = () => {
             {
                 Header: 'Profit (USD)',
                 accessor: 'profitUsd',
+                Cell: StatusPillProfit,
             },
             {
                 Header: 'Profit (ETH)',
@@ -47,11 +27,7 @@ const AnalyzeTable = () => {
                 Header: 'Transactions',
                 accessor: 'txCount',
             },
-            {
-                Header: 'Activity',
-                accessor: 'activity',
-                Cell: StatusPill,
-            },
+
             {
                 Header: 'Against USD',
                 accessor: 'againstUsd',
@@ -76,21 +52,33 @@ const AnalyzeTable = () => {
         []
     );
 
-    const data = React.useMemo(() => getAddresses(), []);
+    //const data = React.useMemo(() => getAddresses(), []);
+    const { data, isLoading, isError } = useFetch('accounts/stats/');
+    if (isError) return <ErrorPage />;
+    if (isLoading) return <LoadingPage />;
+
+    const accounts = data.map((account) => ({
+        ...account,
+        // https://stackoverflow.com/questions/2283566/how-can-i-round-a-number-in-javascript-tofixed-returns-a-string
+        profitUsd: Math.round(account.profitUsd * 1) / 1,
+        profitEth: Math.round(account.profitEth * 1e2) / 1e2,
+        againstUsd: Math.round(account.againstUsd * 1e2) / 1e2,
+        againstEth: Math.round(account.againstEth * 1e2) / 1e2,
+    }));
 
     const initialState = {
-        // sortBy: [
-        //     {
-        //         id: 'createdAt',
-        //         desc: true,
-        //     },
-        // ],
+        sortBy: [
+            {
+                id: 'profitUsd',
+                desc: true,
+            },
+        ],
         pageSize: 15,
     };
 
     return (
         <div className="col-span-4 m-5">
-            <Table columns={columns} data={data} initialState={initialState} />
+            <Table columns={columns} data={accounts} initialState={initialState} />
         </div>
     );
 };

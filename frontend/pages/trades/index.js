@@ -1,4 +1,4 @@
-import TradeTable from './TradeTable';
+import TradeTable from '../../components/TradeTable';
 import { useState } from 'react';
 import { ChevronIcon } from '../../components/shared/Icons';
 

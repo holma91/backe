@@ -5,13 +5,13 @@ import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 // because of "ReferenceError: regeneratorRuntime is not defined"
 import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-unused-vars
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy, usePagination } from 'react-table';
-import { AvatarCell, GlobalFilter, PageSelector, ChangePage } from '../../components/Table';
-import LoadingPage from '../../components/LoadingPage';
-import ErrorPage from '../../components/ErrorPage';
-import useFetch from '../../hooks/useFetch';
-import information from '../../../backend/information';
-import { SortIcon, SortUpIcon, SortDownIcon } from '../../components/shared/Icons';
-import Table, { SelectColumnFilter } from '../../components/Table';
+import { AvatarCell, GlobalFilter, PageSelector, ChangePage } from './Table';
+import LoadingPage from './LoadingPage';
+import ErrorPage from './ErrorPage';
+import useFetch from '../hooks/useFetch';
+import information from '../../backend/information';
+import { SortIcon, SortUpIcon, SortDownIcon } from './shared/Icons';
+import Table, { SelectColumnFilter } from './Table';
 
 const PairTableContainer = () => {
     const columns = React.useMemo(

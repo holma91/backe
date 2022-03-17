@@ -1,4 +1,4 @@
-import { FaSearch, FaHashtag, FaRegBell, FaUserCircle, FaMoon, FaSun } from 'react-icons/fa';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import useDarkMode from '../hooks/useDarkMode';
 
