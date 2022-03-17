@@ -2,7 +2,6 @@ import React from 'react';
 import useFetch from '../hooks/useFetch';
 import LoadingPage from './LoadingPage';
 import ErrorPage from './ErrorPage';
-import getData from '../dummydata/getData';
 // WARNING: IF THE LINE BELOW IS REMOVED IT WONT COMPILE,
 // because of "ReferenceError: regeneratorRuntime is not defined"
 import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-unused-vars

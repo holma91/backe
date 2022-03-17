@@ -9,7 +9,7 @@ import { AvatarCell, GlobalFilter, PageSelector, ChangePage } from './Table';
 import LoadingPage from './LoadingPage';
 import ErrorPage from './ErrorPage';
 import useFetch from '../hooks/useFetch';
-import information from '../../backend/information';
+import information from '../information';
 import { SortIcon, SortUpIcon, SortDownIcon } from './shared/Icons';
 import Table, { SelectColumnFilter } from './Table';
 
