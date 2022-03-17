@@ -108,7 +108,9 @@ const ChevronIcon = ({ expanded }) => {
 
 const HeaderBlock = () => (
     <div className="channel-block">
-        <h5 className="channel-block-text hover:cursor-default">placeholder</h5>
+        <Link href="/">
+            <a className="channel-block-text hover:cursor-pointer">placeholder</a>
+        </Link>
     </div>
 );
 

@@ -142,6 +142,7 @@ def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
             STATS['start_value_usd'] = snapshot['account_value_usd']
             STATS['start_value_eth'] = snapshot['account_value_eth']
             STATS['year'] = 2021
+            STATS['chain'] = 'ETH'
             STATS['inflow_before2021_usd'] = snapshot['inflow_value_usd']
             STATS['inflow_before2021_eth'] = snapshot['inflow_value_eth']
             STATS['outflow_before2021_usd'] = snapshot['outflow_value_usd']
@@ -178,10 +179,10 @@ def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
                 STATS['against_eth'] = 1
 
             cur.execute("""insert into account_stats (address, start_value_usd, start_value_eth, end_value_usd, 
-                        end_value_eth, profit_usd, profit_eth, against_usd, against_eth, tx_count, year) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
+                        end_value_eth, profit_usd, profit_eth, against_usd, against_eth, tx_count, year, chain) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
                         (STATS['address'], STATS['start_value_usd'], STATS['start_value_eth'], STATS['end_value_usd'],
                          STATS['end_value_eth'], STATS['profit_usd'], STATS['profit_eth'], STATS['against_usd'], STATS['against_eth'],
-                         STATS['tx_count'], STATS['year']))
+                         STATS['tx_count'], STATS['year'], STATS['chain']))
 
     # con.commit()
     cur.close()
@@ -463,15 +464,13 @@ def main():
     bridges = get_bridges()
 
     addresses = get_addresses()
-    # for acc in accs
     # only using accounts with less than 10k tx and or 10k ttes because of etherscan limitations
-    for address in addresses[9:]:
+    # use https://github.com/blockchain-etl for accounts with 10k+ txs
+    for address in addresses[50:]:
         try:
             print(f"Currently working with: {address}")
             acc1 = EthAccount(address, APIKEY_ETHERSCAN)
             snapshots = get_snapshots(acc1, exchanges, bridges)
-            # import json
-            # print(json.dumps(snapshots, indent=2))
             print(f"Done with: {address}")
         except:
             print(f"exception with: {address}")

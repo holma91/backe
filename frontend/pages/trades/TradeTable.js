@@ -7,7 +7,6 @@ import { AvatarCell, GlobalFilter, PageSelector, ChangePage, StatusPillOrder } f
 import LoadingPage from '../../components/LoadingPage';
 import ErrorPage from '../../components/ErrorPage';
 import useFetch from '../../hooks/useFetch';
-import information from '../../../backend/information';
 import { SortIcon, SortUpIcon, SortDownIcon } from '../../components/shared/Icons';
 
 const TradeTableContainer = () => {
