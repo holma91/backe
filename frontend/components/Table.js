@@ -147,7 +147,7 @@ export const PageSelector = ({ state, setPageSize, pageOptions }) => (
                     setPageSize(Number(e.target.value));
                 }}
             >
-                {[5, 10, 20].map((pageSize) => (
+                {[5, 10, 15, 20, 25, 50].map((pageSize) => (
                     <option key={pageSize} value={pageSize}>
                         Show {pageSize}
                     </option>
@@ -218,18 +218,22 @@ const TableBody = ({ page, prepareRow }) =>
             <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                     <td {...cell.getCellProps()} className="px-3 py-1 whitespace-nowrap" role="cell">
-                        {cell.column.Cell.name === 'defaultRenderer' ? (
-                            <div className="text-sm text-gray-500">{cell.render('Cell')}</div>
-                        ) : (
-                            cell.render('Cell')
-                        )}
+                        <div className="text-sm text-gray-500">
+                            {cell.column.isLink ? (
+                                <a href={`${cell.value}`} target="_blank">
+                                    to {cell.column.Header}
+                                </a>
+                            ) : (
+                                <>{cell.render('Cell')}</>
+                            )}
+                        </div>
                     </td>
                 ))}
             </tr>
         );
     });
 
-export default function Table({ columns, data }) {
+export default function Table({ columns, data, initialState }) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -253,6 +257,7 @@ export default function Table({ columns, data }) {
         {
             columns,
             data,
+            initialState,
         },
         useFilters,
         useGlobalFilter,

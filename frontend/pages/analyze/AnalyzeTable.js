@@ -24,12 +24,16 @@ const stats = {
 const AnalyzeTable = () => {
     const columns = React.useMemo(
         () => [
+            // {
+            //     Header: 'Account',
+            //     accessor: 'label',
+            //     Cell: AvatarCell,
+            //     imgAccessor: 'imgUrl',
+            //     addressAccessor: 'address',
+            // },
             {
                 Header: 'Account',
-                accessor: 'label',
-                Cell: AvatarCell,
-                imgAccessor: 'imgUrl',
-                addressAccessor: 'address',
+                accessor: 'address',
             },
             {
                 Header: 'Profit (USD)',
@@ -74,9 +78,19 @@ const AnalyzeTable = () => {
 
     const data = React.useMemo(() => getAddresses(), []);
 
+    const initialState = {
+        // sortBy: [
+        //     {
+        //         id: 'createdAt',
+        //         desc: true,
+        //     },
+        // ],
+        pageSize: 15,
+    };
+
     return (
         <div className="col-span-4 m-5">
-            <Table columns={columns} data={data} />
+            <Table columns={columns} data={data} initialState={initialState} />
         </div>
     );
 };
