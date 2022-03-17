@@ -179,7 +179,7 @@ def take_snapshot(acc, holdings, inflow_from_eoa, timestamp, inflows, outflows):
                 STATS['against_eth'] = 1
 
             cur.execute("""insert into account_stats (address, start_value_usd, start_value_eth, end_value_usd, 
-                        end_value_eth, profit_usd, profit_eth, against_usd, against_eth, tx_count, year, chain) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
+                        end_value_eth, profit_usd, profit_eth, against_usd, against_eth, tx_count, year, chain) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""",
                         (STATS['address'], STATS['start_value_usd'], STATS['start_value_eth'], STATS['end_value_usd'],
                          STATS['end_value_eth'], STATS['profit_usd'], STATS['profit_eth'], STATS['against_usd'], STATS['against_eth'],
                          STATS['tx_count'], STATS['year'], STATS['chain']))
@@ -466,14 +466,14 @@ def main():
     addresses = get_addresses()
     # only using accounts with less than 10k tx and or 10k ttes because of etherscan limitations
     # use https://github.com/blockchain-etl for accounts with 10k+ txs
-    for address in addresses[50:]:
+    for address in addresses[230:300]:
         try:
             print(f"Currently working with: {address}")
             acc1 = EthAccount(address, APIKEY_ETHERSCAN)
             snapshots = get_snapshots(acc1, exchanges, bridges)
             print(f"Done with: {address}")
-        except:
-            print(f"exception with: {address}")
+        except Exception as e:
+            print(f"exception with: {address}, e: {e}")
 
 
 if __name__ == '__main__':
