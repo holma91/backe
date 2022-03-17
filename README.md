@@ -50,7 +50,7 @@ Mainly have different kind of social media information bots in mind.
     2. create a list of all the accounts that these 100 accounts follow (is around 15k accounts)
     3. check all their previous tweets and save everything into a hashmap
     4. we can now see easily what has been mentioned the most by somewhat respectable accounts and our data is not ruined by spambots.
-       There are some problems, mainly the fact that the twitter API only lets you retrieve data from the last 7 days if you don't have a "research account" which from the looks of it is difficult to get. Could get around by running this script once a week and save up the data from now on, but the historical data would then of course never be included. If the historical data is somehow retrievable, I think you could do some really interesting analysis if you combine the twitter shilling together with prices.
+       There are some problems, mainly the fact that the twitter API only lets you retrieve data from the last 7 days if you don't have a "research account" which from the looks of it is difficult to get. Could get around by running this script once a week and save up the data from now on, but the historical data would then of course never be included. If the historical data is somehow retrievable, I think you could do some really interesting analysis if you combine the twitter shilling together with market data.
 
 ## Backend
 

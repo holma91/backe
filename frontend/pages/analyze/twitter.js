@@ -65,7 +65,7 @@ const TextCard = () => {
                 would then of course never be included. The 100 or so handpicked twitter accounts can be found here
                 <a
                     className="ml-1 text-blue-600 hover:text-blue-400"
-                    href="https://github.com/holma91/backe/tree/main/analysis/handpicked_twtaccs.json"
+                    href="https://github.com/holma91/backe/tree/main/analysis/handpicked_twtaccs.txt"
                     target={'_blank'}
                 >
                     github.com/holma91/backe/tree/main/analysis/handpicked_twtaccs.json
