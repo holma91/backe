@@ -5,12 +5,12 @@ import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 const Sidebar = () => {
     const menuItems = [
         {
-            href: '/pairs',
-            title: 'pairs',
-            accessor: 'pairs',
+            href: '/analyze',
+            title: 'analyze',
+            accessor: 'analyze',
             inner: [
-                { outerHref: '/pairs', href: '', title: 'all pairs', accessor: 'all-pairs' },
-                { outerHref: '/pairs', href: '/live-feed', title: 'live feed', accessor: 'live-feed' },
+                { outerHref: '/analyze', href: '', title: 'all chains', accessor: '' },
+                { outerHref: '/analyze', href: '/coming-soon', title: 'coming soon', accessor: 'coming-soon' },
             ],
         },
         {
@@ -23,12 +23,12 @@ const Sidebar = () => {
             ],
         },
         {
-            href: '/analyze',
-            title: 'analyze',
-            accessor: 'analyze',
+            href: '/pairs',
+            title: 'pairs',
+            accessor: 'pairs',
             inner: [
-                { outerHref: '/analyze', href: '', title: 'all chains', accessor: '' },
-                { outerHref: '/analyze', href: '/coming-soon', title: 'coming soon', accessor: 'coming-soon' },
+                { outerHref: '/pairs', href: '', title: 'all pairs', accessor: 'all-pairs' },
+                { outerHref: '/pairs', href: '/live-feed', title: 'live feed', accessor: 'live-feed' },
             ],
         },
     ];
