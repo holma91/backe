@@ -1,5 +1,5 @@
 import express from 'express';
-import TwitterRepo from '../repos/TwitterRepo.js';
+import TwitterRepo from '../repos/twitterRepo.js';
 
 const router = express.Router();
 
