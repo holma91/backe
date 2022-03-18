@@ -55,14 +55,17 @@ const TextCard = () => {
             <p className="pl-4">3. all their previous tweets the last 7 days are retrieved and saved into a hashmap</p>
             <p className="pl-4">
                 4. now it's possible to easily see what has been mentioned by somewhat respectable accounts during the
-                last 7 days
+                last 7 days 5. listen for new tweets and if tweet contains a ticker, check if the ticker exists in the
+                database. If it doesn't, then it might be something that just launched
             </p>
             <br />
             <p>
                 There are some problems, mainly the fact that the twitter API only lets you retrieve data from the last
                 7 days if you don't have a "research account" which from the looks of it is difficult to get. Could get
                 around by running this script once a week and save up the data from now on, but the historical data
-                would then of course never be included. The 100 or so handpicked twitter accounts can be found here
+                would then of course never be included. Another problem is with #5, it is according to my estimates
+                possible to stream every tweet from 15k accounts, but in a really hacky way and I need 20 elevated dev
+                accounts to do so. The 100 or so handpicked twitter accounts can be found here
                 <a
                     className="ml-1 text-blue-600 hover:text-blue-400"
                     href="https://github.com/holma91/backe/tree/main/analysis/handpicked_twtaccs.txt"
