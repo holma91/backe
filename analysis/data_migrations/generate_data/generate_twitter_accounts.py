@@ -1,14 +1,19 @@
 import json
+import os
 import tweepy
+from dotenv import load_dotenv
+load_dotenv('../.env')
 
-from env import BEARER_TOKEN_1, BEARER_TOKEN_2
-# "$jewel" until:2021-10-15 since:2021-09-30
+bearer_token1 = os.environ.get('twitter_bearer_1')
+bearer_token2 = os.environ.get('twitter_bearer_2')
+bearer_token3 = os.environ.get('twitter_bearer_3')
+
 # worthy twitter accounts
 accounts = ["blknoiz06",
             "satsdart",
             "dcfgod",
             "HsakaTrades",
-            "DeFiGod1",
+            "DeFifrog1",
             "Fiskantes",
             "gametheorizing",
             "AutomataEmily",
@@ -26,13 +31,40 @@ accounts = ["blknoiz06",
             "ZeMariaMacedo",
             "danielesesta",
             "AlgodTrading",
-            "CryptoMessiah",
+            "0x_Messi",
             "AltcoinPsycho",
             "loomdart",
-            "AndreCronjeTech",
-            "jebus911",
-            "CryptoKaleo",
+            "AutismCapital",
             "gainzxbt",
+            "CryptoKaleo",
+            "tarunchitra",
+            "DeFi_Brian",
+            "KeyboardMonkey3",
+            "pleyuh",
+            "Chubbicorn219",
+            "imBagsy",
+            "AviFelman",
+            "KanavKariya",
+            "CapitalGrug",
+            "Cryptoyieldinfo",
+            "transmissions11",
+            "tz_binance",
+            "bertcmiller",
+            "0xngmi",
+            "Mudit__Gupta",
+            "AlamedaTrabucco",
+            "cmsintern",
+            "lightcrypto",
+            "ASvanevik",
+            "icebergy_",
+            "DaRealMilkBagz",
+            "depression2019",
+            "Sicarious_",
+            "Route2FI",
+            "fishxbt",
+            "NaniXBT",
+            "twobitidiot",
+            "hosseeb",
             "inversebrah",
             "Tradermayne",
             "CryptoCred",
@@ -40,7 +72,6 @@ accounts = ["blknoiz06",
             "bitcoinpanda69",
             "LomahCrypto",
             "IamNomad",
-            "lightcrypto",
             "HentaiAvenger69",
             "MoonOverlord",
             "KyleLDavies",
@@ -49,30 +80,21 @@ accounts = ["blknoiz06",
             "zhusu",
             "0xtuba",
             "0xSisyphus",
-            "tztokchad",
-            "tz_binance",
-            "icebergy_",
-            "DaRealMilkBagz",
-            "depression2019",
-            "Sicarious_",
-            "Route2FI",
-            "fishxbt",
-            "NaniXBT",
-            "ercwl",
-            "twobitidiot",
-            "hosseeb"
             ]
 
-client = tweepy.Client(bearer_token=BEARER_TOKEN_1, wait_on_rate_limit=True)
+client1 = tweepy.Client(bearer_token=bearer_token1, wait_on_rate_limit=True)
+client2 = tweepy.Client(bearer_token=bearer_token2, wait_on_rate_limit=True)
+client3 = tweepy.Client(bearer_token=bearer_token3, wait_on_rate_limit=True)
+clients = [client1, client2, client3]
 
 
-def get_id_from_username(username):
+def get_id_from_username(username, client):
     user = client.get_user(username=username)
     return user.data.id
 
 
-def get_following(username, followees={}):
-    user_id = get_id_from_username(username)
+def get_following(username, client, followees={}):
+    user_id = get_id_from_username(username, client)
     followee = client.get_users_following(user_id, max_results=1000)
     for followees_page in tweepy.Paginator(client.get_users_following, id=user_id, max_results=1000):
         for followee in followees_page.data:
@@ -89,12 +111,11 @@ def get_following(username, followees={}):
 
 def get_interesting_accounts(usernames):
     accounts = {}
-    try:
-        for username in usernames:
-            accounts = get_following(username, accounts)
-    except Exception as e:
-        print(e)
-        print(json.dumps(accounts, indent=2))
+    for count, username in enumerate(usernames):
+        try:
+            accounts = get_following(username, clients[count % 3], accounts)  # alternate clients to avoid rate limiting
+        except Exception as e:
+            print(f"error with {username}: {e}")
 
     return accounts
 
