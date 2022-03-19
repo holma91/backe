@@ -4,6 +4,7 @@
 pseudo.txt
 notes.txt
 node_modules
+READMEsv.md
 
 ### ANALYSIS ###
 analysis/env
@@ -11,6 +12,8 @@ analysis/venv
 analysis/data_migrations/utils/env.py
 analysis/data_migrations/generate_data/twitter_env.py
 analysis/data_migrations/utils/.db_env
+analysis/data_migrations/initial_data/exchanges.json
+analysis/data_migrations/twitterdata.md
 
 
 

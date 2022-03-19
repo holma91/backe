@@ -8,12 +8,7 @@
     -   set it up on the other evm chains
 -   do everything for erc-721 tokens as well (NFTs) - NOT STARTED
     -   research the whole nft space first. Not even confident in taking trades here yet.
--   develop bots that can buy tokens - IN PROGRESS
-    -   bots that can buy on a discord command or something similar
-        -   nice if you wanna pull the trigger from the phone
-    -   bots that can buy stuff automatically
-        -   need to have a list of requirements that can be checked programmatically, the so called rug detector.
-        -   need to research previous releases to see what charactherizes a good release. That it's not a rug is not enough.
+-   bots that can buy stuff automatically - need to have a list of requirements that can be checked programmatically, the so called rug detector. - need to research previous releases to see what charactherizes a good release. That it's not a rug is not enough.
 
 ### cosmos-sdk chains
 
@@ -26,9 +21,6 @@
     -   dive deeper into the EVM and solidity at first
     -   somewhat simple arbitrage bots on single evm-chains could be the first step.
     -   cross-chain arbitrage bots could be the next step, first on multiple evm-chains and then evm and non-evm chain.
-    -   it's said to be hard competition here, could be fun to try writing hyper optimized bots that could compete.
-    -   exciting to do stuff here since you can make trades with a guaranteed profit so it's possibly to just 100% rely on technical stuff.
-    -   first evm chains, then the rest.
 
 # social media
 
@@ -76,39 +68,6 @@ The frontend should only have one job from the beginning, and that is to just to
 
 tech stack: react with next.js and tailwind
 
-# Trading
-
--   Keep researching for new projects a couple of times a week.
--   in general I'm interested of everything regarding ethereum scalability and cosmos during 2022.
--   NOT super bullish crypto 2022. Definitely possible that 2022 is a down year and then much of this wont matter in the short-term. Can see a scenario where bitcoin ranges between 20k and 50k.
-
-### projects I'm following right now
-
--   optimism
-    -   optimistic layer 2 roll up on ethereum. zipswap.fi a decent dex. On the watchout for new projects launching.
--   metis
-    -   a fork of optimism. Basically the same but not as good. Could still get some nice projects.
--   fuse
-    -   a shitty evm layer 1. Only watching it because they might get a developer fund and their main dex (voltswap) is launching in feb.
--   near/aurora
-    -   near is a sharded layer 1 and aurora is a evm compatible layer2 built on top of near, good project. Have big investors already and $1b+ developer fund so I'm expecting projects soon.
-
-### some upcoming exciting launches are coming:
-
--   evmos (launch expected in february)
-    -   evm compatibility arrives to cosmos.
-    -   the play here is to follow the usual "new evm" cycle. Maybe buy the native token $evmos, definitely buy the main dex (diffusion finance), probably buy another dex as well. Definitely buy the first dog coin. Going to be able to track this chain right at launch so the positioning for this is perfect.
--   neon labs (launch in Q2 probably)
-    -   the same as evmos basically but on solana instead of cosmos.
--   celestia (launch unknown)
-    -   data availability layer 1 blockchain.
--   starknet and zksync (launch unknown but probably in 2022)
-    -   zero-knowledge proof layer 2 rollups mainly for ethereum. This is what takes ethereum gas fees from hundreds of dollars to 5 cents.
--   avalanche subnets
-    -   could be a great narrative for blockchain scalability.
-
-# Summary
-
 ## DONE
 
 -   listen to when new liquidity pairs are added - DONE (on evm chains)
@@ -144,12 +103,6 @@ tech stack: react with next.js and tailwind
 -   dive into the evm, solidity and MEV
 -   make some decisions in analysis, and do the analysis on all collected addresses
 -   finish the tax software for all evm chains
-
-# what i'm not focusing on right now
-
--   everything in /backend
--   everything in /frontend
--   data analysis on social media data
 
 # LATER
 

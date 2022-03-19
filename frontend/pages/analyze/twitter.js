@@ -35,6 +35,12 @@ const TextSection = () => {
     return (
         <section className="text-card-container">
             <h1 className="text-2xl text-black">analyze mentions of tickers on twitter</h1>
+            <p>
+                <span className="font-bold pr-1">NOTE:</span>the program that retrieves tweets only runs ONCE a week
+                (every friday), and it retrieves all the tweets from the previous 7 days. I would of course love to have
+                it running all the time and even make it real-time, but unfortunately that's not possible because of
+                twitter API limitations.
+            </p>
             <button onClick={() => setShowText(!showText)} className="flex font-bold mt-2 text-lg">
                 <ChevronIcon expanded={showText} /> how and why?
             </button>
