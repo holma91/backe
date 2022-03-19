@@ -33,8 +33,8 @@ const TextCard = () => {
             <p className="font-bold">how?</p>
             <p>
                 first of all an address needs to be found, and that can be done by for example looking at volume,
-                looking at early investors in successful tokens etc. when an address is found, the analysis goes like
-                this:
+                looking at early investors in successful tokens, taking help of nansen.ai etc. when an address is found,
+                the analysis goes like this:
             </p>
             <p>
                 (a prerequisite to this is that I have built up a database table with all tokens on coingecko with a
