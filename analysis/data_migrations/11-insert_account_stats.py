@@ -469,11 +469,12 @@ def main():
     addresses = get_addresses()
     # only using accounts with less than 10k tx and or 10k ttes because of etherscan limitations
     # use https://github.com/blockchain-etl for accounts with 10k+ txs
-    for address in addresses[750:800]:
+    for address in addresses:
         try:
             print(f"Currently working with: {address}")
             acc1 = EthAccount(address, APIKEY_ETHERSCAN)
             snapshots = get_snapshots(acc1, exchanges, bridges)
+            # do something with snapshot?
             print(f"Done with: {address}")
         except Exception as e:
             print(f"exception with: {address}, e: {e}")

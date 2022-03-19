@@ -60,6 +60,7 @@ def main():
     count = 0
     with connect_to_database() as (con, cur):
         con.autocommit = True
+
         for username in usernames:
             insert_ticker_mentions(username, count, clients, cur)
             count += 1
