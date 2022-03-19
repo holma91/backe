@@ -3,11 +3,11 @@ from utils.db_utils import connect_to_database
 
 
 def main():
-    with open('./initial_data/ct_elite.json', 'r') as f:
+    with open('./initial_data/ct.json', 'r') as f:
         data = f.read()
     ranked_accounts = json.loads(data)
 
-    with open('./initial_data/twitter_accounts.json', 'r') as f:
+    with open('./initial_data/ct_all.json', 'r') as f:
         data = f.read()
     accounts = json.loads(data)
 

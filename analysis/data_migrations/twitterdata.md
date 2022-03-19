@@ -60,3 +60,9 @@ ALTERNATIVES
 possible to stream everything from 15k accounts, but in a really hacky way... Might need 20 elevated dev accounts to do so.
 or
 batch retrieve everything once a week.
+
+big_lasse_dump.sql:
+pg_dump -U alexander -W -F p -t account -t exchange -t bridge -t trade -t liquidity_pair lasse > big_lasse_dump.sql
+pg_dump -U alexander -W -F p -t twitter_account -t twitter_connection -t ticker_mention -t account_stats lasse > big_lasse_dump2.sql
+then:
+psql databasename < big_lasse_dump.sql

@@ -188,7 +188,7 @@ const onNewSwap = async (
     swap.token1.amount = new Big(swap.token1.amount).toPrecision(6);
 
     console.log(swap);
-    const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
+    const URL = process.env.api_url;
 
     try {
         let response = await fetch(`${URL}/accounts/${swap.senderAddress}?include_labels=yes`);

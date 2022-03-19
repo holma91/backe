@@ -1,8 +1,9 @@
-import re
-import tweepy
-
-from utils.env import BEARER_TOKEN_1, BEARER_TOKEN_2, BEARER_TOKEN_3
 from utils.db_utils import connect_to_database
+import re
+import os
+import tweepy
+from dotenv import load_dotenv
+load_dotenv('./.env')
 
 
 def insert_ticker_mentions(username, count, clients, cur):
@@ -41,13 +42,16 @@ def get_usernames():
 
 
 def main():
+    bearer_token1 = os.environ.get('twitter_bearer_1')
+    bearer_token2 = os.environ.get('twitter_bearer_2')
+    bearer_token3 = os.environ.get('twitter_bearer_3')
 
     # multiple clients because of twitter rate limiting
-    client1 = tweepy.Client(bearer_token=BEARER_TOKEN_1,
+    client1 = tweepy.Client(bearer_token=bearer_token1,
                             wait_on_rate_limit=True)
-    client2 = tweepy.Client(bearer_token=BEARER_TOKEN_2,
+    client2 = tweepy.Client(bearer_token=bearer_token2,
                             wait_on_rate_limit=True)
-    client3 = tweepy.Client(bearer_token=BEARER_TOKEN_3,
+    client3 = tweepy.Client(bearer_token=bearer_token3,
                             wait_on_rate_limit=True)
     clients = [client1, client2, client3]
 
@@ -65,3 +69,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# error with cryptorangutang

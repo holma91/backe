@@ -1,6 +1,10 @@
+import os
 from time import time
 import requests
-from .env import APIKEY_ETHERSCAN, ALCHEMY_KEY
+from dotenv import load_dotenv
+load_dotenv('./.env')
+
+APIKEY_ALCHEMY = os.environ.get('api_key_alchemy')
 
 
 def fix_address(address):
@@ -8,7 +12,7 @@ def fix_address(address):
 
 
 def get_type(address):
-    response = requests.post(f'https://eth-mainnet.alchemyapi.io/v2/{ALCHEMY_KEY}', json={
+    response = requests.post(f'https://eth-mainnet.alchemyapi.io/v2/{APIKEY_ALCHEMY}', json={
         "jsonrpc": "2.0",
         "method": "eth_getCode",
         "params": [f"{address}", "latest"],

@@ -26,24 +26,6 @@ export default function LiveFeed() {
         };
     }, []);
 
-    const pair = {
-        chain: 'BSC',
-        createdAt: '2022-03-15T12:01:52.000Z',
-        dex: 'pancakeswap',
-        id: 4369,
-        liquidityUsd: '0',
-        pairAddress: '0xb9172355b160312d844a6abb4806832abd5a1cd1',
-        token0Address: '0x778f59fa2a99de921157a5f19751dd8fd05072be',
-        token0Decimals: '18',
-        token0Name: 'COMO',
-        token0Symbol: 'COM',
-        token1Address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
-        token1Decimals: '18',
-        token1Name: 'Wrapped BNB',
-        token1Symbol: 'WBNB',
-        updatedAt: '2022-03-15T12:01:53.079Z',
-    };
-
     return (
         <div className="content-container">
             <section className="text-card">

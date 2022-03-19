@@ -26,6 +26,7 @@ bots/social/twitter/__pycache__
 
 ###### FRONTEND #######
 frontend/node_modules
+frontend/next.config.js
 
 # next.js
 frontend/.next/

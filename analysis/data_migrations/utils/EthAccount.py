@@ -8,6 +8,8 @@ WRAPPED_ETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 
 
 class EthAccount:
+    """a wrapper around the etherscan api with some extended functionality"""
+
     def __init__(self, address: str, api_key: str):
         self.address = fix_address(address)
         self.api_key = api_key

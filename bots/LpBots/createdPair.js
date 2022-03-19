@@ -44,7 +44,7 @@ const addPair = async (chain, dex, pairAddress, token0, token1, liquidity, liqui
         newToken,
     };
 
-    const URL = process.env.environment === 'PROD' ? process.env.prodURL : process.env.devURL;
+    const URL = process.env.api_url;
 
     fetch(`${URL}/pairs`, {
         method: 'post',

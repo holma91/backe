@@ -1,11 +1,13 @@
+import os
 from operator import itemgetter
 from datetime import date, datetime, timezone, timedelta
+from dotenv import load_dotenv
 
 from utils.EthAccount import EthAccount
-from utils.env import APIKEY_ETHERSCAN, ALCHEMY_KEY
 from utils.helpers import fix_address, get_account_type
 from utils.json_load import get_accounts, get_bridges, get_exchanges
 from utils.db_utils import connect_to_database
+load_dotenv('./.env')
 
 WEIRD_ONE_ADDRESS = '0xd5cd84d6f044abe314ee7e414d37cae8773ef9d3'
 ONE_ADDRESS = '0x799a4202c12ca952cb311598a024c80ed371a41e'
@@ -13,6 +15,7 @@ WRAPPED_ETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 START_TIMESTAMP = 1609459200
 END_TIMESTAMP = 1640995200
 fix_wrapped_eth = fix_address(WRAPPED_ETH)
+APIKEY_ETHERSCAN = os.environ.get('api_key_etherscan')
 
 
 STATS = {
@@ -466,7 +469,7 @@ def main():
     addresses = get_addresses()
     # only using accounts with less than 10k tx and or 10k ttes because of etherscan limitations
     # use https://github.com/blockchain-etl for accounts with 10k+ txs
-    for address in addresses[500:550]:
+    for address in addresses[750:800]:
         try:
             print(f"Currently working with: {address}")
             acc1 = EthAccount(address, APIKEY_ETHERSCAN)

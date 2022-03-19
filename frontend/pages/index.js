@@ -24,12 +24,11 @@ const WebsiteCard = () => {
     return (
         <div className="">
             <div className="m-2">
-                <Link href="/pairs">
-                    <a className="font-bold hover:text-blue-400">/pairs</a>
+                <Link href="/analyze">
+                    <a className="font-bold hover:text-blue-400">/analyze</a>
                 </Link>
-                <p>a feed of new liquidity pairs that gets added on uniswap v2 and all of it's forks</p>
+                <p>performance information about some addresses, for example how much up was address 0x123 in 2021?</p>
             </div>
-
             <div className="m-2">
                 <Link href="/trades">
                     <a className="font-bold hover:text-blue-400">/trades</a>
@@ -37,10 +36,10 @@ const WebsiteCard = () => {
                 <p>a feed of new trades being made by the addresses we have chosen to follow</p>
             </div>
             <div className="m-2">
-                <Link href="/analyze">
-                    <a className="font-bold hover:text-blue-400">/analyze</a>
+                <Link href="/pairs">
+                    <a className="font-bold hover:text-blue-400">/pairs</a>
                 </Link>
-                <p>performance information about some addresses, for example how much up was address 0x123 in 2021?</p>
+                <p>a feed of new liquidity pairs that gets added on uniswap v2 and all of it's forks</p>
             </div>
         </div>
     );
