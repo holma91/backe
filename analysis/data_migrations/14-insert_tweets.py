@@ -15,8 +15,10 @@ def insert_ticker_mentions(username, count, clients, cur):
         idx = 0
     elif count < 10:
         idx = 1
-    else:
+    elif count < 15:
         idx = 2
+    else:
+        idx = 3
     client = clients[idx]
 
     try:
@@ -45,6 +47,7 @@ def main():
     bearer_token1 = os.environ.get('twitter_bearer_1')
     bearer_token2 = os.environ.get('twitter_bearer_2')
     bearer_token3 = os.environ.get('twitter_bearer_3')
+    bearer_token4 = os.environ.get('twitter_bearer_4')
 
     # multiple clients because of twitter rate limiting
     client1 = tweepy.Client(bearer_token=bearer_token1,
@@ -53,7 +56,9 @@ def main():
                             wait_on_rate_limit=True)
     client3 = tweepy.Client(bearer_token=bearer_token3,
                             wait_on_rate_limit=True)
-    clients = [client1, client2, client3]
+    client4 = tweepy.Client(bearer_token=bearer_token4,
+                            wait_on_rate_limit=True)
+    clients = [client1, client2, client3, client4]
 
     usernames = get_usernames()
 
