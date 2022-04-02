@@ -38,6 +38,9 @@ const connections = {
         http: process.env.avax_http,
         ws: process.env.avax_ws,
     },
+    DFK: {
+        http: process.env.dfk_http,
+    },
     ROPSTEN: {
         http: process.env.ropsten_http,
         ws: process.env.ropsten_ws,

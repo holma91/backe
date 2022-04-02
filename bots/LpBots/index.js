@@ -7,21 +7,23 @@ import { zipswap } from './chains/optimism.js';
 import { traderjoe, pangolin } from './chains/avalanche.js';
 import { uniswapV2, sushiswap } from './chains/ethereum.js';
 import { sushiswapARBITRUM } from './chains/arbitrum.js';
+import { crystalvale } from './chains/dfk.js';
 
 let uniswapV2Dexes = [
     pancakeswap,
-    trisolaris,
-    wannaswap,
-    spookyswap,
-    fusefi,
-    netswap,
-    tethys,
-    zipswap,
-    traderjoe,
-    pangolin,
-    sushiswap,
-    uniswapV2,
-    sushiswapARBITRUM,
+    crystalvale,
+    // trisolaris,
+    // wannaswap,
+    // spookyswap,
+    // fusefi,
+    // netswap,
+    // tethys,
+    // zipswap,
+    // traderjoe,
+    // pangolin,
+    // sushiswap,
+    // uniswapV2,
+    // sushiswapARBITRUM,
 ];
 
 export { uniswapV2Dexes };
