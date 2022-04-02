@@ -9,7 +9,7 @@ const client = require('twilio');
 
 import { MessageEmbed, WebhookClient } from 'discord.js';
 import connections from '../../connections.js';
-const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM, ARBITRUM } = connections;
+const { BSC, ETH, FTM, AVAX, AURORA, FUSE, METIS, OPTIMISM, ARBITRUM, DFK } = connections;
 const dexscreenerUrl = 'https://dexscreener.com';
 
 /**
@@ -126,6 +126,16 @@ const getHookInfo = (chain, dex) => {
             }
             break;
         }
+        case 'DFK': {
+            hook.img = DFK.img;
+            hook.greenUrl = DFK.webhooks.newPair;
+            hook.explorerUrl = `${DFK.explorer.url}/token/`;
+            hook.dexscreenerUrl = `${dexscreenerUrl}/optimism`;
+            if (dex === 'sushiswap') {
+                hook.dexUrl = DFK.dexes.crystalvale.url;
+            }
+            break;
+        }
 
         default:
             break;
@@ -141,6 +151,10 @@ const getHookInfo = (chain, dex) => {
 const notificationWorthy = (liquidityUSD, chain) => {
     let worthy = false;
     switch (chain) {
+        case 'DFK': {
+            worthy = true;
+            break;
+        }
         case 'ETH': {
             if (liquidityUSD >= 500000) {
                 worthy = true;

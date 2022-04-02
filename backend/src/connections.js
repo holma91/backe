@@ -185,6 +185,22 @@ const connections = {
             },
         },
     },
+    DFK: {
+        http: process.env.dfk_http,
+        img: 'https://s2.coinmarketcap.com/static/img/coins/200x200/12319.png',
+        explorer: {
+            url: 'https://subnets.avax.network/defi-kingdoms/dfk-chain/explorer',
+            apikey: '',
+        },
+        webhooks: {
+            newPair: process.env.dfk_newpairhook,
+        },
+        dexes: {
+            crystalvale: {
+                url: 'https://game.defikingdoms.com/#/marketplace',
+            },
+        },
+    },
     ROPSTEN: {
         http: process.env.ropsten_http,
         ws: process.env.ropsten_ws,

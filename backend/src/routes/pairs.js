@@ -52,11 +52,11 @@ router.post('/', async (req, res) => {
     const pair = await PairRepo.add(req.body);
 
     // notify the swapbot
-    wss.clients.forEach((client) => {
-        if (client.readyState === ws.OPEN) {
-            client.send(JSON.stringify(pair));
-        }
-    });
+    // wss.clients.forEach((client) => {
+    //     if (client.readyState === ws.OPEN) {
+    //         client.send(JSON.stringify(pair));
+    //     }
+    // });
 
     res.send(pair);
 });
